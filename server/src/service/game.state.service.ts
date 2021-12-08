@@ -1,5 +1,5 @@
-import { GameRoom } from "src/models/game_room";
-import { Player } from "src/models/player";
+import { GameRoom } from "../models/game.room";
+import { Player } from "../models/player";
 
 export class GameState {
   private rooms: GameRoom[];

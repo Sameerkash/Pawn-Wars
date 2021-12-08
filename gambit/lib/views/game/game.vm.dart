@@ -2,19 +2,12 @@ import 'package:bishop/bishop.dart' as bishop;
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:gambit/services/socket.io.dart';
+import 'package:gambit/utils/constants.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:squares/squares.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:socket_io_client/socket_io_client.dart';
-part 'game.vm.freezed.dart';
 
-IO.Socket socket = IO.io(
-  'http://192.168.29.223:8000',
-  OptionBuilder()
-      .setTransports(['websocket'])
-      .disableAutoConnect() // for Flutter or Dart VM
-      .build(),
-);
+part 'game.vm.freezed.dart';
 
 class GameState extends Equatable {
   final PlayState state;
@@ -92,15 +85,11 @@ class GamePlayState with _$GamePlayState {
 }
 
 class GameVM extends StateNotifier<GamePlayState> {
-  GameVM() : super(const GamePlayState.loading()) {
+  final SocketIOService socketService;
+  GameVM(Reader read)
+      : socketService = read(socketProvider),
+        super(const GamePlayState.loading()) {
     init();
-
-    // socket.connect();
-    
-    // socket.onConnect((_) {
-    //   print('connect');
-    //   socket.emit('msg', 'test');
-    // });
   }
 
   Future<void> init() async {
@@ -144,7 +133,6 @@ class GameVM extends StateNotifier<GamePlayState> {
   void makeMove(Move move) {
     final currentState = state;
 
-
     if (currentState is _Play) {
       final game = currentState.game;
       final gamePlay = currentState.gameState;
@@ -154,9 +142,10 @@ class GameVM extends StateNotifier<GamePlayState> {
         debugPrint('move $alg not found');
       } else {
         game.makeMove(m);
-        socket.emit('joinroom', alg);
-        emitState();
-
+        socketService.socket.emit(
+          SocketType.gameMoves,
+          alg,
+        );
       }
     }
 
@@ -227,32 +216,33 @@ class GameVM extends StateNotifier<GamePlayState> {
 
     print('emitState:  $currentState');
   }
-}
 
-final gamePlayProvider =
-    StateNotifierProvider<GameVM, GamePlayState>((ref) => GameVM());
-
-Move moveFromAlgebraic(String alg, BoardSize size) {
-  if (alg[1] == '@') {
-    // it's a drop
-    int from = HAND;
+  Move moveFromAlgebraic(String alg, BoardSize size) {
+    if (alg[1] == '@') {
+      // it's a drop
+      int from = HAND;
+      int to = size.squareNumber(alg.substring(2, 4));
+      return Move(from: from, to: to, piece: alg[0].toUpperCase());
+    }
+    int from = size.squareNumber(alg.substring(0, 2));
     int to = size.squareNumber(alg.substring(2, 4));
-    return Move(from: from, to: to, piece: alg[0].toUpperCase());
+    String? promo = (alg.length > 4) ? alg[4] : null;
+    return Move(from: from, to: to, promo: promo);
   }
-  int from = size.squareNumber(alg.substring(0, 2));
-  int to = size.squareNumber(alg.substring(2, 4));
-  String? promo = (alg.length > 4) ? alg[4] : null;
-  return Move(from: from, to: to, promo: promo);
+
+  String moveToAlgebraic(Move move, BoardSize size) {
+    if (move.drop) {
+      return '${move.piece!.toLowerCase()}@${size.squareName(move.to)}';
+    } else {
+      String from = size.squareName(move.from);
+      String to = size.squareName(move.to);
+      String alg = '$from$to';
+      if (move.promotion) alg = '$alg${move.promo}';
+      return alg;
+    }
+  }
 }
 
-String moveToAlgebraic(Move move, BoardSize size) {
-  if (move.drop) {
-    return '${move.piece!.toLowerCase()}@${size.squareName(move.to)}';
-  } else {
-    String from = size.squareName(move.from);
-    String to = size.squareName(move.to);
-    String alg = '$from$to';
-    if (move.promotion) alg = '$alg${move.promo}';
-    return alg;
-  }
-}
+final gamePlayProvider = StateNotifierProvider<GameVM, GamePlayState>(
+  (ref) => GameVM(ref.read),
+);
