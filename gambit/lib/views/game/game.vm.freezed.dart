@@ -149,12 +149,18 @@ class __$LoadingCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Loading implements _Loading {
+class _$_Loading with DiagnosticableTreeMixin implements _Loading {
   const _$_Loading();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'GamePlayState.loading()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'GamePlayState.loading'));
   }
 
   @override
@@ -298,7 +304,7 @@ class __$InitialCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Initial implements _Initial {
+class _$_Initial with DiagnosticableTreeMixin implements _Initial {
   const _$_Initial({this.gameState, this.game, this.engine});
 
   @override
@@ -309,8 +315,18 @@ class _$_Initial implements _Initial {
   final bishop.Engine? engine;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'GamePlayState.initial(gameState: $gameState, game: $game, engine: $engine)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'GamePlayState.initial'))
+      ..add(DiagnosticsProperty('gameState', gameState))
+      ..add(DiagnosticsProperty('game', game))
+      ..add(DiagnosticsProperty('engine', engine));
   }
 
   @override
@@ -474,7 +490,7 @@ class __$PlayCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Play implements _Play {
+class _$_Play with DiagnosticableTreeMixin implements _Play {
   const _$_Play({this.gameState, this.game, this.engine});
 
   @override
@@ -485,8 +501,18 @@ class _$_Play implements _Play {
   final bishop.Engine? engine;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'GamePlayState.play(gameState: $gameState, game: $game, engine: $engine)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'GamePlayState.play'))
+      ..add(DiagnosticsProperty('gameState', gameState))
+      ..add(DiagnosticsProperty('game', game))
+      ..add(DiagnosticsProperty('engine', engine));
   }
 
   @override
@@ -639,15 +665,23 @@ class __$FinishedCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Finished implements _Finished {
+class _$_Finished with DiagnosticableTreeMixin implements _Finished {
   const _$_Finished(this.gameState);
 
   @override
   final GameState? gameState;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'GamePlayState.finished(gameState: $gameState)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'GamePlayState.finished'))
+      ..add(DiagnosticsProperty('gameState', gameState));
   }
 
   @override

@@ -95,7 +95,7 @@ class GameVM extends StateNotifier<GamePlayState> {
   GameVM() : super(const GamePlayState.loading()) {
     init();
 
-    socket.connect();
+    // socket.connect();
     
     // socket.onConnect((_) {
     //   print('connect');
