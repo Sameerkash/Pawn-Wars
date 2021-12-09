@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SocketIOService {
   final IO.Socket socket = IO.io(
-    'http://192.168.29.223:8000',
+    'https://307a-2405-201-d007-7008-f9e1-36b9-dd83-2ed5.ngrok.io',
     OptionBuilder()
         .setTransports(['websocket'])
         .disableAutoConnect() // for Flutter or Dart VM
@@ -30,12 +30,12 @@ class SocketIOService {
     });
   }
 
-  final _onConnect = StreamController<String>();
+  final _onConnect = StreamController<String?>();
   final _onDisconnect = StreamController<String>();
   final _joinRoom = StreamController<List<Player>>();
   final _gameMoves = StreamController<String>();
 
-  Stream<String> get onConnectResponse => _onConnect.stream;
+  Stream<String?> get onConnectResponse => _onConnect.stream;
   Stream<String> get onDisconnectResponse => _onDisconnect.stream;
   Stream<List<Player>> get joinRoomResponse => _joinRoom.stream;
   Stream<String> get gameMovesResponse => _gameMoves.stream;

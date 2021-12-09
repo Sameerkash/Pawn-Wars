@@ -1,0 +1,47 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "gambit",
+      "cwd": "gambit",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "Current Device",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart"
+    },
+    {
+      "name": "Android",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "SM M405F",
+      "program": "gambit/lib/main.dart"
+    },
+    {
+      "name": "iPhone",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "iPhone 12 Pro Max",
+      "program": "gambit/lib/main.dart"
+    },
+    {
+      "name": "gambit (profile mode)",
+      "cwd": "gambit",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "All Devices",
+      "configurations": ["Android", "iPhone"]
+    }
+  ]
+}

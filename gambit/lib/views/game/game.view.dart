@@ -65,7 +65,7 @@ class GameView extends HookConsumerWidget {
                     
                   },
                   moves: state.gameState!.moves,
-                  canMove: true,
+                  canMove: state.gameState!.canMove,
                   // state.gameState!.canMove,
                   draggable: true,
                 ),

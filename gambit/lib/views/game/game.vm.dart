@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bishop/bishop.dart' as bishop;
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -31,7 +33,9 @@ class GameState extends Equatable {
   factory GameState.initial({required List<String> gameSymbols}) => GameState(
         state: PlayState.idle,
         size: BoardSize.standard(),
-        board: BoardState(board: gameSymbols),
+        board: BoardState(
+          board: gameSymbols,
+        ),
         moves: const [],
       );
 
@@ -71,13 +75,9 @@ class GamePlayState with _$GamePlayState {
   const factory GamePlayState.loading() = _Loading;
   const factory GamePlayState.initial({
     GameState? gameState,
-    bishop.Game? game,
-    bishop.Engine? engine,
   }) = _Initial;
   const factory GamePlayState.play({
     GameState? gameState,
-    bishop.Game? game,
-    bishop.Engine? engine,
   }) = _Play;
   const factory GamePlayState.finished(
     GameState? gameState,
@@ -85,28 +85,41 @@ class GamePlayState with _$GamePlayState {
 }
 
 class GameVM extends StateNotifier<GamePlayState> {
+  late bishop.Game game;
+  late bishop.Engine engine;
+
   final SocketIOService socketService;
   GameVM(Reader read)
       : socketService = read(socketProvider),
         super(const GamePlayState.loading()) {
     init();
+
+    socketService.gameMovesResponse.listen((event) {
+      final currentState = state;
+
+      if (currentState is _Play) {
+        print('event $event ');
+        if (!currentState.gameState!.canMove) {
+          makeOtherMove(event);
+        }
+      }
+    });
   }
 
   Future<void> init() async {
-    final game = bishop.Game(variant: bishop.Variant.standard());
-    final engine = bishop.Engine(game: game);
+    game = bishop.Game(variant: bishop.Variant.standard());
+    engine = bishop.Engine(game: game);
     state = GamePlayState.initial(
-      gameState: GameState.initial(gameSymbols: game.boardSymbols()),
-      game: game,
-      engine: engine,
+      gameState: GameState.initial(
+        gameSymbols: game.boardSymbols(),
+      ),
     );
   }
 
   void play() {
     final currentState = state;
     if (currentState is _Initial) {
-      final game = currentState.game;
-      final boardSize = BoardSize(game!.size.h, game.size.v);
+      final boardSize = BoardSize(game.size.h, game.size.v);
       final gameState = currentState.gameState;
 
       List<bishop.Move> _moves = game.generateLegalMoves();
@@ -119,13 +132,11 @@ class GameVM extends StateNotifier<GamePlayState> {
 
       state = GamePlayState.play(
         gameState: GameState(
-          state: PlayState.ourTurn,
+          state: Platform.isIOS ? PlayState.ourTurn : PlayState.theirTurn,
           size: boardSize,
           board: gameState!.board,
           moves: moves,
         ),
-        game: currentState.game,
-        engine: currentState.engine,
       );
     }
   }
@@ -134,29 +145,36 @@ class GameVM extends StateNotifier<GamePlayState> {
     final currentState = state;
 
     if (currentState is _Play) {
-      final game = currentState.game;
       final gamePlay = currentState.gameState;
       String alg = moveToAlgebraic(move, gamePlay!.size);
-      bishop.Move? m = game!.getMove(alg);
+      bishop.Move? m = game.getMove(alg);
       if (m == null) {
         debugPrint('move $alg not found');
       } else {
         game.makeMove(m);
+
+        emitState();
         socketService.socket.emit(
           SocketType.gameMoves,
           alg,
         );
       }
     }
+  }
 
-    // if (m == null)
-    //   print('move $alg not found');
-    // else {
-    //   game!.makeMove(m);
-    //   emitState();
-    //   //Future.delayed(Duration(milliseconds: 200)).then((_) => engineMove());
-    //   engineMove();
-    // }
+  void makeOtherMove(String alg) {
+    final currentState = state;
+
+    if (currentState is _Play) {
+      bishop.Move? m = game.getMove(alg);
+      if (m == null) {
+        debugPrint('move $alg not found');
+      } else {
+        print('move $m');
+        game.makeMove(m);
+        emitState();
+      }
+    }
   }
 
   void emitState([bool thinking = false]) {
@@ -164,14 +182,12 @@ class GameVM extends StateNotifier<GamePlayState> {
     final currentState = state;
 
     if (currentState is _Play) {
-      final game = currentState.game;
+      BoardSize size = BoardSize(game.size.h, game.size.v);
 
-      BoardSize size = BoardSize(game!.size.h, game.size.v);
-      bool canMove = true;
-      // game.turn == WHITE;
+      bool canMove = Platform.isIOS ? game.turn == BLACK : game.turn == WHITE;
 
-      List<bishop.Move> _moves = game.generateLegalMoves();
-      // : game.generatePremoves();
+      List<bishop.Move> _moves =
+          canMove ? game.generateLegalMoves() : game.generatePremoves();
 
       List<Move> moves = [];
       for (bishop.Move move in _moves) {
@@ -209,8 +225,6 @@ class GameVM extends StateNotifier<GamePlayState> {
 
       state = GamePlayState.play(
         gameState: gameState,
-        game: game,
-        engine: currentState.engine,
       );
     }
 

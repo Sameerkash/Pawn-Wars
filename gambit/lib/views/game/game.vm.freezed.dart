@@ -21,20 +21,15 @@ class _$GamePlayStateTearOff {
     return const _Loading();
   }
 
-  _Initial initial(
-      {GameState? gameState, bishop.Game? game, bishop.Engine? engine}) {
+  _Initial initial({GameState? gameState}) {
     return _Initial(
       gameState: gameState,
-      game: game,
-      engine: engine,
     );
   }
 
-  _Play play({GameState? gameState, bishop.Game? game, bishop.Engine? engine}) {
+  _Play play({GameState? gameState}) {
     return _Play(
       gameState: gameState,
-      game: game,
-      engine: engine,
     );
   }
 
@@ -53,36 +48,24 @@ mixin _$GamePlayState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)
-        initial,
-    required TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)
-        play,
+    required TResult Function(GameState? gameState) initial,
+    required TResult Function(GameState? gameState) play,
     required TResult Function(GameState? gameState) finished,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        initial,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        play,
+    TResult Function(GameState? gameState)? initial,
+    TResult Function(GameState? gameState)? play,
     TResult Function(GameState? gameState)? finished,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        initial,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        play,
+    TResult Function(GameState? gameState)? initial,
+    TResult Function(GameState? gameState)? play,
     TResult Function(GameState? gameState)? finished,
     required TResult orElse(),
   }) =>
@@ -176,12 +159,8 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)
-        initial,
-    required TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)
-        play,
+    required TResult Function(GameState? gameState) initial,
+    required TResult Function(GameState? gameState) play,
     required TResult Function(GameState? gameState) finished,
   }) {
     return loading();
@@ -191,12 +170,8 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        initial,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        play,
+    TResult Function(GameState? gameState)? initial,
+    TResult Function(GameState? gameState)? play,
     TResult Function(GameState? gameState)? finished,
   }) {
     return loading?.call();
@@ -206,12 +181,8 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        initial,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        play,
+    TResult Function(GameState? gameState)? initial,
+    TResult Function(GameState? gameState)? play,
     TResult Function(GameState? gameState)? finished,
     required TResult orElse(),
   }) {
@@ -267,7 +238,7 @@ abstract class _Loading implements GamePlayState {
 abstract class _$InitialCopyWith<$Res> {
   factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
       __$InitialCopyWithImpl<$Res>;
-  $Res call({GameState? gameState, bishop.Game? game, bishop.Engine? engine});
+  $Res call({GameState? gameState});
 }
 
 /// @nodoc
@@ -282,22 +253,12 @@ class __$InitialCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? gameState = freezed,
-    Object? game = freezed,
-    Object? engine = freezed,
   }) {
     return _then(_Initial(
       gameState: gameState == freezed
           ? _value.gameState
           : gameState // ignore: cast_nullable_to_non_nullable
               as GameState?,
-      game: game == freezed
-          ? _value.game
-          : game // ignore: cast_nullable_to_non_nullable
-              as bishop.Game?,
-      engine: engine == freezed
-          ? _value.engine
-          : engine // ignore: cast_nullable_to_non_nullable
-              as bishop.Engine?,
     ));
   }
 }
@@ -305,18 +266,14 @@ class __$InitialCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Initial with DiagnosticableTreeMixin implements _Initial {
-  const _$_Initial({this.gameState, this.game, this.engine});
+  const _$_Initial({this.gameState});
 
   @override
   final GameState? gameState;
-  @override
-  final bishop.Game? game;
-  @override
-  final bishop.Engine? engine;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'GamePlayState.initial(gameState: $gameState, game: $game, engine: $engine)';
+    return 'GamePlayState.initial(gameState: $gameState)';
   }
 
   @override
@@ -324,9 +281,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'GamePlayState.initial'))
-      ..add(DiagnosticsProperty('gameState', gameState))
-      ..add(DiagnosticsProperty('game', game))
-      ..add(DiagnosticsProperty('engine', engine));
+      ..add(DiagnosticsProperty('gameState', gameState));
   }
 
   @override
@@ -335,13 +290,11 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
         (other.runtimeType == runtimeType &&
             other is _Initial &&
             (identical(other.gameState, gameState) ||
-                other.gameState == gameState) &&
-            (identical(other.game, game) || other.game == game) &&
-            (identical(other.engine, engine) || other.engine == engine));
+                other.gameState == gameState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, gameState, game, engine);
+  int get hashCode => Object.hash(runtimeType, gameState);
 
   @JsonKey(ignore: true)
   @override
@@ -352,47 +305,35 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)
-        initial,
-    required TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)
-        play,
+    required TResult Function(GameState? gameState) initial,
+    required TResult Function(GameState? gameState) play,
     required TResult Function(GameState? gameState) finished,
   }) {
-    return initial(gameState, game, engine);
+    return initial(gameState);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        initial,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        play,
+    TResult Function(GameState? gameState)? initial,
+    TResult Function(GameState? gameState)? play,
     TResult Function(GameState? gameState)? finished,
   }) {
-    return initial?.call(gameState, game, engine);
+    return initial?.call(gameState);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        initial,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        play,
+    TResult Function(GameState? gameState)? initial,
+    TResult Function(GameState? gameState)? play,
     TResult Function(GameState? gameState)? finished,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(gameState, game, engine);
+      return initial(gameState);
     }
     return orElse();
   }
@@ -436,14 +377,9 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
 }
 
 abstract class _Initial implements GamePlayState {
-  const factory _Initial(
-      {GameState? gameState,
-      bishop.Game? game,
-      bishop.Engine? engine}) = _$_Initial;
+  const factory _Initial({GameState? gameState}) = _$_Initial;
 
   GameState? get gameState;
-  bishop.Game? get game;
-  bishop.Engine? get engine;
   @JsonKey(ignore: true)
   _$InitialCopyWith<_Initial> get copyWith =>
       throw _privateConstructorUsedError;
@@ -453,7 +389,7 @@ abstract class _Initial implements GamePlayState {
 abstract class _$PlayCopyWith<$Res> {
   factory _$PlayCopyWith(_Play value, $Res Function(_Play) then) =
       __$PlayCopyWithImpl<$Res>;
-  $Res call({GameState? gameState, bishop.Game? game, bishop.Engine? engine});
+  $Res call({GameState? gameState});
 }
 
 /// @nodoc
@@ -468,22 +404,12 @@ class __$PlayCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? gameState = freezed,
-    Object? game = freezed,
-    Object? engine = freezed,
   }) {
     return _then(_Play(
       gameState: gameState == freezed
           ? _value.gameState
           : gameState // ignore: cast_nullable_to_non_nullable
               as GameState?,
-      game: game == freezed
-          ? _value.game
-          : game // ignore: cast_nullable_to_non_nullable
-              as bishop.Game?,
-      engine: engine == freezed
-          ? _value.engine
-          : engine // ignore: cast_nullable_to_non_nullable
-              as bishop.Engine?,
     ));
   }
 }
@@ -491,18 +417,14 @@ class __$PlayCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Play with DiagnosticableTreeMixin implements _Play {
-  const _$_Play({this.gameState, this.game, this.engine});
+  const _$_Play({this.gameState});
 
   @override
   final GameState? gameState;
-  @override
-  final bishop.Game? game;
-  @override
-  final bishop.Engine? engine;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'GamePlayState.play(gameState: $gameState, game: $game, engine: $engine)';
+    return 'GamePlayState.play(gameState: $gameState)';
   }
 
   @override
@@ -510,9 +432,7 @@ class _$_Play with DiagnosticableTreeMixin implements _Play {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'GamePlayState.play'))
-      ..add(DiagnosticsProperty('gameState', gameState))
-      ..add(DiagnosticsProperty('game', game))
-      ..add(DiagnosticsProperty('engine', engine));
+      ..add(DiagnosticsProperty('gameState', gameState));
   }
 
   @override
@@ -521,13 +441,11 @@ class _$_Play with DiagnosticableTreeMixin implements _Play {
         (other.runtimeType == runtimeType &&
             other is _Play &&
             (identical(other.gameState, gameState) ||
-                other.gameState == gameState) &&
-            (identical(other.game, game) || other.game == game) &&
-            (identical(other.engine, engine) || other.engine == engine));
+                other.gameState == gameState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, gameState, game, engine);
+  int get hashCode => Object.hash(runtimeType, gameState);
 
   @JsonKey(ignore: true)
   @override
@@ -538,47 +456,35 @@ class _$_Play with DiagnosticableTreeMixin implements _Play {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)
-        initial,
-    required TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)
-        play,
+    required TResult Function(GameState? gameState) initial,
+    required TResult Function(GameState? gameState) play,
     required TResult Function(GameState? gameState) finished,
   }) {
-    return play(gameState, game, engine);
+    return play(gameState);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        initial,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        play,
+    TResult Function(GameState? gameState)? initial,
+    TResult Function(GameState? gameState)? play,
     TResult Function(GameState? gameState)? finished,
   }) {
-    return play?.call(gameState, game, engine);
+    return play?.call(gameState);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        initial,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        play,
+    TResult Function(GameState? gameState)? initial,
+    TResult Function(GameState? gameState)? play,
     TResult Function(GameState? gameState)? finished,
     required TResult orElse(),
   }) {
     if (play != null) {
-      return play(gameState, game, engine);
+      return play(gameState);
     }
     return orElse();
   }
@@ -622,14 +528,9 @@ class _$_Play with DiagnosticableTreeMixin implements _Play {
 }
 
 abstract class _Play implements GamePlayState {
-  const factory _Play(
-      {GameState? gameState,
-      bishop.Game? game,
-      bishop.Engine? engine}) = _$_Play;
+  const factory _Play({GameState? gameState}) = _$_Play;
 
   GameState? get gameState;
-  bishop.Game? get game;
-  bishop.Engine? get engine;
   @JsonKey(ignore: true)
   _$PlayCopyWith<_Play> get copyWith => throw _privateConstructorUsedError;
 }
@@ -705,12 +606,8 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)
-        initial,
-    required TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)
-        play,
+    required TResult Function(GameState? gameState) initial,
+    required TResult Function(GameState? gameState) play,
     required TResult Function(GameState? gameState) finished,
   }) {
     return finished(gameState);
@@ -720,12 +617,8 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        initial,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        play,
+    TResult Function(GameState? gameState)? initial,
+    TResult Function(GameState? gameState)? play,
     TResult Function(GameState? gameState)? finished,
   }) {
     return finished?.call(gameState);
@@ -735,12 +628,8 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        initial,
-    TResult Function(
-            GameState? gameState, bishop.Game? game, bishop.Engine? engine)?
-        play,
+    TResult Function(GameState? gameState)? initial,
+    TResult Function(GameState? gameState)? play,
     TResult Function(GameState? gameState)? finished,
     required TResult orElse(),
   }) {

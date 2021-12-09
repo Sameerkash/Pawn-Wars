@@ -1,16 +1,21 @@
 import { Player } from "./player";
 
 export class GameRoom {
-  id: string;
   players: Player[];
-  code?: string;
+  code: string;
   stake: number;
+  winner?: string;
 
   //
-  constructor(id: string, players: Player[], code?: string, stake?: number) {
+  constructor(
+    code: string,
+    players?: Player[],
+    stake?: number,
+    winner?: string
+  ) {
     this.players = players ?? [];
-    this.id = id;
     this.code = code;
     this.stake = stake ?? 0;
+    this.winner;
   }
 }

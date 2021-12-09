@@ -18,8 +18,8 @@ export class GameState {
     return this.rooms.filter((room) => room.code === code);
   }
 
-  public createRoom(code: string, id: string): void {
-    this.rooms.push(new GameRoom(id, [], code));
+  public createRoom(code: string): void {
+    this.rooms.push(new GameRoom(code, []));
   }
 
   public joinRoom(code: string, player: Player): void {

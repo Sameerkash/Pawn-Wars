@@ -17,26 +17,31 @@ export class IoEvents {
 
     this.gameState = GameState.Instance;
 
-    this.socket.on(SockeType.CREATEROOM, ({ code, id }) => {
-      console.log(code, id);
-      this.gameState.createRoom(code, id);
+    this.socket.on(SockeType.CREATEROOM, (room) => {
+      console.log(room);
+      // const  r = JSON.parse(room);
+      console.log(room.id);
+      // this.gameState.createRoom(r.id);
     });
 
-    this.socket.on(SockeType.JOINROOM, ({ code, player, stake }) => {
-      console.log(code, player);
+    this.socket.on(SockeType.JOINROOM, (room, player) => {
+      console.log(room, player);
 
-      let p = new Player(
-        player.id,
-        player.nickName,
-        player.publicKey,
-        player.avatar
-      );
+      // const r = JSON.parse(room);
+      // const p = JSON.parse(player);
 
-      this.gameState.joinRoom(code, p);
-      this.gameState.updateStake(code, stake);
+      // let p = new Player(
+      //   player.id,
+      //   player.nickName,
+      //   player.publicKey,
+      //   player.avatar
+      // );
 
-      let players = this.gameState.getPlayers(code);
-      this.io.to(code).emit(SockeType.JOINROOM, players);
+      // this.gameState.joinRoom(code, p);
+      // this.gameState.updateStake(code, stake);
+
+      // let players = this.gameState.getPlayers(code);
+      // this.io.to(code).emit(SockeType.JOINROOM, players);
     });
 
     this.socket.on(SockeType.READY, (socket: Socket) => {
@@ -52,6 +57,7 @@ export class IoEvents {
 
     this.socket.on(SockeType.GAMEMOVES, (socket: Socket) => {
       console.log(socket);
+      this.io.emit(SockeType.GAMEMOVES, socket);
     });
 
     this.socket.on(SockeType.LEAVING, (socket: Socket) => {

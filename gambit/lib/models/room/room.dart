@@ -8,9 +8,10 @@ part 'room.freezed.dart';
 class Room with _$Room {
   const factory Room({
     required String id,
-    @Default([]) final List<Player> player,
+    @Default([]) final List<Player> players,
     @Default(false) final bool isStarted,
     final String? winnerPublicKey,
+    final int? totalStake,
   }) = _Room;
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
