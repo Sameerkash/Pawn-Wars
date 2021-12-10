@@ -17,13 +17,16 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$RoomStateTearOff {
   const _$RoomStateTearOff();
 
-  _Initial inital() {
-    return const _Initial();
+  _Initial inital({PlayerPawn? pawn}) {
+    return _Initial(
+      pawn: pawn,
+    );
   }
 
-  _Created created(Room room) {
+  _Created created({required Room room, PlayerPawn? pawn}) {
     return _Created(
-      room,
+      room: room,
+      pawn: pawn,
     );
   }
 
@@ -42,22 +45,22 @@ const $RoomState = _$RoomStateTearOff();
 mixin _$RoomState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() inital,
-    required TResult Function(Room room) created,
+    required TResult Function(PlayerPawn? pawn) inital,
+    required TResult Function(Room room, PlayerPawn? pawn) created,
     required TResult Function(Room room, List<Player> players) joined,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? inital,
-    TResult Function(Room room)? created,
+    TResult Function(PlayerPawn? pawn)? inital,
+    TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? inital,
-    TResult Function(Room room)? created,
+    TResult Function(PlayerPawn? pawn)? inital,
+    TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
     required TResult orElse(),
   }) =>
@@ -105,6 +108,7 @@ class _$RoomStateCopyWithImpl<$Res> implements $RoomStateCopyWith<$Res> {
 abstract class _$InitialCopyWith<$Res> {
   factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
       __$InitialCopyWithImpl<$Res>;
+  $Res call({PlayerPawn? pawn});
 }
 
 /// @nodoc
@@ -115,57 +119,87 @@ class __$InitialCopyWithImpl<$Res> extends _$RoomStateCopyWithImpl<$Res>
 
   @override
   _Initial get _value => super._value as _Initial;
+
+  @override
+  $Res call({
+    Object? pawn = freezed,
+  }) {
+    return _then(_Initial(
+      pawn: pawn == freezed
+          ? _value.pawn
+          : pawn // ignore: cast_nullable_to_non_nullable
+              as PlayerPawn?,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$_Initial implements _Initial {
-  const _$_Initial();
+class _$_Initial with DiagnosticableTreeMixin implements _Initial {
+  const _$_Initial({this.pawn});
 
   @override
-  String toString() {
-    return 'RoomState.inital()';
+  final PlayerPawn? pawn;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'RoomState.inital(pawn: $pawn)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'RoomState.inital'))
+      ..add(DiagnosticsProperty('pawn', pawn));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Initial);
+        (other.runtimeType == runtimeType &&
+            other is _Initial &&
+            (identical(other.pawn, pawn) || other.pawn == pawn));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, pawn);
+
+  @JsonKey(ignore: true)
+  @override
+  _$InitialCopyWith<_Initial> get copyWith =>
+      __$InitialCopyWithImpl<_Initial>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() inital,
-    required TResult Function(Room room) created,
+    required TResult Function(PlayerPawn? pawn) inital,
+    required TResult Function(Room room, PlayerPawn? pawn) created,
     required TResult Function(Room room, List<Player> players) joined,
   }) {
-    return inital();
+    return inital(pawn);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? inital,
-    TResult Function(Room room)? created,
+    TResult Function(PlayerPawn? pawn)? inital,
+    TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
   }) {
-    return inital?.call();
+    return inital?.call(pawn);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? inital,
-    TResult Function(Room room)? created,
+    TResult Function(PlayerPawn? pawn)? inital,
+    TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
     required TResult orElse(),
   }) {
     if (inital != null) {
-      return inital();
+      return inital(pawn);
     }
     return orElse();
   }
@@ -206,14 +240,19 @@ class _$_Initial implements _Initial {
 }
 
 abstract class _Initial implements RoomState {
-  const factory _Initial() = _$_Initial;
+  const factory _Initial({PlayerPawn? pawn}) = _$_Initial;
+
+  PlayerPawn? get pawn;
+  @JsonKey(ignore: true)
+  _$InitialCopyWith<_Initial> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class _$CreatedCopyWith<$Res> {
   factory _$CreatedCopyWith(_Created value, $Res Function(_Created) then) =
       __$CreatedCopyWithImpl<$Res>;
-  $Res call({Room room});
+  $Res call({Room room, PlayerPawn? pawn});
 
   $RoomCopyWith<$Res> get room;
 }
@@ -230,12 +269,17 @@ class __$CreatedCopyWithImpl<$Res> extends _$RoomStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? room = freezed,
+    Object? pawn = freezed,
   }) {
     return _then(_Created(
-      room == freezed
+      room: room == freezed
           ? _value.room
           : room // ignore: cast_nullable_to_non_nullable
               as Room,
+      pawn: pawn == freezed
+          ? _value.pawn
+          : pawn // ignore: cast_nullable_to_non_nullable
+              as PlayerPawn?,
     ));
   }
 
@@ -249,15 +293,26 @@ class __$CreatedCopyWithImpl<$Res> extends _$RoomStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Created implements _Created {
-  const _$_Created(this.room);
+class _$_Created with DiagnosticableTreeMixin implements _Created {
+  const _$_Created({required this.room, this.pawn});
 
   @override
   final Room room;
+  @override
+  final PlayerPawn? pawn;
 
   @override
-  String toString() {
-    return 'RoomState.created(room: $room)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'RoomState.created(room: $room, pawn: $pawn)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'RoomState.created'))
+      ..add(DiagnosticsProperty('room', room))
+      ..add(DiagnosticsProperty('pawn', pawn));
   }
 
   @override
@@ -265,11 +320,12 @@ class _$_Created implements _Created {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Created &&
-            (identical(other.room, room) || other.room == room));
+            (identical(other.room, room) || other.room == room) &&
+            (identical(other.pawn, pawn) || other.pawn == pawn));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, room);
+  int get hashCode => Object.hash(runtimeType, room, pawn);
 
   @JsonKey(ignore: true)
   @override
@@ -279,33 +335,33 @@ class _$_Created implements _Created {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() inital,
-    required TResult Function(Room room) created,
+    required TResult Function(PlayerPawn? pawn) inital,
+    required TResult Function(Room room, PlayerPawn? pawn) created,
     required TResult Function(Room room, List<Player> players) joined,
   }) {
-    return created(room);
+    return created(room, pawn);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? inital,
-    TResult Function(Room room)? created,
+    TResult Function(PlayerPawn? pawn)? inital,
+    TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
   }) {
-    return created?.call(room);
+    return created?.call(room, pawn);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? inital,
-    TResult Function(Room room)? created,
+    TResult Function(PlayerPawn? pawn)? inital,
+    TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
     required TResult orElse(),
   }) {
     if (created != null) {
-      return created(room);
+      return created(room, pawn);
     }
     return orElse();
   }
@@ -346,9 +402,10 @@ class _$_Created implements _Created {
 }
 
 abstract class _Created implements RoomState {
-  const factory _Created(Room room) = _$_Created;
+  const factory _Created({required Room room, PlayerPawn? pawn}) = _$_Created;
 
   Room get room;
+  PlayerPawn? get pawn;
   @JsonKey(ignore: true)
   _$CreatedCopyWith<_Created> get copyWith =>
       throw _privateConstructorUsedError;
@@ -399,7 +456,7 @@ class __$JoinedCopyWithImpl<$Res> extends _$RoomStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Joined implements _Joined {
+class _$_Joined with DiagnosticableTreeMixin implements _Joined {
   const _$_Joined(this.room, this.players);
 
   @override
@@ -408,8 +465,17 @@ class _$_Joined implements _Joined {
   final List<Player> players;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'RoomState.joined(room: $room, players: $players)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'RoomState.joined'))
+      ..add(DiagnosticsProperty('room', room))
+      ..add(DiagnosticsProperty('players', players));
   }
 
   @override
@@ -433,8 +499,8 @@ class _$_Joined implements _Joined {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() inital,
-    required TResult Function(Room room) created,
+    required TResult Function(PlayerPawn? pawn) inital,
+    required TResult Function(Room room, PlayerPawn? pawn) created,
     required TResult Function(Room room, List<Player> players) joined,
   }) {
     return joined(room, players);
@@ -443,8 +509,8 @@ class _$_Joined implements _Joined {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? inital,
-    TResult Function(Room room)? created,
+    TResult Function(PlayerPawn? pawn)? inital,
+    TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
   }) {
     return joined?.call(room, players);
@@ -453,8 +519,8 @@ class _$_Joined implements _Joined {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? inital,
-    TResult Function(Room room)? created,
+    TResult Function(PlayerPawn? pawn)? inital,
+    TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
     required TResult orElse(),
   }) {

@@ -15,11 +15,12 @@ export class GameState {
   }
 
   public getRoom(code: string): GameRoom[] {
-    return this.rooms.filter((room) => room.code === code);
+    return this.rooms.filter((room) => room.code == code);
   }
 
   public createRoom(code: string): void {
     this.rooms.push(new GameRoom(code, []));
+    console.log(this.rooms);
   }
 
   public joinRoom(code: string, player: Player): void {
@@ -32,6 +33,7 @@ export class GameState {
 
   public updateStake(stake: number, code: string): number {
     let room = this.getRoom(code);
+    console.log(room, stake, code);
     room[0].stake! += stake;
     return room[0].stake;
   }

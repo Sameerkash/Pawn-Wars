@@ -19,29 +19,25 @@ export class IoEvents {
 
     this.socket.on(SockeType.CREATEROOM, (room) => {
       console.log(room);
-      // const  r = JSON.parse(room);
-      console.log(room.id);
-      // this.gameState.createRoom(r.id);
+      this.gameState.createRoom(room.id);
     });
 
     this.socket.on(SockeType.JOINROOM, (room, player) => {
       console.log(room, player);
+      let code = room.id;
 
-      // const r = JSON.parse(room);
-      // const p = JSON.parse(player);
+      let p = new Player(
+        player.id,
+        player.nickName,
+        player.publicKey,
+        player.avatar
+      );
 
-      // let p = new Player(
-      //   player.id,
-      //   player.nickName,
-      //   player.publicKey,
-      //   player.avatar
-      // );
+      this.gameState.joinRoom(room.id, p);
+      this.gameState.updateStake(room.id, room.totalStake);
 
-      // this.gameState.joinRoom(code, p);
-      // this.gameState.updateStake(code, stake);
-
-      // let players = this.gameState.getPlayers(code);
-      // this.io.to(code).emit(SockeType.JOINROOM, players);
+      let players = this.gameState.getPlayers(code);
+      this.io.to(code).emit(SockeType.JOINROOM, players);
     });
 
     this.socket.on(SockeType.READY, (socket: Socket) => {
