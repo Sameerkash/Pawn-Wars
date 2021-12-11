@@ -7,7 +7,7 @@ part of 'room.dart';
 // **************************************************************************
 
 _$_Room _$$_RoomFromJson(Map<String, dynamic> json) => _$_Room(
-      id: json['id'] as String,
+      code: json['code'] as String,
       players: (json['players'] as List<dynamic>?)
               ?.map((e) => Player.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -15,12 +15,20 @@ _$_Room _$$_RoomFromJson(Map<String, dynamic> json) => _$_Room(
       isStarted: json['isStarted'] as bool? ?? false,
       winnerPublicKey: json['winnerPublicKey'] as String?,
       totalStake: json['totalStake'] as int?,
+      pawnClaimed:
+          $enumDecodeNullable(_$PlayerPawnEnumMap, json['pawnClaimed']),
     );
 
 Map<String, dynamic> _$$_RoomToJson(_$_Room instance) => <String, dynamic>{
-      'id': instance.id,
+      'code': instance.code,
       'players': instance.players,
       'isStarted': instance.isStarted,
       'winnerPublicKey': instance.winnerPublicKey,
       'totalStake': instance.totalStake,
+      'pawnClaimed': _$PlayerPawnEnumMap[instance.pawnClaimed],
     };
+
+const _$PlayerPawnEnumMap = {
+  PlayerPawn.white: 'WHITE',
+  PlayerPawn.black: 'BLACK',
+};

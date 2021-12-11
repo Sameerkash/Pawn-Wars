@@ -31,6 +31,13 @@
       "program": "gambit/lib/main.dart"
     },
     {
+      "name": "Emulator",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "sdk gphone x86",
+      "program": "gambit/lib/main.dart"
+    },
+    {
       "name": "gambit (profile mode)",
       "cwd": "gambit",
       "request": "launch",
@@ -41,7 +48,7 @@
   "compounds": [
     {
       "name": "All Devices",
-      "configurations": ["Android", "iPhone"]
+      "configurations": ["Android", "Emulator"]
     }
   ]
 }

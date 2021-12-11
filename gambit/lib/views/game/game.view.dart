@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gambit/models/room/room.dart';
 import 'game.vm.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:squares/squares.dart';
 import 'package:bishop/bishop.dart' as bishop;
 
 class GameView extends HookConsumerWidget {
-  GameView({Key? key}) : super(key: key);
+  final Room room;
+  const GameView({
+    Key? key,
+    required this.room,
+  }) : super(key: key);
 
   // // int boardOrientation = WHITE;
   // bishop.Game game = bishop.Game(variant: bishop.Variant.crazyhouse());
@@ -22,6 +27,12 @@ class GameView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final game = ref.watch(gamePlayProvider);
+
+    useEffect(() {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        ref.read(gamePlayProvider.notifier).init(room);
+      });
+    }, []);
 
     return Scaffold(
       body: SafeArea(
@@ -61,9 +72,7 @@ class GameView extends HookConsumerWidget {
 
                     ref.read(gamePlayProvider.notifier).makeMove(move);
                   },
-                  onPremove: (move) {
-                    
-                  },
+                  onPremove: (move) {},
                   moves: state.gameState!.moves,
                   canMove: state.gameState!.canMove,
                   // state.gameState!.canMove,

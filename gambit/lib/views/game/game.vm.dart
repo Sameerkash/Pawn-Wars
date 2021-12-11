@@ -4,6 +4,9 @@ import 'package:bishop/bishop.dart' as bishop;
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:gambit/models/enums/enums.dart';
+import 'package:gambit/models/player/player.dart';
+import 'package:gambit/models/room/room.dart';
 import 'package:gambit/services/socket.io.dart';
 import 'package:gambit/utils/constants.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -73,27 +76,23 @@ enum PlayState {
 @freezed
 class GamePlayState with _$GamePlayState {
   const factory GamePlayState.loading() = _Loading;
-  const factory GamePlayState.initial({
-    GameState? gameState,
-  }) = _Initial;
-  const factory GamePlayState.play({
-    GameState? gameState,
-  }) = _Play;
-  const factory GamePlayState.finished(
-    GameState? gameState,
-  ) = _Finished;
+  const factory GamePlayState.initial(
+      {GameState? gameState, final Room? room}) = _Initial;
+  const factory GamePlayState.play({GameState? gameState, final Room? room}) =
+      _Play;
+  const factory GamePlayState.finished(GameState? gameState, final Room? room) =
+      _Finished;
 }
 
 class GameVM extends StateNotifier<GamePlayState> {
   late bishop.Game game;
   late bishop.Engine engine;
+  late Player currentPlayer;
 
   final SocketIOService socketService;
   GameVM(Reader read)
       : socketService = read(socketProvider),
         super(const GamePlayState.loading()) {
-    init();
-
     socketService.gameMovesResponse.listen((event) {
       final currentState = state;
 
@@ -106,9 +105,10 @@ class GameVM extends StateNotifier<GamePlayState> {
     });
   }
 
-  Future<void> init() async {
+  Future<void> init(Room room) async {
     game = bishop.Game(variant: bishop.Variant.standard());
     engine = bishop.Engine(game: game);
+    currentPlayer = room.players.firstWhere((p) => p.publicKey == 'publickey');
     state = GamePlayState.initial(
       gameState: GameState.initial(
         gameSymbols: game.boardSymbols(),
@@ -130,9 +130,11 @@ class GameVM extends StateNotifier<GamePlayState> {
         moves.add(_move);
       }
 
+      int pawn = getPawnColor(currentPlayer.pawn!);
+
       state = GamePlayState.play(
         gameState: GameState(
-          state: Platform.isIOS ? PlayState.ourTurn : PlayState.theirTurn,
+          state: pawn == WHITE ? PlayState.ourTurn : PlayState.theirTurn,
           size: boardSize,
           board: gameState!.board,
           moves: moves,
@@ -184,7 +186,7 @@ class GameVM extends StateNotifier<GamePlayState> {
     if (currentState is _Play) {
       BoardSize size = BoardSize(game.size.h, game.size.v);
 
-      bool canMove = Platform.isIOS ? game.turn == BLACK : game.turn == WHITE;
+      bool canMove = game.turn == getPawnColor(currentPlayer.pawn!);
 
       List<bishop.Move> _moves =
           canMove ? game.generateLegalMoves() : game.generatePremoves();
@@ -254,6 +256,15 @@ class GameVM extends StateNotifier<GamePlayState> {
       if (move.promotion) alg = '$alg${move.promo}';
       return alg;
     }
+  }
+}
+
+int getPawnColor(PlayerPawn pawn) {
+  switch (pawn) {
+    case PlayerPawn.white:
+      return WHITE;
+    case PlayerPawn.black:
+      return BLACK;
   }
 }
 

@@ -7,36 +7,58 @@ import 'package:gambit/services/socket.io.dart';
 import 'package:gambit/utils/constants.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
-part 'room.vm.freezed.dart';
+part 'create.room.vm.freezed.dart';
 
 @freezed
-class RoomState with _$RoomState {
-  const factory RoomState.inital({
+class CreateRoomState with _$CreateRoomState {
+  const factory CreateRoomState.inital({
     PlayerPawn? pawn,
   }) = _Initial;
-  const factory RoomState.created({
+  const factory CreateRoomState.created({
     required Room room,
     PlayerPawn? pawn,
   }) = _Created;
-  const factory RoomState.joined(
+  const factory CreateRoomState.joined(
     final Room room,
     List<Player> players,
   ) = _Joined;
+
+  const factory CreateRoomState.gameInitialized(
+    final Room room,
+    List<Player> players,
+  ) = GameInitialzied;
 }
 
-class RoomVM extends StateNotifier<RoomState> {
+class CreateRoomVM extends StateNotifier<CreateRoomState> {
   final SocketIOService socketService;
-  RoomVM(Reader read)
+  CreateRoomVM(Reader read)
       : socketService = read(socketProvider),
-        super(const RoomState.inital()) {
+        super(const CreateRoomState.inital()) {
     socketService.socket.connect();
+
+    socketService.joinRoomResponse.listen((room) {
+      print(room);
+      state = CreateRoomState.joined(room, room.players);
+    });
+
+    socketService.gameInitializedResponse.listen((isInitalized) {
+      if (isInitalized) {
+        final current = state;
+        if (current is _Joined) {
+          state = CreateRoomState.gameInitialized(
+            current.room,
+            current.room.players,
+          );
+        }
+      }
+    });
   }
 
   void setPawnColor(PlayerPawn pawn) {
     final currentState = state;
 
     if (currentState is _Initial) {
-      state = RoomState.inital(
+      state = CreateRoomState.inital(
         pawn: pawn,
       );
     }
@@ -47,8 +69,9 @@ class RoomVM extends StateNotifier<RoomState> {
 
     if (currentState is _Initial) {
       final code = const Uuid().v1();
-      final room = Room(id: code, players: []);
-      state = RoomState.created(
+      final room =
+          Room(code: code, players: [], pawnClaimed: currentState.pawn);
+      state = CreateRoomState.created(
         room: room,
         pawn: currentState.pawn,
       );
@@ -66,18 +89,29 @@ class RoomVM extends StateNotifier<RoomState> {
         publicKey: 'publickey',
         nickName: 'Player1',
         pawn: currentState.pawn,
+        stake: stake,
       );
       room.players.add(player);
-      state = RoomState.joined(room, room.players);
 
       socketService.socket.emit(SocketType.joinRoom, [
-        room.toJson(),
+        room.code,
         player.toJson(),
       ]);
     }
   }
+
+  void initalizeGame() {
+    final currentState = state;
+    if (currentState is _Joined) {
+      socketService.socket.emit(
+        SocketType.gameIntialized,
+        [currentState.room.code, true],
+      );
+    }
+  }
 }
 
-final roomProvider = StateNotifierProvider<RoomVM, RoomState>((ref) {
-  return RoomVM(ref.read);
+final roomProvider =
+    StateNotifierProvider<CreateRoomVM, CreateRoomState>((ref) {
+  return CreateRoomVM(ref.read);
 });

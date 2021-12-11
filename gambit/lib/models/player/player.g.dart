@@ -11,6 +11,7 @@ _$_Player _$$_PlayerFromJson(Map<String, dynamic> json) => _$_Player(
       nickName: json['nickName'] as String?,
       avatar: json['avatar'] as String?,
       pawn: $enumDecodeNullable(_$PlayerPawnEnumMap, json['pawn']),
+      stake: json['stake'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$_PlayerToJson(_$_Player instance) => <String, dynamic>{
@@ -18,6 +19,7 @@ Map<String, dynamic> _$$_PlayerToJson(_$_Player instance) => <String, dynamic>{
       'nickName': instance.nickName,
       'avatar': instance.avatar,
       'pawn': _$PlayerPawnEnumMap[instance.pawn],
+      'stake': instance.stake,
     };
 
 const _$PlayerPawnEnumMap = {

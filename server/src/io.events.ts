@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { SockeType } from "./constants";
+import { PlayerPawn, SockeType } from "./constants";
 import { Player } from "./models/player";
 import { GameState } from "./service/game.state.service";
 export class IoEvents {
@@ -18,35 +18,52 @@ export class IoEvents {
     this.gameState = GameState.Instance;
 
     this.socket.on(SockeType.CREATEROOM, (room) => {
-      console.log(room);
-      this.gameState.createRoom(room.id);
+      this.gameState.createRoom(room.code, room.pawnClaimed);
     });
 
-    this.socket.on(SockeType.JOINROOM, (room, player) => {
-      console.log(room, player);
-      let code = room.id;
+    this.socket.on(SockeType.JOINROOM, (roomCode, player) => {
+      console.log(roomCode);
+      var p;
 
-      let p = new Player(
-        player.id,
-        player.nickName,
-        player.publicKey,
-        player.avatar
-      );
+      if (player.pawn === null || player.pawn === undefined) {
+        let gameRoom = this.gameState.getRoom(roomCode);
+        let newPawn =
+          gameRoom?.pawnClaimed == PlayerPawn.WHITE
+            ? PlayerPawn.BLACK
+            : PlayerPawn.WHITE;
 
-      this.gameState.joinRoom(room.id, p);
-      this.gameState.updateStake(room.id, room.totalStake);
+        p = new Player(
+          player.id,
+          player.nickName,
+          player.publicKey,
+          newPawn,
+          player.avatar
+        );
+      } else {
+        p = new Player(
+          player.id,
+          player.nickName,
+          player.publicKey,
+          player.avatar
+        );
+      }
 
-      let players = this.gameState.getPlayers(code);
-      this.io.to(code).emit(SockeType.JOINROOM, players);
+      this.gameState.joinRoom(roomCode, p);
+      this.gameState.updateStake(roomCode, player.stake);
+      let gameRoom = this.gameState.getRoom(roomCode);
+
+      socket.join(roomCode);
+      this.io.to(roomCode).emit(SockeType.JOINROOM, gameRoom);
     });
 
     this.socket.on(SockeType.READY, (socket: Socket) => {
       console.log(socket);
     });
 
-    this.socket.on(SockeType.GAMEINITIALISED, (socket: Socket) => {
-      console.log(socket);
+    this.socket.on(SockeType.GAMEINITIALISED, (roomCode, isInitalized) => {
+      this.io.to(roomCode).emit(SockeType.GAMEINITIALISED, isInitalized);
     });
+
     this.socket.on(SockeType.NOTIFICATION, (socket: Socket) => {
       console.log(socket);
     });

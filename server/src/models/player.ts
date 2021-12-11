@@ -1,3 +1,5 @@
+import { PlayerPawn } from "src/constants";
+
 export class Player {
   /**
       The ready state of the player
@@ -24,15 +26,23 @@ export class Player {
     */
   avatar?: string;
 
+  stake: number;
+
+  pawn: PlayerPawn;
+
   constructor(
     gameId: string,
     nickName: string,
     publicKey: string,
-    avatar?: string
+    pawn: PlayerPawn,
+    avatar?: string,
+    stake?: number
   ) {
     this.gameId = gameId;
     this.nickName = nickName;
     this.publicKey = publicKey;
     this.avatar = avatar;
+    this.stake = stake ?? 0;
+    this.pawn = pawn;
   }
 }

@@ -25,12 +25,14 @@ class _$PlayerTearOff {
       {required String publicKey,
       String? nickName,
       String? avatar,
-      PlayerPawn? pawn}) {
+      PlayerPawn? pawn,
+      int stake = 0}) {
     return _Player(
       publicKey: publicKey,
       nickName: nickName,
       avatar: avatar,
       pawn: pawn,
+      stake: stake,
     );
   }
 
@@ -48,6 +50,7 @@ mixin _$Player {
   String? get nickName => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
   PlayerPawn? get pawn => throw _privateConstructorUsedError;
+  int get stake => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -59,7 +62,11 @@ abstract class $PlayerCopyWith<$Res> {
   factory $PlayerCopyWith(Player value, $Res Function(Player) then) =
       _$PlayerCopyWithImpl<$Res>;
   $Res call(
-      {String publicKey, String? nickName, String? avatar, PlayerPawn? pawn});
+      {String publicKey,
+      String? nickName,
+      String? avatar,
+      PlayerPawn? pawn,
+      int stake});
 }
 
 /// @nodoc
@@ -76,6 +83,7 @@ class _$PlayerCopyWithImpl<$Res> implements $PlayerCopyWith<$Res> {
     Object? nickName = freezed,
     Object? avatar = freezed,
     Object? pawn = freezed,
+    Object? stake = freezed,
   }) {
     return _then(_value.copyWith(
       publicKey: publicKey == freezed
@@ -94,6 +102,10 @@ class _$PlayerCopyWithImpl<$Res> implements $PlayerCopyWith<$Res> {
           ? _value.pawn
           : pawn // ignore: cast_nullable_to_non_nullable
               as PlayerPawn?,
+      stake: stake == freezed
+          ? _value.stake
+          : stake // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -104,7 +116,11 @@ abstract class _$PlayerCopyWith<$Res> implements $PlayerCopyWith<$Res> {
       __$PlayerCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String publicKey, String? nickName, String? avatar, PlayerPawn? pawn});
+      {String publicKey,
+      String? nickName,
+      String? avatar,
+      PlayerPawn? pawn,
+      int stake});
 }
 
 /// @nodoc
@@ -122,6 +138,7 @@ class __$PlayerCopyWithImpl<$Res> extends _$PlayerCopyWithImpl<$Res>
     Object? nickName = freezed,
     Object? avatar = freezed,
     Object? pawn = freezed,
+    Object? stake = freezed,
   }) {
     return _then(_Player(
       publicKey: publicKey == freezed
@@ -140,6 +157,10 @@ class __$PlayerCopyWithImpl<$Res> extends _$PlayerCopyWithImpl<$Res>
           ? _value.pawn
           : pawn // ignore: cast_nullable_to_non_nullable
               as PlayerPawn?,
+      stake: stake == freezed
+          ? _value.stake
+          : stake // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -148,7 +169,11 @@ class __$PlayerCopyWithImpl<$Res> extends _$PlayerCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Player implements _Player {
   const _$_Player(
-      {required this.publicKey, this.nickName, this.avatar, this.pawn});
+      {required this.publicKey,
+      this.nickName,
+      this.avatar,
+      this.pawn,
+      this.stake = 0});
 
   factory _$_Player.fromJson(Map<String, dynamic> json) =>
       _$$_PlayerFromJson(json);
@@ -161,10 +186,13 @@ class _$_Player implements _Player {
   final String? avatar;
   @override
   final PlayerPawn? pawn;
+  @JsonKey(defaultValue: 0)
+  @override
+  final int stake;
 
   @override
   String toString() {
-    return 'Player(publicKey: $publicKey, nickName: $nickName, avatar: $avatar, pawn: $pawn)';
+    return 'Player(publicKey: $publicKey, nickName: $nickName, avatar: $avatar, pawn: $pawn, stake: $stake)';
   }
 
   @override
@@ -177,12 +205,13 @@ class _$_Player implements _Player {
             (identical(other.nickName, nickName) ||
                 other.nickName == nickName) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
-            (identical(other.pawn, pawn) || other.pawn == pawn));
+            (identical(other.pawn, pawn) || other.pawn == pawn) &&
+            (identical(other.stake, stake) || other.stake == stake));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, publicKey, nickName, avatar, pawn);
+      Object.hash(runtimeType, publicKey, nickName, avatar, pawn, stake);
 
   @JsonKey(ignore: true)
   @override
@@ -200,7 +229,8 @@ abstract class _Player implements Player {
       {required String publicKey,
       String? nickName,
       String? avatar,
-      PlayerPawn? pawn}) = _$_Player;
+      PlayerPawn? pawn,
+      int stake}) = _$_Player;
 
   factory _Player.fromJson(Map<String, dynamic> json) = _$_Player.fromJson;
 
@@ -212,6 +242,8 @@ abstract class _Player implements Player {
   String? get avatar;
   @override
   PlayerPawn? get pawn;
+  @override
+  int get stake;
   @override
   @JsonKey(ignore: true)
   _$PlayerCopyWith<_Player> get copyWith => throw _privateConstructorUsedError;

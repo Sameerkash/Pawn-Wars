@@ -4,4 +4,5 @@ class SocketType {
   static const joinRoom = 'joinRoom';
   static const gameMoves = 'gameMoves';
   static const createRoom = 'createRoom';
+  static const  gameIntialized = 'gameInitialised';
 }

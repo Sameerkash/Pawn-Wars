@@ -10,6 +10,7 @@ class Player with _$Player {
     final String? nickName,
     final String? avatar,
     final PlayerPawn? pawn,
+    @Default(0) final int stake,
   }) = _Player;
 
   factory Player.fromJson(Map<String, dynamic> json) => _$PlayerFromJson(json);

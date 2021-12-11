@@ -1,3 +1,4 @@
+import { PlayerPawn } from "src/constants";
 import { Player } from "./player";
 
 export class GameRoom {
@@ -5,17 +6,20 @@ export class GameRoom {
   code: string;
   stake: number;
   winner?: string;
+  pawnClaimed?: PlayerPawn;
 
   //
   constructor(
     code: string,
     players?: Player[],
     stake?: number,
-    winner?: string
+    pawnClaimed?: PlayerPawn,
+    winner?: string,
   ) {
     this.players = players ?? [];
     this.code = code;
     this.stake = stake ?? 0;
-    this.winner;
+    this.winner = winner;
+    this.pawnClaimed = pawnClaimed;
   }
 }

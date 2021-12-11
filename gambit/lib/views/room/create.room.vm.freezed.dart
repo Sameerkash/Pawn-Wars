@@ -2,7 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'room.vm.dart';
+part of 'create.room.vm.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,8 +14,8 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$RoomStateTearOff {
-  const _$RoomStateTearOff();
+class _$CreateRoomStateTearOff {
+  const _$CreateRoomStateTearOff();
 
   _Initial inital({PlayerPawn? pawn}) {
     return _Initial(
@@ -36,18 +36,26 @@ class _$RoomStateTearOff {
       players,
     );
   }
+
+  GameInitialzied gameInitialized(Room room, List<Player> players) {
+    return GameInitialzied(
+      room,
+      players,
+    );
+  }
 }
 
 /// @nodoc
-const $RoomState = _$RoomStateTearOff();
+const $CreateRoomState = _$CreateRoomStateTearOff();
 
 /// @nodoc
-mixin _$RoomState {
+mixin _$CreateRoomState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(PlayerPawn? pawn) inital,
     required TResult Function(Room room, PlayerPawn? pawn) created,
     required TResult Function(Room room, List<Player> players) joined,
+    required TResult Function(Room room, List<Player> players) gameInitialized,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,6 +63,7 @@ mixin _$RoomState {
     TResult Function(PlayerPawn? pawn)? inital,
     TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
+    TResult Function(Room room, List<Player> players)? gameInitialized,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -62,6 +71,7 @@ mixin _$RoomState {
     TResult Function(PlayerPawn? pawn)? inital,
     TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
+    TResult Function(Room room, List<Player> players)? gameInitialized,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -70,6 +80,7 @@ mixin _$RoomState {
     required TResult Function(_Initial value) inital,
     required TResult Function(_Created value) created,
     required TResult Function(_Joined value) joined,
+    required TResult Function(GameInitialzied value) gameInitialized,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -77,6 +88,7 @@ mixin _$RoomState {
     TResult Function(_Initial value)? inital,
     TResult Function(_Created value)? created,
     TResult Function(_Joined value)? joined,
+    TResult Function(GameInitialzied value)? gameInitialized,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -84,24 +96,27 @@ mixin _$RoomState {
     TResult Function(_Initial value)? inital,
     TResult Function(_Created value)? created,
     TResult Function(_Joined value)? joined,
+    TResult Function(GameInitialzied value)? gameInitialized,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RoomStateCopyWith<$Res> {
-  factory $RoomStateCopyWith(RoomState value, $Res Function(RoomState) then) =
-      _$RoomStateCopyWithImpl<$Res>;
+abstract class $CreateRoomStateCopyWith<$Res> {
+  factory $CreateRoomStateCopyWith(
+          CreateRoomState value, $Res Function(CreateRoomState) then) =
+      _$CreateRoomStateCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$RoomStateCopyWithImpl<$Res> implements $RoomStateCopyWith<$Res> {
-  _$RoomStateCopyWithImpl(this._value, this._then);
+class _$CreateRoomStateCopyWithImpl<$Res>
+    implements $CreateRoomStateCopyWith<$Res> {
+  _$CreateRoomStateCopyWithImpl(this._value, this._then);
 
-  final RoomState _value;
+  final CreateRoomState _value;
   // ignore: unused_field
-  final $Res Function(RoomState) _then;
+  final $Res Function(CreateRoomState) _then;
 }
 
 /// @nodoc
@@ -112,7 +127,7 @@ abstract class _$InitialCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$InitialCopyWithImpl<$Res> extends _$RoomStateCopyWithImpl<$Res>
+class __$InitialCopyWithImpl<$Res> extends _$CreateRoomStateCopyWithImpl<$Res>
     implements _$InitialCopyWith<$Res> {
   __$InitialCopyWithImpl(_Initial _value, $Res Function(_Initial) _then)
       : super(_value, (v) => _then(v as _Initial));
@@ -143,14 +158,14 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RoomState.inital(pawn: $pawn)';
+    return 'CreateRoomState.inital(pawn: $pawn)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'RoomState.inital'))
+      ..add(DiagnosticsProperty('type', 'CreateRoomState.inital'))
       ..add(DiagnosticsProperty('pawn', pawn));
   }
 
@@ -176,6 +191,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     required TResult Function(PlayerPawn? pawn) inital,
     required TResult Function(Room room, PlayerPawn? pawn) created,
     required TResult Function(Room room, List<Player> players) joined,
+    required TResult Function(Room room, List<Player> players) gameInitialized,
   }) {
     return inital(pawn);
   }
@@ -186,6 +202,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     TResult Function(PlayerPawn? pawn)? inital,
     TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
+    TResult Function(Room room, List<Player> players)? gameInitialized,
   }) {
     return inital?.call(pawn);
   }
@@ -196,6 +213,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     TResult Function(PlayerPawn? pawn)? inital,
     TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
+    TResult Function(Room room, List<Player> players)? gameInitialized,
     required TResult orElse(),
   }) {
     if (inital != null) {
@@ -210,6 +228,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     required TResult Function(_Initial value) inital,
     required TResult Function(_Created value) created,
     required TResult Function(_Joined value) joined,
+    required TResult Function(GameInitialzied value) gameInitialized,
   }) {
     return inital(this);
   }
@@ -220,6 +239,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     TResult Function(_Initial value)? inital,
     TResult Function(_Created value)? created,
     TResult Function(_Joined value)? joined,
+    TResult Function(GameInitialzied value)? gameInitialized,
   }) {
     return inital?.call(this);
   }
@@ -230,6 +250,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     TResult Function(_Initial value)? inital,
     TResult Function(_Created value)? created,
     TResult Function(_Joined value)? joined,
+    TResult Function(GameInitialzied value)? gameInitialized,
     required TResult orElse(),
   }) {
     if (inital != null) {
@@ -239,7 +260,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
   }
 }
 
-abstract class _Initial implements RoomState {
+abstract class _Initial implements CreateRoomState {
   const factory _Initial({PlayerPawn? pawn}) = _$_Initial;
 
   PlayerPawn? get pawn;
@@ -258,7 +279,7 @@ abstract class _$CreatedCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$CreatedCopyWithImpl<$Res> extends _$RoomStateCopyWithImpl<$Res>
+class __$CreatedCopyWithImpl<$Res> extends _$CreateRoomStateCopyWithImpl<$Res>
     implements _$CreatedCopyWith<$Res> {
   __$CreatedCopyWithImpl(_Created _value, $Res Function(_Created) _then)
       : super(_value, (v) => _then(v as _Created));
@@ -303,14 +324,14 @@ class _$_Created with DiagnosticableTreeMixin implements _Created {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RoomState.created(room: $room, pawn: $pawn)';
+    return 'CreateRoomState.created(room: $room, pawn: $pawn)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'RoomState.created'))
+      ..add(DiagnosticsProperty('type', 'CreateRoomState.created'))
       ..add(DiagnosticsProperty('room', room))
       ..add(DiagnosticsProperty('pawn', pawn));
   }
@@ -338,6 +359,7 @@ class _$_Created with DiagnosticableTreeMixin implements _Created {
     required TResult Function(PlayerPawn? pawn) inital,
     required TResult Function(Room room, PlayerPawn? pawn) created,
     required TResult Function(Room room, List<Player> players) joined,
+    required TResult Function(Room room, List<Player> players) gameInitialized,
   }) {
     return created(room, pawn);
   }
@@ -348,6 +370,7 @@ class _$_Created with DiagnosticableTreeMixin implements _Created {
     TResult Function(PlayerPawn? pawn)? inital,
     TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
+    TResult Function(Room room, List<Player> players)? gameInitialized,
   }) {
     return created?.call(room, pawn);
   }
@@ -358,6 +381,7 @@ class _$_Created with DiagnosticableTreeMixin implements _Created {
     TResult Function(PlayerPawn? pawn)? inital,
     TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
+    TResult Function(Room room, List<Player> players)? gameInitialized,
     required TResult orElse(),
   }) {
     if (created != null) {
@@ -372,6 +396,7 @@ class _$_Created with DiagnosticableTreeMixin implements _Created {
     required TResult Function(_Initial value) inital,
     required TResult Function(_Created value) created,
     required TResult Function(_Joined value) joined,
+    required TResult Function(GameInitialzied value) gameInitialized,
   }) {
     return created(this);
   }
@@ -382,6 +407,7 @@ class _$_Created with DiagnosticableTreeMixin implements _Created {
     TResult Function(_Initial value)? inital,
     TResult Function(_Created value)? created,
     TResult Function(_Joined value)? joined,
+    TResult Function(GameInitialzied value)? gameInitialized,
   }) {
     return created?.call(this);
   }
@@ -392,6 +418,7 @@ class _$_Created with DiagnosticableTreeMixin implements _Created {
     TResult Function(_Initial value)? inital,
     TResult Function(_Created value)? created,
     TResult Function(_Joined value)? joined,
+    TResult Function(GameInitialzied value)? gameInitialized,
     required TResult orElse(),
   }) {
     if (created != null) {
@@ -401,7 +428,7 @@ class _$_Created with DiagnosticableTreeMixin implements _Created {
   }
 }
 
-abstract class _Created implements RoomState {
+abstract class _Created implements CreateRoomState {
   const factory _Created({required Room room, PlayerPawn? pawn}) = _$_Created;
 
   Room get room;
@@ -421,7 +448,7 @@ abstract class _$JoinedCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$JoinedCopyWithImpl<$Res> extends _$RoomStateCopyWithImpl<$Res>
+class __$JoinedCopyWithImpl<$Res> extends _$CreateRoomStateCopyWithImpl<$Res>
     implements _$JoinedCopyWith<$Res> {
   __$JoinedCopyWithImpl(_Joined _value, $Res Function(_Joined) _then)
       : super(_value, (v) => _then(v as _Joined));
@@ -466,14 +493,14 @@ class _$_Joined with DiagnosticableTreeMixin implements _Joined {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RoomState.joined(room: $room, players: $players)';
+    return 'CreateRoomState.joined(room: $room, players: $players)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'RoomState.joined'))
+      ..add(DiagnosticsProperty('type', 'CreateRoomState.joined'))
       ..add(DiagnosticsProperty('room', room))
       ..add(DiagnosticsProperty('players', players));
   }
@@ -502,6 +529,7 @@ class _$_Joined with DiagnosticableTreeMixin implements _Joined {
     required TResult Function(PlayerPawn? pawn) inital,
     required TResult Function(Room room, PlayerPawn? pawn) created,
     required TResult Function(Room room, List<Player> players) joined,
+    required TResult Function(Room room, List<Player> players) gameInitialized,
   }) {
     return joined(room, players);
   }
@@ -512,6 +540,7 @@ class _$_Joined with DiagnosticableTreeMixin implements _Joined {
     TResult Function(PlayerPawn? pawn)? inital,
     TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
+    TResult Function(Room room, List<Player> players)? gameInitialized,
   }) {
     return joined?.call(room, players);
   }
@@ -522,6 +551,7 @@ class _$_Joined with DiagnosticableTreeMixin implements _Joined {
     TResult Function(PlayerPawn? pawn)? inital,
     TResult Function(Room room, PlayerPawn? pawn)? created,
     TResult Function(Room room, List<Player> players)? joined,
+    TResult Function(Room room, List<Player> players)? gameInitialized,
     required TResult orElse(),
   }) {
     if (joined != null) {
@@ -536,6 +566,7 @@ class _$_Joined with DiagnosticableTreeMixin implements _Joined {
     required TResult Function(_Initial value) inital,
     required TResult Function(_Created value) created,
     required TResult Function(_Joined value) joined,
+    required TResult Function(GameInitialzied value) gameInitialized,
   }) {
     return joined(this);
   }
@@ -546,6 +577,7 @@ class _$_Joined with DiagnosticableTreeMixin implements _Joined {
     TResult Function(_Initial value)? inital,
     TResult Function(_Created value)? created,
     TResult Function(_Joined value)? joined,
+    TResult Function(GameInitialzied value)? gameInitialized,
   }) {
     return joined?.call(this);
   }
@@ -556,6 +588,7 @@ class _$_Joined with DiagnosticableTreeMixin implements _Joined {
     TResult Function(_Initial value)? inital,
     TResult Function(_Created value)? created,
     TResult Function(_Joined value)? joined,
+    TResult Function(GameInitialzied value)? gameInitialized,
     required TResult orElse(),
   }) {
     if (joined != null) {
@@ -565,11 +598,187 @@ class _$_Joined with DiagnosticableTreeMixin implements _Joined {
   }
 }
 
-abstract class _Joined implements RoomState {
+abstract class _Joined implements CreateRoomState {
   const factory _Joined(Room room, List<Player> players) = _$_Joined;
 
   Room get room;
   List<Player> get players;
   @JsonKey(ignore: true)
   _$JoinedCopyWith<_Joined> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GameInitialziedCopyWith<$Res> {
+  factory $GameInitialziedCopyWith(
+          GameInitialzied value, $Res Function(GameInitialzied) then) =
+      _$GameInitialziedCopyWithImpl<$Res>;
+  $Res call({Room room, List<Player> players});
+
+  $RoomCopyWith<$Res> get room;
+}
+
+/// @nodoc
+class _$GameInitialziedCopyWithImpl<$Res>
+    extends _$CreateRoomStateCopyWithImpl<$Res>
+    implements $GameInitialziedCopyWith<$Res> {
+  _$GameInitialziedCopyWithImpl(
+      GameInitialzied _value, $Res Function(GameInitialzied) _then)
+      : super(_value, (v) => _then(v as GameInitialzied));
+
+  @override
+  GameInitialzied get _value => super._value as GameInitialzied;
+
+  @override
+  $Res call({
+    Object? room = freezed,
+    Object? players = freezed,
+  }) {
+    return _then(GameInitialzied(
+      room == freezed
+          ? _value.room
+          : room // ignore: cast_nullable_to_non_nullable
+              as Room,
+      players == freezed
+          ? _value.players
+          : players // ignore: cast_nullable_to_non_nullable
+              as List<Player>,
+    ));
+  }
+
+  @override
+  $RoomCopyWith<$Res> get room {
+    return $RoomCopyWith<$Res>(_value.room, (value) {
+      return _then(_value.copyWith(room: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$GameInitialzied
+    with DiagnosticableTreeMixin
+    implements GameInitialzied {
+  const _$GameInitialzied(this.room, this.players);
+
+  @override
+  final Room room;
+  @override
+  final List<Player> players;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'CreateRoomState.gameInitialized(room: $room, players: $players)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'CreateRoomState.gameInitialized'))
+      ..add(DiagnosticsProperty('room', room))
+      ..add(DiagnosticsProperty('players', players));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is GameInitialzied &&
+            (identical(other.room, room) || other.room == room) &&
+            const DeepCollectionEquality().equals(other.players, players));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, room, const DeepCollectionEquality().hash(players));
+
+  @JsonKey(ignore: true)
+  @override
+  $GameInitialziedCopyWith<GameInitialzied> get copyWith =>
+      _$GameInitialziedCopyWithImpl<GameInitialzied>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(PlayerPawn? pawn) inital,
+    required TResult Function(Room room, PlayerPawn? pawn) created,
+    required TResult Function(Room room, List<Player> players) joined,
+    required TResult Function(Room room, List<Player> players) gameInitialized,
+  }) {
+    return gameInitialized(room, players);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(PlayerPawn? pawn)? inital,
+    TResult Function(Room room, PlayerPawn? pawn)? created,
+    TResult Function(Room room, List<Player> players)? joined,
+    TResult Function(Room room, List<Player> players)? gameInitialized,
+  }) {
+    return gameInitialized?.call(room, players);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(PlayerPawn? pawn)? inital,
+    TResult Function(Room room, PlayerPawn? pawn)? created,
+    TResult Function(Room room, List<Player> players)? joined,
+    TResult Function(Room room, List<Player> players)? gameInitialized,
+    required TResult orElse(),
+  }) {
+    if (gameInitialized != null) {
+      return gameInitialized(room, players);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) inital,
+    required TResult Function(_Created value) created,
+    required TResult Function(_Joined value) joined,
+    required TResult Function(GameInitialzied value) gameInitialized,
+  }) {
+    return gameInitialized(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Initial value)? inital,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joined value)? joined,
+    TResult Function(GameInitialzied value)? gameInitialized,
+  }) {
+    return gameInitialized?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? inital,
+    TResult Function(_Created value)? created,
+    TResult Function(_Joined value)? joined,
+    TResult Function(GameInitialzied value)? gameInitialized,
+    required TResult orElse(),
+  }) {
+    if (gameInitialized != null) {
+      return gameInitialized(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class GameInitialzied implements CreateRoomState {
+  const factory GameInitialzied(Room room, List<Player> players) =
+      _$GameInitialzied;
+
+  Room get room;
+  List<Player> get players;
+  @JsonKey(ignore: true)
+  $GameInitialziedCopyWith<GameInitialzied> get copyWith =>
+      throw _privateConstructorUsedError;
 }

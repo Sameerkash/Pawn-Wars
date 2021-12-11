@@ -22,17 +22,19 @@ class _$RoomTearOff {
   const _$RoomTearOff();
 
   _Room call(
-      {required String id,
+      {required String code,
       List<Player> players = const [],
       bool isStarted = false,
       String? winnerPublicKey,
-      int? totalStake}) {
+      int? totalStake,
+      PlayerPawn? pawnClaimed}) {
     return _Room(
-      id: id,
+      code: code,
       players: players,
       isStarted: isStarted,
       winnerPublicKey: winnerPublicKey,
       totalStake: totalStake,
+      pawnClaimed: pawnClaimed,
     );
   }
 
@@ -46,11 +48,12 @@ const $Room = _$RoomTearOff();
 
 /// @nodoc
 mixin _$Room {
-  String get id => throw _privateConstructorUsedError;
+  String get code => throw _privateConstructorUsedError;
   List<Player> get players => throw _privateConstructorUsedError;
   bool get isStarted => throw _privateConstructorUsedError;
   String? get winnerPublicKey => throw _privateConstructorUsedError;
   int? get totalStake => throw _privateConstructorUsedError;
+  PlayerPawn? get pawnClaimed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -62,11 +65,12 @@ abstract class $RoomCopyWith<$Res> {
   factory $RoomCopyWith(Room value, $Res Function(Room) then) =
       _$RoomCopyWithImpl<$Res>;
   $Res call(
-      {String id,
+      {String code,
       List<Player> players,
       bool isStarted,
       String? winnerPublicKey,
-      int? totalStake});
+      int? totalStake,
+      PlayerPawn? pawnClaimed});
 }
 
 /// @nodoc
@@ -79,16 +83,17 @@ class _$RoomCopyWithImpl<$Res> implements $RoomCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? id = freezed,
+    Object? code = freezed,
     Object? players = freezed,
     Object? isStarted = freezed,
     Object? winnerPublicKey = freezed,
     Object? totalStake = freezed,
+    Object? pawnClaimed = freezed,
   }) {
     return _then(_value.copyWith(
-      id: id == freezed
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      code: code == freezed
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
               as String,
       players: players == freezed
           ? _value.players
@@ -106,6 +111,10 @@ class _$RoomCopyWithImpl<$Res> implements $RoomCopyWith<$Res> {
           ? _value.totalStake
           : totalStake // ignore: cast_nullable_to_non_nullable
               as int?,
+      pawnClaimed: pawnClaimed == freezed
+          ? _value.pawnClaimed
+          : pawnClaimed // ignore: cast_nullable_to_non_nullable
+              as PlayerPawn?,
     ));
   }
 }
@@ -116,11 +125,12 @@ abstract class _$RoomCopyWith<$Res> implements $RoomCopyWith<$Res> {
       __$RoomCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String id,
+      {String code,
       List<Player> players,
       bool isStarted,
       String? winnerPublicKey,
-      int? totalStake});
+      int? totalStake,
+      PlayerPawn? pawnClaimed});
 }
 
 /// @nodoc
@@ -134,16 +144,17 @@ class __$RoomCopyWithImpl<$Res> extends _$RoomCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? id = freezed,
+    Object? code = freezed,
     Object? players = freezed,
     Object? isStarted = freezed,
     Object? winnerPublicKey = freezed,
     Object? totalStake = freezed,
+    Object? pawnClaimed = freezed,
   }) {
     return _then(_Room(
-      id: id == freezed
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      code: code == freezed
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
               as String,
       players: players == freezed
           ? _value.players
@@ -161,6 +172,10 @@ class __$RoomCopyWithImpl<$Res> extends _$RoomCopyWithImpl<$Res>
           ? _value.totalStake
           : totalStake // ignore: cast_nullable_to_non_nullable
               as int?,
+      pawnClaimed: pawnClaimed == freezed
+          ? _value.pawnClaimed
+          : pawnClaimed // ignore: cast_nullable_to_non_nullable
+              as PlayerPawn?,
     ));
   }
 }
@@ -169,16 +184,17 @@ class __$RoomCopyWithImpl<$Res> extends _$RoomCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Room implements _Room {
   const _$_Room(
-      {required this.id,
+      {required this.code,
       this.players = const [],
       this.isStarted = false,
       this.winnerPublicKey,
-      this.totalStake});
+      this.totalStake,
+      this.pawnClaimed});
 
   factory _$_Room.fromJson(Map<String, dynamic> json) => _$$_RoomFromJson(json);
 
   @override
-  final String id;
+  final String code;
   @JsonKey(defaultValue: const [])
   @override
   final List<Player> players;
@@ -189,10 +205,12 @@ class _$_Room implements _Room {
   final String? winnerPublicKey;
   @override
   final int? totalStake;
+  @override
+  final PlayerPawn? pawnClaimed;
 
   @override
   String toString() {
-    return 'Room(id: $id, players: $players, isStarted: $isStarted, winnerPublicKey: $winnerPublicKey, totalStake: $totalStake)';
+    return 'Room(code: $code, players: $players, isStarted: $isStarted, winnerPublicKey: $winnerPublicKey, totalStake: $totalStake, pawnClaimed: $pawnClaimed)';
   }
 
   @override
@@ -200,24 +218,27 @@ class _$_Room implements _Room {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Room &&
-            (identical(other.id, id) || other.id == id) &&
+            (identical(other.code, code) || other.code == code) &&
             const DeepCollectionEquality().equals(other.players, players) &&
             (identical(other.isStarted, isStarted) ||
                 other.isStarted == isStarted) &&
             (identical(other.winnerPublicKey, winnerPublicKey) ||
                 other.winnerPublicKey == winnerPublicKey) &&
             (identical(other.totalStake, totalStake) ||
-                other.totalStake == totalStake));
+                other.totalStake == totalStake) &&
+            (identical(other.pawnClaimed, pawnClaimed) ||
+                other.pawnClaimed == pawnClaimed));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      id,
+      code,
       const DeepCollectionEquality().hash(players),
       isStarted,
       winnerPublicKey,
-      totalStake);
+      totalStake,
+      pawnClaimed);
 
   @JsonKey(ignore: true)
   @override
@@ -232,16 +253,17 @@ class _$_Room implements _Room {
 
 abstract class _Room implements Room {
   const factory _Room(
-      {required String id,
+      {required String code,
       List<Player> players,
       bool isStarted,
       String? winnerPublicKey,
-      int? totalStake}) = _$_Room;
+      int? totalStake,
+      PlayerPawn? pawnClaimed}) = _$_Room;
 
   factory _Room.fromJson(Map<String, dynamic> json) = _$_Room.fromJson;
 
   @override
-  String get id;
+  String get code;
   @override
   List<Player> get players;
   @override
@@ -250,6 +272,8 @@ abstract class _Room implements Room {
   String? get winnerPublicKey;
   @override
   int? get totalStake;
+  @override
+  PlayerPawn? get pawnClaimed;
   @override
   @JsonKey(ignore: true)
   _$RoomCopyWith<_Room> get copyWith => throw _privateConstructorUsedError;

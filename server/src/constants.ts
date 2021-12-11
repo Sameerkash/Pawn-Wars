@@ -10,3 +10,8 @@ export enum SockeType {
   PLAYERS = "players",
   LEAVING = "leaving",
 }
+
+export enum PlayerPawn {
+  WHITE = "WHITE",
+  BLACK = "BLACK",
+}
