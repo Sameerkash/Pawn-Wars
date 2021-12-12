@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:gambit/models/enums/enums.dart';
 import 'package:gambit/models/player/player.dart';
@@ -28,6 +27,10 @@ class PlayerDisplayTile extends StatelessWidget {
           text: player.nickName!,
           fontSize: 14,
           fontWeight: FontWeight.w700,
+          color: player.pawn == PlayerPawn.white ? Colors.black : Colors.white,
+        ),
+        trailing: DisplayText(
+          text: '\$MATIC ${player.stake}',
           color: player.pawn == PlayerPawn.white ? Colors.black : Colors.white,
         ),
       ),

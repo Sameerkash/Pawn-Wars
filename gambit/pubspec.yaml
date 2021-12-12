@@ -49,6 +49,8 @@ dependencies:
   sembast: ^3.1.1
   uuid: ^3.0.5
   horizontal_card_pager: ^1.1.1
+  path_provider: ^2.0.8
+  google_fonts: ^2.1.0
 
 
 dev_dependencies:

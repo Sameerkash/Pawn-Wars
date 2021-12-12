@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gambit/views/auth/auth.info.view.dart';
+import 'package:gambit/views/auth/auth.view.dart';
 import 'package:gambit/views/game/game.view.dart';
+import 'package:gambit/views/home/home.view.dart';
 import 'package:gambit/views/room/create.room.view.dart';
 import 'package:gambit/views/room/join.room.dart';
 import 'package:gambit/views/room/room.view.dart';
@@ -40,43 +43,54 @@ class MyApp extends StatelessWidget {
           key: state.pageKey,
           child: const AppView(),
         ),
-      ),
-      // GoRoute(
-      //   path: '/login',
-      //   pageBuilder: (context, state) => MaterialPage<void>(
-      //     key: state.pageKey,
-      //     child: const ImportAccount(),
-      //   ),
-      // ),
-      GoRoute(
-        path: '/room',
-        pageBuilder: (context, state) => MaterialPage<void>(
-          key: state.pageKey,
-          child: const RoomView(),
-        ),
         routes: [
           GoRoute(
-            path: 'create',
-            pageBuilder: (context, state) => CupertinoPage<void>(
+            path: 'auth-info',
+            pageBuilder: (context, state) => MaterialPage<void>(
               key: state.pageKey,
-              child: const CreateRoomView(),
-            ),
-          ),
-          GoRoute(
-            path: 'join',
-            pageBuilder: (context, state) => CupertinoPage<void>(
-              key: state.pageKey,
-              child: const JoinRoomView(),
+              child: const AuthInfo(),
             ),
           ),
         ],
       ),
       GoRoute(
-        path: '/game',
+        path: '/home',
         pageBuilder: (context, state) => MaterialPage<void>(
           key: state.pageKey,
-          child: GameView(room: state.extra! as Room),
+          child: const HomeView(),
         ),
+        routes: [
+          GoRoute(
+            path: 'room',
+            pageBuilder: (context, state) => MaterialPage<void>(
+              key: state.pageKey,
+              child: const RoomView(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'create',
+                pageBuilder: (context, state) => CupertinoPage<void>(
+                  key: state.pageKey,
+                  child: const CreateRoomView(),
+                ),
+              ),
+              GoRoute(
+                path: 'join',
+                pageBuilder: (context, state) => CupertinoPage<void>(
+                  key: state.pageKey,
+                  child: const JoinRoomView(),
+                ),
+              ),
+              GoRoute(
+                path: 'game',
+                pageBuilder: (context, state) => MaterialPage<void>(
+                  key: state.pageKey,
+                  child: GameView(room: state.extra! as Room),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     ],
     errorPageBuilder: (context, state) => MaterialPage<void>(

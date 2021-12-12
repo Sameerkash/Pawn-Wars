@@ -7,6 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:gambit/models/enums/enums.dart';
 import 'package:gambit/models/player/player.dart';
 import 'package:gambit/models/room/room.dart';
+import 'package:gambit/services/repository.dart';
 import 'package:gambit/services/socket.io.dart';
 import 'package:gambit/utils/constants.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -78,8 +79,12 @@ class GamePlayState with _$GamePlayState {
   const factory GamePlayState.loading() = _Loading;
   const factory GamePlayState.initial(
       {GameState? gameState, final Room? room}) = _Initial;
-  const factory GamePlayState.play({GameState? gameState, final Room? room}) =
-      _Play;
+  const factory GamePlayState.play({
+    GameState? gameState,
+    final Room? room,
+    required final bishop.Variant variant,
+    required final Player player,
+  }) = _Play;
   const factory GamePlayState.finished(GameState? gameState, final Room? room) =
       _Finished;
 }
@@ -88,10 +93,14 @@ class GameVM extends StateNotifier<GamePlayState> {
   late bishop.Game game;
   late bishop.Engine engine;
   late Player currentPlayer;
+  late Room currentRoom;
 
   final SocketIOService socketService;
+  final Repository repo;
+
   GameVM(Reader read)
       : socketService = read(socketProvider),
+        repo = read(repositoryProvider),
         super(const GamePlayState.loading()) {
     socketService.gameMovesResponse.listen((event) {
       final currentState = state;
@@ -106,14 +115,20 @@ class GameVM extends StateNotifier<GamePlayState> {
   }
 
   Future<void> init(Room room) async {
-    game = bishop.Game(variant: bishop.Variant.standard());
+    final account = await repo.getUserFromStorage();
+    game = bishop.Game(variant: bishop.Variant.crazyhouse());
     engine = bishop.Engine(game: game);
-    currentPlayer = room.players.firstWhere((p) => p.publicKey == 'publickey');
+    currentPlayer =
+        room.players.firstWhere((p) => p.publicKey == account!.publicKey);
     state = GamePlayState.initial(
       gameState: GameState.initial(
         gameSymbols: game.boardSymbols(),
       ),
     );
+
+    currentRoom = room;
+
+    play();
   }
 
   void play() {
@@ -139,6 +154,9 @@ class GameVM extends StateNotifier<GamePlayState> {
           board: gameState!.board,
           moves: moves,
         ),
+        variant: game.variant,
+        room: currentRoom,
+        player: currentPlayer,
       );
     }
   }
@@ -156,10 +174,10 @@ class GameVM extends StateNotifier<GamePlayState> {
         game.makeMove(m);
 
         emitState();
-        socketService.socket.emit(
-          SocketType.gameMoves,
+        socketService.socket.emit(SocketType.gameMoves, [
+          currentRoom.code,
           alg,
-        );
+        ]);
       }
     }
   }
@@ -225,12 +243,26 @@ class GameVM extends StateNotifier<GamePlayState> {
         hands: game.handSymbols(),
       );
 
-      state = GamePlayState.play(
-        gameState: gameState,
-      );
-    }
+      if (playState == PlayState.finished) {
+        if (game.turn != getPawnColor(currentPlayer.pawn!)) {
+          currentRoom =
+              currentRoom.copyWith(winnerPublicKey: currentPlayer.publicKey);
+          state = GamePlayState.finished(gameState, currentRoom);
+        } else if (game.turn == getPawnColor(currentPlayer.pawn!)) {
+          currentRoom = currentRoom.copyWith(winnerPublicKey: 'Loser');
 
-    print('emitState:  $currentState');
+          state = GamePlayState.finished(gameState, currentRoom);
+        }
+      } else {
+        state = GamePlayState.play(
+          gameState: gameState,
+          variant: game.variant,
+          room: currentRoom,
+          player: currentPlayer,
+        );
+      }
+      print('emitState:  $playState');
+    }
   }
 
   Move moveFromAlgebraic(String alg, BoardSize size) {

@@ -42,13 +42,13 @@ class DisplayCode extends StatelessWidget {
             );
           },
         ),
-        IconButton(
-          icon: const Icon(
-            Icons.ios_share,
-            color: Colors.white,
-          ),
-          onPressed: () {},
-        ),
+        // IconButton(
+        //   icon: const Icon(
+        //     Icons.ios_share,
+        //     color: Colors.white,
+        //   ),
+        //   onPressed: () {},
+        // ),
       ],
     );
   }

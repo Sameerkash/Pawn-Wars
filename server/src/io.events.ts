@@ -37,14 +37,17 @@ export class IoEvents {
           player.nickName,
           player.publicKey,
           newPawn,
-          player.avatar
+          player.avatar,
+          player.stake
         );
       } else {
         p = new Player(
           player.id,
           player.nickName,
           player.publicKey,
-          player.avatar
+          player.pawn,
+          player.avatar,
+          player.stake
         );
       }
 
@@ -68,9 +71,9 @@ export class IoEvents {
       console.log(socket);
     });
 
-    this.socket.on(SockeType.GAMEMOVES, (socket: Socket) => {
-      console.log(socket);
-      this.io.emit(SockeType.GAMEMOVES, socket);
+    this.socket.on(SockeType.GAMEMOVES, (roomCode, move) => {
+      console.log(roomCode, move);
+      this.io.to(roomCode).emit(SockeType.GAMEMOVES, move);
     });
 
     this.socket.on(SockeType.LEAVING, (socket: Socket) => {

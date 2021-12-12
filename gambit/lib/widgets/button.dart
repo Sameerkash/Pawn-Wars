@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ElevatedDisplayButton extends StatelessWidget {
   final String text;
@@ -32,10 +33,10 @@ class ElevatedDisplayButton extends StatelessWidget {
             minimumSize: const Size(double.infinity, 50)),
         child: Text(
           text,
-          style: TextStyle(
-            color: disabled ? Colors.black54 : textColor,
+          style: GoogleFonts.orbitron(
             fontSize: fontSize,
             fontWeight: FontWeight.bold,
+            color: disabled ? Colors.black54 : textColor,
           ),
         ),
       ),

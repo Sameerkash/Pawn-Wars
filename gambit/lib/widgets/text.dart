@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DisplayText extends StatelessWidget {
   final String text;
@@ -17,7 +18,7 @@ class DisplayText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: TextStyle(
+      style: GoogleFonts.orbitron(
         fontSize: fontSize,
         fontWeight: fontWeight,
         color: color,

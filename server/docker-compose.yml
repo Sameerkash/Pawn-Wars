@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  pawnwars:
+    build:
+      context: .
+    container_name: pawnwars
+    image: samkash/pawnwars
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      - ./logs:/logs
+    ports:
+      - "3000:3000"

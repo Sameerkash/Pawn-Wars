@@ -28,10 +28,16 @@ class _$GamePlayStateTearOff {
     );
   }
 
-  _Play play({GameState? gameState, Room? room}) {
+  _Play play(
+      {GameState? gameState,
+      Room? room,
+      required bishop.Variant variant,
+      required Player player}) {
     return _Play(
       gameState: gameState,
       room: room,
+      variant: variant,
+      player: player,
     );
   }
 
@@ -52,7 +58,9 @@ mixin _$GamePlayState {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(GameState? gameState, Room? room) initial,
-    required TResult Function(GameState? gameState, Room? room) play,
+    required TResult Function(GameState? gameState, Room? room,
+            bishop.Variant variant, Player player)
+        play,
     required TResult Function(GameState? gameState, Room? room) finished,
   }) =>
       throw _privateConstructorUsedError;
@@ -60,7 +68,9 @@ mixin _$GamePlayState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(GameState? gameState, Room? room)? initial,
-    TResult Function(GameState? gameState, Room? room)? play,
+    TResult Function(GameState? gameState, Room? room, bishop.Variant variant,
+            Player player)?
+        play,
     TResult Function(GameState? gameState, Room? room)? finished,
   }) =>
       throw _privateConstructorUsedError;
@@ -68,7 +78,9 @@ mixin _$GamePlayState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(GameState? gameState, Room? room)? initial,
-    TResult Function(GameState? gameState, Room? room)? play,
+    TResult Function(GameState? gameState, Room? room, bishop.Variant variant,
+            Player player)?
+        play,
     TResult Function(GameState? gameState, Room? room)? finished,
     required TResult orElse(),
   }) =>
@@ -163,7 +175,9 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(GameState? gameState, Room? room) initial,
-    required TResult Function(GameState? gameState, Room? room) play,
+    required TResult Function(GameState? gameState, Room? room,
+            bishop.Variant variant, Player player)
+        play,
     required TResult Function(GameState? gameState, Room? room) finished,
   }) {
     return loading();
@@ -174,7 +188,9 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(GameState? gameState, Room? room)? initial,
-    TResult Function(GameState? gameState, Room? room)? play,
+    TResult Function(GameState? gameState, Room? room, bishop.Variant variant,
+            Player player)?
+        play,
     TResult Function(GameState? gameState, Room? room)? finished,
   }) {
     return loading?.call();
@@ -185,7 +201,9 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(GameState? gameState, Room? room)? initial,
-    TResult Function(GameState? gameState, Room? room)? play,
+    TResult Function(GameState? gameState, Room? room, bishop.Variant variant,
+            Player player)?
+        play,
     TResult Function(GameState? gameState, Room? room)? finished,
     required TResult orElse(),
   }) {
@@ -331,7 +349,9 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(GameState? gameState, Room? room) initial,
-    required TResult Function(GameState? gameState, Room? room) play,
+    required TResult Function(GameState? gameState, Room? room,
+            bishop.Variant variant, Player player)
+        play,
     required TResult Function(GameState? gameState, Room? room) finished,
   }) {
     return initial(gameState, room);
@@ -342,7 +362,9 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(GameState? gameState, Room? room)? initial,
-    TResult Function(GameState? gameState, Room? room)? play,
+    TResult Function(GameState? gameState, Room? room, bishop.Variant variant,
+            Player player)?
+        play,
     TResult Function(GameState? gameState, Room? room)? finished,
   }) {
     return initial?.call(gameState, room);
@@ -353,7 +375,9 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(GameState? gameState, Room? room)? initial,
-    TResult Function(GameState? gameState, Room? room)? play,
+    TResult Function(GameState? gameState, Room? room, bishop.Variant variant,
+            Player player)?
+        play,
     TResult Function(GameState? gameState, Room? room)? finished,
     required TResult orElse(),
   }) {
@@ -415,9 +439,14 @@ abstract class _Initial implements GamePlayState {
 abstract class _$PlayCopyWith<$Res> {
   factory _$PlayCopyWith(_Play value, $Res Function(_Play) then) =
       __$PlayCopyWithImpl<$Res>;
-  $Res call({GameState? gameState, Room? room});
+  $Res call(
+      {GameState? gameState,
+      Room? room,
+      bishop.Variant variant,
+      Player player});
 
   $RoomCopyWith<$Res>? get room;
+  $PlayerCopyWith<$Res> get player;
 }
 
 /// @nodoc
@@ -433,6 +462,8 @@ class __$PlayCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
   $Res call({
     Object? gameState = freezed,
     Object? room = freezed,
+    Object? variant = freezed,
+    Object? player = freezed,
   }) {
     return _then(_Play(
       gameState: gameState == freezed
@@ -443,6 +474,14 @@ class __$PlayCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
           ? _value.room
           : room // ignore: cast_nullable_to_non_nullable
               as Room?,
+      variant: variant == freezed
+          ? _value.variant
+          : variant // ignore: cast_nullable_to_non_nullable
+              as bishop.Variant,
+      player: player == freezed
+          ? _value.player
+          : player // ignore: cast_nullable_to_non_nullable
+              as Player,
     ));
   }
 
@@ -456,21 +495,33 @@ class __$PlayCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
       return _then(_value.copyWith(room: value));
     });
   }
+
+  @override
+  $PlayerCopyWith<$Res> get player {
+    return $PlayerCopyWith<$Res>(_value.player, (value) {
+      return _then(_value.copyWith(player: value));
+    });
+  }
 }
 
 /// @nodoc
 
 class _$_Play with DiagnosticableTreeMixin implements _Play {
-  const _$_Play({this.gameState, this.room});
+  const _$_Play(
+      {this.gameState, this.room, required this.variant, required this.player});
 
   @override
   final GameState? gameState;
   @override
   final Room? room;
+  @override
+  final bishop.Variant variant;
+  @override
+  final Player player;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'GamePlayState.play(gameState: $gameState, room: $room)';
+    return 'GamePlayState.play(gameState: $gameState, room: $room, variant: $variant, player: $player)';
   }
 
   @override
@@ -479,7 +530,9 @@ class _$_Play with DiagnosticableTreeMixin implements _Play {
     properties
       ..add(DiagnosticsProperty('type', 'GamePlayState.play'))
       ..add(DiagnosticsProperty('gameState', gameState))
-      ..add(DiagnosticsProperty('room', room));
+      ..add(DiagnosticsProperty('room', room))
+      ..add(DiagnosticsProperty('variant', variant))
+      ..add(DiagnosticsProperty('player', player));
   }
 
   @override
@@ -489,11 +542,14 @@ class _$_Play with DiagnosticableTreeMixin implements _Play {
             other is _Play &&
             (identical(other.gameState, gameState) ||
                 other.gameState == gameState) &&
-            (identical(other.room, room) || other.room == room));
+            (identical(other.room, room) || other.room == room) &&
+            (identical(other.variant, variant) || other.variant == variant) &&
+            (identical(other.player, player) || other.player == player));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, gameState, room);
+  int get hashCode =>
+      Object.hash(runtimeType, gameState, room, variant, player);
 
   @JsonKey(ignore: true)
   @override
@@ -505,10 +561,12 @@ class _$_Play with DiagnosticableTreeMixin implements _Play {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(GameState? gameState, Room? room) initial,
-    required TResult Function(GameState? gameState, Room? room) play,
+    required TResult Function(GameState? gameState, Room? room,
+            bishop.Variant variant, Player player)
+        play,
     required TResult Function(GameState? gameState, Room? room) finished,
   }) {
-    return play(gameState, room);
+    return play(gameState, room, variant, player);
   }
 
   @override
@@ -516,10 +574,12 @@ class _$_Play with DiagnosticableTreeMixin implements _Play {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(GameState? gameState, Room? room)? initial,
-    TResult Function(GameState? gameState, Room? room)? play,
+    TResult Function(GameState? gameState, Room? room, bishop.Variant variant,
+            Player player)?
+        play,
     TResult Function(GameState? gameState, Room? room)? finished,
   }) {
-    return play?.call(gameState, room);
+    return play?.call(gameState, room, variant, player);
   }
 
   @override
@@ -527,12 +587,14 @@ class _$_Play with DiagnosticableTreeMixin implements _Play {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(GameState? gameState, Room? room)? initial,
-    TResult Function(GameState? gameState, Room? room)? play,
+    TResult Function(GameState? gameState, Room? room, bishop.Variant variant,
+            Player player)?
+        play,
     TResult Function(GameState? gameState, Room? room)? finished,
     required TResult orElse(),
   }) {
     if (play != null) {
-      return play(gameState, room);
+      return play(gameState, room, variant, player);
     }
     return orElse();
   }
@@ -576,10 +638,16 @@ class _$_Play with DiagnosticableTreeMixin implements _Play {
 }
 
 abstract class _Play implements GamePlayState {
-  const factory _Play({GameState? gameState, Room? room}) = _$_Play;
+  const factory _Play(
+      {GameState? gameState,
+      Room? room,
+      required bishop.Variant variant,
+      required Player player}) = _$_Play;
 
   GameState? get gameState;
   Room? get room;
+  bishop.Variant get variant;
+  Player get player;
   @JsonKey(ignore: true)
   _$PlayCopyWith<_Play> get copyWith => throw _privateConstructorUsedError;
 }
@@ -678,7 +746,9 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(GameState? gameState, Room? room) initial,
-    required TResult Function(GameState? gameState, Room? room) play,
+    required TResult Function(GameState? gameState, Room? room,
+            bishop.Variant variant, Player player)
+        play,
     required TResult Function(GameState? gameState, Room? room) finished,
   }) {
     return finished(gameState, room);
@@ -689,7 +759,9 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(GameState? gameState, Room? room)? initial,
-    TResult Function(GameState? gameState, Room? room)? play,
+    TResult Function(GameState? gameState, Room? room, bishop.Variant variant,
+            Player player)?
+        play,
     TResult Function(GameState? gameState, Room? room)? finished,
   }) {
     return finished?.call(gameState, room);
@@ -700,7 +772,9 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(GameState? gameState, Room? room)? initial,
-    TResult Function(GameState? gameState, Room? room)? play,
+    TResult Function(GameState? gameState, Room? room, bishop.Variant variant,
+            Player player)?
+        play,
     TResult Function(GameState? gameState, Room? room)? finished,
     required TResult orElse(),
   }) {

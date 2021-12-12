@@ -81,8 +81,7 @@ class _HomeViewState extends State<HomeView> {
                   setState(() {
                     index = page;
                   });
-
-                  context.push('/room');
+                  context.push('/home/room');
                 },
                 items: items,
               ),

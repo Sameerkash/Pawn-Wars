@@ -20,5 +20,5 @@ io.on(SockeType.CONNECTION, (socket: Socket) => {
   console.log(socket.id);
 });
 
-const PORT = process.env.PORT || 8000;
-httpServer.listen(PORT, () => console.log("Server listening on 8000"));
+const PORT = process.env.PORT || 3000;
+httpServer.listen(PORT, () => console.log(`Server listening on ${PORT}`));

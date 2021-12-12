@@ -18,7 +18,7 @@ class JoinRoomView extends HookConsumerWidget {
     var joinRoom = ref.watch(joinRoomProvider);
 
     if (joinRoom is GameInitialzied) {
-      context.go('/game', extra: joinRoom.room);
+      context.go('/home/room/game', extra: joinRoom.room);
     }
 
     return Scaffold(

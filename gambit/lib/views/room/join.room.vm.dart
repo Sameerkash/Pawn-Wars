@@ -1,10 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:gambit/models/player/player.dart';
 import 'package:gambit/models/room/room.dart';
+import 'package:gambit/services/repository.dart';
 import 'package:gambit/services/socket.io.dart';
 import 'package:gambit/utils/constants.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 part 'join.room.vm.freezed.dart';
+
 
 @freezed
 class JoinRoomState with _$JoinRoomState {
@@ -23,13 +25,16 @@ class JoinRoomState with _$JoinRoomState {
 
 class JoinRoomVM extends StateNotifier<JoinRoomState> {
   final SocketIOService socketService;
+  final Repository repo;
+
   JoinRoomVM(Reader read)
       : socketService = read(socketProvider),
+        repo = read(repositoryProvider),
         super(const JoinRoomState.inital()) {
     socketService.socket.connect();
     socketService.joinRoomResponse.listen((room) {
       print(room);
-      setRoom(room);
+      state = JoinRoomState.joined(room);
     });
 
     socketService.gameInitializedResponse.listen((isInitalized) {
@@ -60,21 +65,18 @@ class JoinRoomVM extends StateNotifier<JoinRoomState> {
     }
   }
 
-  void joinRoom() {
+  void joinRoom() async {
     final currentState = state;
+    final player = await repo.getUserFromStorage();
 
     if (currentState is _Initial) {
-      final player = Player(
-        publicKey: 'publickeyyyy',
-        nickName: 'Player2',
-        stake: currentState.stake,
-      );
+      final p = player!.copyWith(stake: currentState.stake);
 
       socketService.socket.emit(
         SocketType.joinRoom,
         [
           currentState.code,
-          player.toJson(),
+          p.toJson(),
         ],
       );
 

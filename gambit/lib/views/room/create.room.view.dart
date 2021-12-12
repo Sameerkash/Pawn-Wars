@@ -19,7 +19,7 @@ class CreateRoomView extends HookConsumerWidget {
     final room = ref.watch(roomProvider);
 
     if (room is GameInitialzied) {
-      context.go('/game', extra: room.room);
+      context.go('/home/room/game', extra: room.room);
     }
 
     var stake = useTextEditingController();
@@ -37,7 +37,7 @@ class CreateRoomView extends HookConsumerWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 15.0, horizontal: 20.0),
+                            vertical: 15.0, horizontal: 16.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -243,10 +243,10 @@ class RoomHeader extends StatelessWidget {
         children: const [
           DisplayText(
             text: 'Stake, Play and win Big!',
-            fontSize: 28,
+            fontSize: 24,
             fontWeight: FontWeight.w700,
           ),
-          SizedBox(height: 5),
+          SizedBox(height: 10),
           DisplayText(
             text: 'Bet against your friends and win',
             fontSize: 20,

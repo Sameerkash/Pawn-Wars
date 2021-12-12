@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:gambit/models/enums/enums.dart';
 import 'package:gambit/models/player/player.dart';
 import 'package:gambit/models/room/room.dart';
+import 'package:gambit/services/repository.dart';
 import 'package:gambit/services/socket.io.dart';
 import 'package:gambit/utils/constants.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -31,8 +32,11 @@ class CreateRoomState with _$CreateRoomState {
 
 class CreateRoomVM extends StateNotifier<CreateRoomState> {
   final SocketIOService socketService;
+  final Repository repo;
+
   CreateRoomVM(Reader read)
       : socketService = read(socketProvider),
+        repo = read(repositoryProvider),
         super(const CreateRoomState.inital()) {
     socketService.socket.connect();
 
@@ -80,22 +84,18 @@ class CreateRoomVM extends StateNotifier<CreateRoomState> {
     }
   }
 
-  void joinRoom(stake) {
+  void joinRoom(stake) async {
     final currentState = state;
+    final player = await repo.getUserFromStorage();
 
     if (currentState is _Created) {
       final room = currentState.room.copyWith(totalStake: stake);
-      final player = Player(
-        publicKey: 'publickey',
-        nickName: 'Player1',
-        pawn: currentState.pawn,
-        stake: stake,
-      );
-      room.players.add(player);
+      final p = player!.copyWith(pawn: currentState.pawn, stake: stake);
+      // room.players.add(p);
 
       socketService.socket.emit(SocketType.joinRoom, [
         room.code,
-        player.toJson(),
+        p.toJson(),
       ]);
     }
   }

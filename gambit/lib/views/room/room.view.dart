@@ -17,7 +17,7 @@ class RoomView extends HookConsumerWidget {
               widthFactor: 1,
               child: InkWell(
                 onTap: () {
-                  context.go('/room/create');
+                  context.go('/home/room/create');
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -37,7 +37,7 @@ class RoomView extends HookConsumerWidget {
               widthFactor: 1,
               child: InkWell(
                 onTap: () {
-                  context.go('/room/join');
+                  context.go('/home/room/join');
                 },
                 child: Container(
                   alignment: Alignment.center,
