@@ -13,7 +13,7 @@ class AppView extends HookConsumerWidget {
 
     return auth.map(
       loading: (_) => const Center(child: CircularProgressIndicator()),
-      authenticated: (user) => const HomeView(),
+      authenticated: (user) =>  const HomeView(),
       unAuthenticated: (_) => const AuthView(),
     );
   }

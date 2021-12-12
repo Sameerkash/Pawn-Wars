@@ -142,7 +142,7 @@ class CreateRoomView extends HookConsumerWidget {
                       await StakeBottomSheet.show(context, stake);
 
                       ref.read(roomProvider.notifier).joinRoom(
-                            int.parse(stake.text),
+                            double.parse(stake.text),
                           );
                     },
                   ),

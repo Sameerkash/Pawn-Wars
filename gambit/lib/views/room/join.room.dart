@@ -105,7 +105,7 @@ class JoinRoomView extends HookConsumerWidget {
                         await StakeBottomSheet.show(context, stakeController);
                         ref
                             .read(joinRoomProvider.notifier)
-                            .setStake(int.parse(stakeController.text));
+                            .setStake(double.parse(stakeController.text));
 
                         ref.read(joinRoomProvider.notifier).joinRoom();
                       },

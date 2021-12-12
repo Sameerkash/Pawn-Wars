@@ -14,7 +14,7 @@ _$_Room _$$_RoomFromJson(Map<String, dynamic> json) => _$_Room(
           [],
       isStarted: json['isStarted'] as bool? ?? false,
       winnerPublicKey: json['winnerPublicKey'] as String?,
-      totalStake: json['totalStake'] as int?,
+      totalStake: (json['totalStake'] as num?)?.toDouble(),
       pawnClaimed:
           $enumDecodeNullable(_$PlayerPawnEnumMap, json['pawnClaimed']),
     );

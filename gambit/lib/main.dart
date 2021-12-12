@@ -4,10 +4,12 @@ import 'package:gambit/views/auth/auth.info.view.dart';
 import 'package:gambit/views/auth/auth.view.dart';
 import 'package:gambit/views/game/game.view.dart';
 import 'package:gambit/views/home/home.view.dart';
+import 'package:gambit/views/markeplace/markeplace.view.dart';
 import 'package:gambit/views/room/create.room.view.dart';
 import 'package:gambit/views/room/join.room.dart';
 import 'package:gambit/views/room/room.view.dart';
 import 'package:go_router/go_router.dart';
+import 'models/player/player.dart';
 import 'models/room/room.dart';
 import 'views/app.view.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -57,14 +59,14 @@ class MyApp extends StatelessWidget {
         path: '/home',
         pageBuilder: (context, state) => MaterialPage<void>(
           key: state.pageKey,
-          child: const HomeView(),
+          child: HomeView(),
         ),
         routes: [
           GoRoute(
             path: 'room',
             pageBuilder: (context, state) => MaterialPage<void>(
               key: state.pageKey,
-              child: const RoomView(),
+              child: RoomView(),
             ),
             routes: [
               GoRoute(
@@ -89,6 +91,13 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          GoRoute(
+            path: 'market',
+            pageBuilder: (context, state) => MaterialPage<void>(
+              key: state.pageKey,
+              child:  MarketPlaceView(),
+            ),
           ),
         ],
       ),

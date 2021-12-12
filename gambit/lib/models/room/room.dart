@@ -12,7 +12,7 @@ class Room with _$Room {
     @Default([]) final List<Player> players,
     @Default(false) final bool isStarted,
     final String? winnerPublicKey,
-    final int? totalStake,
+    final double? totalStake,
     final PlayerPawn? pawnClaimed,
   }) = _Room;
 

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.6.0 <0.9.0;
 
-import './Market.sol';
+import "./Market.sol";
 
-contract PawnWars is PawnWarsMarket{
+contract PawnWars is PawnWarsMarket {
     // Storing the commission as 5000 Wei
 
-    uint256 private commission = 5000;
+    uint256 private commission = 10;
 
     /// Game fund obtained form commision
     uint256 public fund = 0;
@@ -98,15 +98,16 @@ contract PawnWars is PawnWarsMarket{
 
     function Winner(uint256 ID, address player) external {
         string storage RoomID = RoomIDMap[ID];
-        uint plength = Game[RoomID].length;
-         address payable winner_address;
-        for(uint i = 0 ; i < plength; i++){
-            if( Game[RoomID][i] == player){
+        uint256 plength = Game[RoomID].length;
+        address payable winner_address;
+        for (uint256 i = 0; i < plength; i++) {
+            if (Game[RoomID][i] == player) {
                 winner_address = payable(Game[RoomID][i]);
             }
         }
-        uint256 totalBet = TotalBet(ID) - 2 * commission;
-        fund += 2 * commission;
+        uint256 amount = (TotalBet(ID) - commission);
+        uint256 totalBet = amount;
+        fund += commission;
         sendBetAmt(winner_address, totalBet);
         // emit GameWon(winner_address, totalBet, index);
     }

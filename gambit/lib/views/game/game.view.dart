@@ -3,11 +3,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gambit/models/enums/enums.dart';
 import 'package:gambit/models/player/player.dart';
 import 'package:gambit/models/room/room.dart';
+import 'package:gambit/views/auth/auth.vm.dart';
+import 'package:gambit/views/game/widgets/dialog.dart';
+import 'package:gambit/widgets/button.dart';
 import 'package:gambit/widgets/text.dart';
 import 'game.vm.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:squares/squares.dart';
-import 'package:bishop/bishop.dart' as bishop;
+import 'package:go_router/go_router.dart';
 
 class GameView extends HookConsumerWidget {
   final Room room;
@@ -25,6 +28,22 @@ class GameView extends HookConsumerWidget {
         ref.read(gamePlayProvider.notifier).init(room);
       });
     }, []);
+
+    // if (game is Finished) {
+    //   WinnerDialog.show(
+    //     context,
+    //     () async {
+    //       if (game.room!.winnerPublicKey == null) {
+    //         Navigator.of(context).pop();
+    //         context.go('/home');
+    //       }
+    //       await ref.read(gamePlayProvider.notifier).claimStake();
+    //       Navigator.of(context).pop();
+    //       context.go('/home');
+    //     },
+    //     game.room!.winnerPublicKey,
+    //   );
+    // }
 
     return SafeArea(
       child: Scaffold(
@@ -53,42 +72,119 @@ class GameView extends HookConsumerWidget {
                       ),
                     ],
                   ),
-                  play: (state) => Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const DisplayText(
-                        text: 'Total Stake 35 \$MATIC',
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      const SizedBox(height: 60),
-                      PlayerInfo(
-                        player: state.player,
-                      ),
-                      const SizedBox(height: 30),
-                      BoardController(
-                        state: state.gameState!.board,
-                        pieceSet: PieceSet.merida(),
-                        theme: BoardTheme.BROWN,
-                        size: BoardSize.standard(),
-                        onMove: (move) {
-                          ref.read(gamePlayProvider.notifier).makeMove(move);
-                        },
-                        onPremove: (move) {},
-                        moves: state.gameState!.moves,
-                        canMove: state.gameState!.canMove,
-                        draggable: true,
-                      ),
-                      const SizedBox(height: 30),
-                      PlayerInfo(
-                        player: state.room!.players.firstWhere(
-                          (player) => player != state.player,
+                  play: (state) {
+                    final total = state.room!.players[0].stake +
+                        state.room!.players[1].stake;
+
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        DisplayText(
+                          text: 'Total Stake $total \$MATIC',
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         ),
+                        const SizedBox(height: 60),
+                        PlayerInfo(
+                          player: state.player,
+                        ),
+                        const SizedBox(height: 30),
+                        BoardController(
+                          state: state.gameState!.board,
+                          pieceSet: PieceSet.merida(),
+                          theme: BoardTheme.BROWN,
+                          size: BoardSize.standard(),
+                          onMove: (move) {
+                            ref.read(gamePlayProvider.notifier).makeMove(move);
+                          },
+                          onPremove: (move) {},
+                          moves: state.gameState!.moves,
+                          canMove: state.gameState!.canMove,
+                          draggable: true,
+                        ),
+                        const SizedBox(height: 30),
+                        PlayerInfo(
+                          player: state.room!.players.firstWhere(
+                            (player) => player != state.player,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  finished: (state) => Container(
+                    color: Colors.purpleAccent,
+                    child: SizedBox(
+                      height: 500,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const DisplayText(
+                            text: 'Check Mate!',
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          const SizedBox(height: 40),
+                          if (state.room!.winnerPublicKey != null) ...[
+                            Image.asset(
+                              'assets/bishop.png',
+                              width: 120,
+                              height: 200,
+                            ),
+                            const SizedBox(height: 10),
+                            const DisplayText(
+                              text: 'You Won!',
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            const SizedBox(height: 20),
+                            Padding(
+                              padding: const EdgeInsets.all(25.0),
+                              child: ElevatedDisplayButton(
+                                text: 'Claim Stake',
+                                onPressed: () async {
+                                  await ref
+                                      .read(gamePlayProvider.notifier)
+                                      .claimStake();
+
+                                  ref.read(authProvider.notifier).getAccount();
+                                  context.go('/');
+                                },
+                              ),
+                            )
+                          ] else ...[
+                            Image.asset(
+                              'assets/pawn.png',
+                              width: 120,
+                              height: 200,
+                            ),
+                            const SizedBox(height: 10),
+                            const DisplayText(
+                              text: 'You Lost!',
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            const SizedBox(height: 20),
+                            Padding(
+                              padding: const EdgeInsets.all(25.0),
+                              child: ElevatedDisplayButton(
+                                text: 'Go Back home',
+                                onPressed: () {
+                                  ref.read(authProvider.notifier).getAccount();
+
+                                  context.go('/');
+                                },
+                              ),
+                            )
+                          ],
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                  finished: (state) => Text('${state.room!.winnerPublicKey}'),
                 ),
               ),
             ],

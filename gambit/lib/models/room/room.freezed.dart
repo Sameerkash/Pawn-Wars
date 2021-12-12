@@ -26,7 +26,7 @@ class _$RoomTearOff {
       List<Player> players = const [],
       bool isStarted = false,
       String? winnerPublicKey,
-      int? totalStake,
+      double? totalStake,
       PlayerPawn? pawnClaimed}) {
     return _Room(
       code: code,
@@ -52,7 +52,7 @@ mixin _$Room {
   List<Player> get players => throw _privateConstructorUsedError;
   bool get isStarted => throw _privateConstructorUsedError;
   String? get winnerPublicKey => throw _privateConstructorUsedError;
-  int? get totalStake => throw _privateConstructorUsedError;
+  double? get totalStake => throw _privateConstructorUsedError;
   PlayerPawn? get pawnClaimed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -69,7 +69,7 @@ abstract class $RoomCopyWith<$Res> {
       List<Player> players,
       bool isStarted,
       String? winnerPublicKey,
-      int? totalStake,
+      double? totalStake,
       PlayerPawn? pawnClaimed});
 }
 
@@ -110,7 +110,7 @@ class _$RoomCopyWithImpl<$Res> implements $RoomCopyWith<$Res> {
       totalStake: totalStake == freezed
           ? _value.totalStake
           : totalStake // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       pawnClaimed: pawnClaimed == freezed
           ? _value.pawnClaimed
           : pawnClaimed // ignore: cast_nullable_to_non_nullable
@@ -129,7 +129,7 @@ abstract class _$RoomCopyWith<$Res> implements $RoomCopyWith<$Res> {
       List<Player> players,
       bool isStarted,
       String? winnerPublicKey,
-      int? totalStake,
+      double? totalStake,
       PlayerPawn? pawnClaimed});
 }
 
@@ -171,7 +171,7 @@ class __$RoomCopyWithImpl<$Res> extends _$RoomCopyWithImpl<$Res>
       totalStake: totalStake == freezed
           ? _value.totalStake
           : totalStake // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       pawnClaimed: pawnClaimed == freezed
           ? _value.pawnClaimed
           : pawnClaimed // ignore: cast_nullable_to_non_nullable
@@ -204,7 +204,7 @@ class _$_Room implements _Room {
   @override
   final String? winnerPublicKey;
   @override
-  final int? totalStake;
+  final double? totalStake;
   @override
   final PlayerPawn? pawnClaimed;
 
@@ -257,7 +257,7 @@ abstract class _Room implements Room {
       List<Player> players,
       bool isStarted,
       String? winnerPublicKey,
-      int? totalStake,
+      double? totalStake,
       PlayerPawn? pawnClaimed}) = _$_Room;
 
   factory _Room.fromJson(Map<String, dynamic> json) = _$_Room.fromJson;
@@ -271,7 +271,7 @@ abstract class _Room implements Room {
   @override
   String? get winnerPublicKey;
   @override
-  int? get totalStake;
+  double? get totalStake;
   @override
   PlayerPawn? get pawnClaimed;
   @override

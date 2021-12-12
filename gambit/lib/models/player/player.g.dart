@@ -11,7 +11,7 @@ _$_Player _$$_PlayerFromJson(Map<String, dynamic> json) => _$_Player(
       nickName: json['nickName'] as String?,
       avatar: json['avatar'] as String?,
       pawn: $enumDecodeNullable(_$PlayerPawnEnumMap, json['pawn']),
-      stake: json['stake'] as int? ?? 0,
+      stake: (json['stake'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$$_PlayerToJson(_$_Player instance) => <String, dynamic>{
@@ -26,3 +26,16 @@ const _$PlayerPawnEnumMap = {
   PlayerPawn.white: 'WHITE',
   PlayerPawn.black: 'BLACK',
 };
+
+_$_PlayerCredentials _$$_PlayerCredentialsFromJson(Map<String, dynamic> json) =>
+    _$_PlayerCredentials(
+      publicKey: json['publicKey'] as String,
+      privateKey: json['privateKey'] as String,
+    );
+
+Map<String, dynamic> _$$_PlayerCredentialsToJson(
+        _$_PlayerCredentials instance) =>
+    <String, dynamic>{
+      'publicKey': instance.publicKey,
+      'privateKey': instance.privateKey,
+    };

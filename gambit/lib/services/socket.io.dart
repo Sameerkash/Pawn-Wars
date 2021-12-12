@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:gambit/models/player/player.dart';
 import 'package:gambit/models/room/room.dart';
 import 'package:gambit/utils/constants.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -8,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SocketIOService {
   final IO.Socket socket = IO.io(
-    'https://6e21-49-37-185-241.ngrok.io',
+    'https://lazy-moth-65.loca.lt',
     OptionBuilder()
         .setTransports(['websocket'])
         .disableAutoConnect() // for Flutter or Dart VM

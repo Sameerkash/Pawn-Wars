@@ -17,6 +17,7 @@ class Repository {
   final _store = sembast.stringMapStoreFactory.store('common_store');
 
   static const userAccount = 'USER_ACCOUNT';
+  static const userCredentials = 'CREDENTIALS';
 
   Future<sembast.Database> getDb() async {
     if (_db == null) {
@@ -39,12 +40,22 @@ class Repository {
     await _store.record(userAccount).put(await getDb(), player.toJson());
   }
 
+  Future<PlayerCredentials> getCredentials() async {
+    final res = await _store.record(userCredentials).get(await getDb());
+    return PlayerCredentials.fromJson(res!);
+  }
+
+  Future<void> setCredentials(PlayerCredentials credentials) async {
+    await _store.record(userCredentials).put(
+          await getDb(),
+          credentials.toJson(),
+        );
+  }
+
   Future<void> deleteAccount() async {
     await _store.record(userAccount).delete(await getDb());
   }
 }
-
-
 
 final repositoryProvider = Provider<Repository>((ref) {
   return Repository();

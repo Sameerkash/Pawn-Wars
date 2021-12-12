@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$JoinRoomStateTearOff {
   const _$JoinRoomStateTearOff();
 
-  _Initial inital({int stake = 0, String? code}) {
+  _Initial inital({double stake = 0.0, String? code}) {
     return _Initial(
       stake: stake,
       code: code,
@@ -50,7 +50,7 @@ const $JoinRoomState = _$JoinRoomStateTearOff();
 mixin _$JoinRoomState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int stake, String? code) inital,
+    required TResult Function(double stake, String? code) inital,
     required TResult Function(Room room) joined,
     required TResult Function(String error) error,
     required TResult Function(Room room) gameInitialized,
@@ -58,7 +58,7 @@ mixin _$JoinRoomState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(int stake, String? code)? inital,
+    TResult Function(double stake, String? code)? inital,
     TResult Function(Room room)? joined,
     TResult Function(String error)? error,
     TResult Function(Room room)? gameInitialized,
@@ -66,7 +66,7 @@ mixin _$JoinRoomState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int stake, String? code)? inital,
+    TResult Function(double stake, String? code)? inital,
     TResult Function(Room room)? joined,
     TResult Function(String error)? error,
     TResult Function(Room room)? gameInitialized,
@@ -121,7 +121,7 @@ class _$JoinRoomStateCopyWithImpl<$Res>
 abstract class _$InitialCopyWith<$Res> {
   factory _$InitialCopyWith(_Initial value, $Res Function(_Initial) then) =
       __$InitialCopyWithImpl<$Res>;
-  $Res call({int stake, String? code});
+  $Res call({double stake, String? code});
 }
 
 /// @nodoc
@@ -142,7 +142,7 @@ class __$InitialCopyWithImpl<$Res> extends _$JoinRoomStateCopyWithImpl<$Res>
       stake: stake == freezed
           ? _value.stake
           : stake // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       code: code == freezed
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -154,11 +154,11 @@ class __$InitialCopyWithImpl<$Res> extends _$JoinRoomStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Initial implements _Initial {
-  const _$_Initial({this.stake = 0, this.code});
+  const _$_Initial({this.stake = 0.0, this.code});
 
-  @JsonKey(defaultValue: 0)
+  @JsonKey(defaultValue: 0.0)
   @override
-  final int stake;
+  final double stake;
   @override
   final String? code;
 
@@ -187,7 +187,7 @@ class _$_Initial implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int stake, String? code) inital,
+    required TResult Function(double stake, String? code) inital,
     required TResult Function(Room room) joined,
     required TResult Function(String error) error,
     required TResult Function(Room room) gameInitialized,
@@ -198,7 +198,7 @@ class _$_Initial implements _Initial {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(int stake, String? code)? inital,
+    TResult Function(double stake, String? code)? inital,
     TResult Function(Room room)? joined,
     TResult Function(String error)? error,
     TResult Function(Room room)? gameInitialized,
@@ -209,7 +209,7 @@ class _$_Initial implements _Initial {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int stake, String? code)? inital,
+    TResult Function(double stake, String? code)? inital,
     TResult Function(Room room)? joined,
     TResult Function(String error)? error,
     TResult Function(Room room)? gameInitialized,
@@ -260,9 +260,9 @@ class _$_Initial implements _Initial {
 }
 
 abstract class _Initial implements JoinRoomState {
-  const factory _Initial({int stake, String? code}) = _$_Initial;
+  const factory _Initial({double stake, String? code}) = _$_Initial;
 
-  int get stake;
+  double get stake;
   String? get code;
   @JsonKey(ignore: true)
   _$InitialCopyWith<_Initial> get copyWith =>
@@ -339,7 +339,7 @@ class _$_Joined implements _Joined {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int stake, String? code) inital,
+    required TResult Function(double stake, String? code) inital,
     required TResult Function(Room room) joined,
     required TResult Function(String error) error,
     required TResult Function(Room room) gameInitialized,
@@ -350,7 +350,7 @@ class _$_Joined implements _Joined {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(int stake, String? code)? inital,
+    TResult Function(double stake, String? code)? inital,
     TResult Function(Room room)? joined,
     TResult Function(String error)? error,
     TResult Function(Room room)? gameInitialized,
@@ -361,7 +361,7 @@ class _$_Joined implements _Joined {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int stake, String? code)? inital,
+    TResult Function(double stake, String? code)? inital,
     TResult Function(Room room)? joined,
     TResult Function(String error)? error,
     TResult Function(Room room)? gameInitialized,
@@ -481,7 +481,7 @@ class _$_Error implements _Error {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int stake, String? code) inital,
+    required TResult Function(double stake, String? code) inital,
     required TResult Function(Room room) joined,
     required TResult Function(String error) error,
     required TResult Function(Room room) gameInitialized,
@@ -492,7 +492,7 @@ class _$_Error implements _Error {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(int stake, String? code)? inital,
+    TResult Function(double stake, String? code)? inital,
     TResult Function(Room room)? joined,
     TResult Function(String error)? error,
     TResult Function(Room room)? gameInitialized,
@@ -503,7 +503,7 @@ class _$_Error implements _Error {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int stake, String? code)? inital,
+    TResult Function(double stake, String? code)? inital,
     TResult Function(Room room)? joined,
     TResult Function(String error)? error,
     TResult Function(Room room)? gameInitialized,
@@ -634,7 +634,7 @@ class _$GameInitialzied implements GameInitialzied {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int stake, String? code) inital,
+    required TResult Function(double stake, String? code) inital,
     required TResult Function(Room room) joined,
     required TResult Function(String error) error,
     required TResult Function(Room room) gameInitialized,
@@ -645,7 +645,7 @@ class _$GameInitialzied implements GameInitialzied {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(int stake, String? code)? inital,
+    TResult Function(double stake, String? code)? inital,
     TResult Function(Room room)? joined,
     TResult Function(String error)? error,
     TResult Function(Room room)? gameInitialized,
@@ -656,7 +656,7 @@ class _$GameInitialzied implements GameInitialzied {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int stake, String? code)? inital,
+    TResult Function(double stake, String? code)? inital,
     TResult Function(Room room)? joined,
     TResult Function(String error)? error,
     TResult Function(Room room)? gameInitialized,

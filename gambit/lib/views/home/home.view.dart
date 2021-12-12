@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gambit/models/player/player.dart';
+import 'package:gambit/views/auth/auth.vm.dart';
 import 'package:gambit/widgets/text.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:horizontal_card_pager/card_item.dart';
 import 'package:horizontal_card_pager/horizontal_card_pager.dart';
 import 'package:go_router/go_router.dart';
+import 'package:web3dart/web3dart.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -60,36 +64,62 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: bgColors[index],
-      body: Stack(
-        children: [
-          if (index == 2) bg[1],
-          if (index == 3) bg[2],
-          if (index != 2 && index != 3) bg[0],
-          Padding(
-            padding: const EdgeInsets.only(bottom: 100.0),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: HorizontalCardPager(
-                onPageChanged: (page) {
-                  setState(() {
-                    index = page.toInt();
-                  });
-                },
-                onSelectedItem: (page) {
-                  setState(() {
-                    index = page;
-                  });
-                  context.push('/home/room');
-                },
-                items: items,
+    return Consumer(builder: (context, ref, child) {
+      final auth = ref.watch(authProvider);
+      final balance = auth.maybeWhen(
+          orElse: () => '', authenticated: (a) => a.balance) as EtherAmount;
+
+      return Scaffold(
+        backgroundColor: bgColors[index],
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child:
+                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    DisplayText(
+                        text: '\$MATIC ${balance.getInEther}',
+                        color: Colors.black),
+                    const SizedBox(width: 16),
+                    const CircleAvatar(),
+                  ]),
+                ),
               ),
-            ),
+              if (index == 2) bg[1],
+              if (index == 3) bg[2],
+              if (index != 2 && index != 3) bg[0],
+              Padding(
+                padding: const EdgeInsets.only(bottom: 100.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: HorizontalCardPager(
+                    onPageChanged: (page) {
+                      setState(() {
+                        index = page.toInt();
+                      });
+                    },
+                    onSelectedItem: (page) {
+                      setState(() {
+                        index = page;
+                      });
+                      if (page == 2) {
+                        context.go('/home/market');
+                      } else {
+                        context.go('/home/room');
+                      }
+                    },
+                    items: items,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 }
 

@@ -15,7 +15,7 @@ class AuthInfo extends HookConsumerWidget {
     final auth = ref.watch(authProvider);
 
     if (auth is Authenticated) {
-      context.go('/home');
+      context.go('/');
     }
 
     final pageController = usePageController();
@@ -71,6 +71,7 @@ class AuthInfo extends HookConsumerWidget {
                       ref.read(authProvider.notifier).setAccount(
                             pubKey: pubkey.text,
                             nickName: nickName.text,
+                            privateKey: privateKey.text,
                           );
                     },
                     text: 'Next',

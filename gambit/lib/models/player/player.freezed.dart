@@ -26,13 +26,15 @@ class _$PlayerTearOff {
       String? nickName,
       String? avatar,
       PlayerPawn? pawn,
-      int stake = 0}) {
+      double stake = 0,
+      @JsonKey(ignore: true) EtherAmount? balance}) {
     return _Player(
       publicKey: publicKey,
       nickName: nickName,
       avatar: avatar,
       pawn: pawn,
       stake: stake,
+      balance: balance,
     );
   }
 
@@ -50,7 +52,9 @@ mixin _$Player {
   String? get nickName => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
   PlayerPawn? get pawn => throw _privateConstructorUsedError;
-  int get stake => throw _privateConstructorUsedError;
+  double get stake => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  EtherAmount? get balance => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -66,7 +70,8 @@ abstract class $PlayerCopyWith<$Res> {
       String? nickName,
       String? avatar,
       PlayerPawn? pawn,
-      int stake});
+      double stake,
+      @JsonKey(ignore: true) EtherAmount? balance});
 }
 
 /// @nodoc
@@ -84,6 +89,7 @@ class _$PlayerCopyWithImpl<$Res> implements $PlayerCopyWith<$Res> {
     Object? avatar = freezed,
     Object? pawn = freezed,
     Object? stake = freezed,
+    Object? balance = freezed,
   }) {
     return _then(_value.copyWith(
       publicKey: publicKey == freezed
@@ -105,7 +111,11 @@ class _$PlayerCopyWithImpl<$Res> implements $PlayerCopyWith<$Res> {
       stake: stake == freezed
           ? _value.stake
           : stake // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
+      balance: balance == freezed
+          ? _value.balance
+          : balance // ignore: cast_nullable_to_non_nullable
+              as EtherAmount?,
     ));
   }
 }
@@ -120,7 +130,8 @@ abstract class _$PlayerCopyWith<$Res> implements $PlayerCopyWith<$Res> {
       String? nickName,
       String? avatar,
       PlayerPawn? pawn,
-      int stake});
+      double stake,
+      @JsonKey(ignore: true) EtherAmount? balance});
 }
 
 /// @nodoc
@@ -139,6 +150,7 @@ class __$PlayerCopyWithImpl<$Res> extends _$PlayerCopyWithImpl<$Res>
     Object? avatar = freezed,
     Object? pawn = freezed,
     Object? stake = freezed,
+    Object? balance = freezed,
   }) {
     return _then(_Player(
       publicKey: publicKey == freezed
@@ -160,7 +172,11 @@ class __$PlayerCopyWithImpl<$Res> extends _$PlayerCopyWithImpl<$Res>
       stake: stake == freezed
           ? _value.stake
           : stake // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
+      balance: balance == freezed
+          ? _value.balance
+          : balance // ignore: cast_nullable_to_non_nullable
+              as EtherAmount?,
     ));
   }
 }
@@ -173,7 +189,8 @@ class _$_Player implements _Player {
       this.nickName,
       this.avatar,
       this.pawn,
-      this.stake = 0});
+      this.stake = 0,
+      @JsonKey(ignore: true) this.balance});
 
   factory _$_Player.fromJson(Map<String, dynamic> json) =>
       _$$_PlayerFromJson(json);
@@ -188,11 +205,14 @@ class _$_Player implements _Player {
   final PlayerPawn? pawn;
   @JsonKey(defaultValue: 0)
   @override
-  final int stake;
+  final double stake;
+  @override
+  @JsonKey(ignore: true)
+  final EtherAmount? balance;
 
   @override
   String toString() {
-    return 'Player(publicKey: $publicKey, nickName: $nickName, avatar: $avatar, pawn: $pawn, stake: $stake)';
+    return 'Player(publicKey: $publicKey, nickName: $nickName, avatar: $avatar, pawn: $pawn, stake: $stake, balance: $balance)';
   }
 
   @override
@@ -206,12 +226,13 @@ class _$_Player implements _Player {
                 other.nickName == nickName) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.pawn, pawn) || other.pawn == pawn) &&
-            (identical(other.stake, stake) || other.stake == stake));
+            (identical(other.stake, stake) || other.stake == stake) &&
+            (identical(other.balance, balance) || other.balance == balance));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, publicKey, nickName, avatar, pawn, stake);
+  int get hashCode => Object.hash(
+      runtimeType, publicKey, nickName, avatar, pawn, stake, balance);
 
   @JsonKey(ignore: true)
   @override
@@ -230,7 +251,8 @@ abstract class _Player implements Player {
       String? nickName,
       String? avatar,
       PlayerPawn? pawn,
-      int stake}) = _$_Player;
+      double stake,
+      @JsonKey(ignore: true) EtherAmount? balance}) = _$_Player;
 
   factory _Player.fromJson(Map<String, dynamic> json) = _$_Player.fromJson;
 
@@ -243,8 +265,182 @@ abstract class _Player implements Player {
   @override
   PlayerPawn? get pawn;
   @override
-  int get stake;
+  double get stake;
+  @override
+  @JsonKey(ignore: true)
+  EtherAmount? get balance;
   @override
   @JsonKey(ignore: true)
   _$PlayerCopyWith<_Player> get copyWith => throw _privateConstructorUsedError;
+}
+
+PlayerCredentials _$PlayerCredentialsFromJson(Map<String, dynamic> json) {
+  return _PlayerCredentials.fromJson(json);
+}
+
+/// @nodoc
+class _$PlayerCredentialsTearOff {
+  const _$PlayerCredentialsTearOff();
+
+  _PlayerCredentials call(
+      {required String publicKey, required String privateKey}) {
+    return _PlayerCredentials(
+      publicKey: publicKey,
+      privateKey: privateKey,
+    );
+  }
+
+  PlayerCredentials fromJson(Map<String, Object?> json) {
+    return PlayerCredentials.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $PlayerCredentials = _$PlayerCredentialsTearOff();
+
+/// @nodoc
+mixin _$PlayerCredentials {
+  String get publicKey => throw _privateConstructorUsedError;
+  String get privateKey => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PlayerCredentialsCopyWith<PlayerCredentials> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PlayerCredentialsCopyWith<$Res> {
+  factory $PlayerCredentialsCopyWith(
+          PlayerCredentials value, $Res Function(PlayerCredentials) then) =
+      _$PlayerCredentialsCopyWithImpl<$Res>;
+  $Res call({String publicKey, String privateKey});
+}
+
+/// @nodoc
+class _$PlayerCredentialsCopyWithImpl<$Res>
+    implements $PlayerCredentialsCopyWith<$Res> {
+  _$PlayerCredentialsCopyWithImpl(this._value, this._then);
+
+  final PlayerCredentials _value;
+  // ignore: unused_field
+  final $Res Function(PlayerCredentials) _then;
+
+  @override
+  $Res call({
+    Object? publicKey = freezed,
+    Object? privateKey = freezed,
+  }) {
+    return _then(_value.copyWith(
+      publicKey: publicKey == freezed
+          ? _value.publicKey
+          : publicKey // ignore: cast_nullable_to_non_nullable
+              as String,
+      privateKey: privateKey == freezed
+          ? _value.privateKey
+          : privateKey // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$PlayerCredentialsCopyWith<$Res>
+    implements $PlayerCredentialsCopyWith<$Res> {
+  factory _$PlayerCredentialsCopyWith(
+          _PlayerCredentials value, $Res Function(_PlayerCredentials) then) =
+      __$PlayerCredentialsCopyWithImpl<$Res>;
+  @override
+  $Res call({String publicKey, String privateKey});
+}
+
+/// @nodoc
+class __$PlayerCredentialsCopyWithImpl<$Res>
+    extends _$PlayerCredentialsCopyWithImpl<$Res>
+    implements _$PlayerCredentialsCopyWith<$Res> {
+  __$PlayerCredentialsCopyWithImpl(
+      _PlayerCredentials _value, $Res Function(_PlayerCredentials) _then)
+      : super(_value, (v) => _then(v as _PlayerCredentials));
+
+  @override
+  _PlayerCredentials get _value => super._value as _PlayerCredentials;
+
+  @override
+  $Res call({
+    Object? publicKey = freezed,
+    Object? privateKey = freezed,
+  }) {
+    return _then(_PlayerCredentials(
+      publicKey: publicKey == freezed
+          ? _value.publicKey
+          : publicKey // ignore: cast_nullable_to_non_nullable
+              as String,
+      privateKey: privateKey == freezed
+          ? _value.privateKey
+          : privateKey // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_PlayerCredentials implements _PlayerCredentials {
+  const _$_PlayerCredentials(
+      {required this.publicKey, required this.privateKey});
+
+  factory _$_PlayerCredentials.fromJson(Map<String, dynamic> json) =>
+      _$$_PlayerCredentialsFromJson(json);
+
+  @override
+  final String publicKey;
+  @override
+  final String privateKey;
+
+  @override
+  String toString() {
+    return 'PlayerCredentials(publicKey: $publicKey, privateKey: $privateKey)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _PlayerCredentials &&
+            (identical(other.publicKey, publicKey) ||
+                other.publicKey == publicKey) &&
+            (identical(other.privateKey, privateKey) ||
+                other.privateKey == privateKey));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, publicKey, privateKey);
+
+  @JsonKey(ignore: true)
+  @override
+  _$PlayerCredentialsCopyWith<_PlayerCredentials> get copyWith =>
+      __$PlayerCredentialsCopyWithImpl<_PlayerCredentials>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PlayerCredentialsToJson(this);
+  }
+}
+
+abstract class _PlayerCredentials implements PlayerCredentials {
+  const factory _PlayerCredentials(
+      {required String publicKey,
+      required String privateKey}) = _$_PlayerCredentials;
+
+  factory _PlayerCredentials.fromJson(Map<String, dynamic> json) =
+      _$_PlayerCredentials.fromJson;
+
+  @override
+  String get publicKey;
+  @override
+  String get privateKey;
+  @override
+  @JsonKey(ignore: true)
+  _$PlayerCredentialsCopyWith<_PlayerCredentials> get copyWith =>
+      throw _privateConstructorUsedError;
 }

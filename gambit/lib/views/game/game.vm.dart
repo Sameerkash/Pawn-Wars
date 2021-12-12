@@ -9,6 +9,7 @@ import 'package:gambit/models/player/player.dart';
 import 'package:gambit/models/room/room.dart';
 import 'package:gambit/services/repository.dart';
 import 'package:gambit/services/socket.io.dart';
+import 'package:gambit/services/web3.dart';
 import 'package:gambit/utils/constants.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:squares/squares.dart';
@@ -86,7 +87,7 @@ class GamePlayState with _$GamePlayState {
     required final Player player,
   }) = _Play;
   const factory GamePlayState.finished(GameState? gameState, final Room? room) =
-      _Finished;
+      Finished;
 }
 
 class GameVM extends StateNotifier<GamePlayState> {
@@ -97,10 +98,12 @@ class GameVM extends StateNotifier<GamePlayState> {
 
   final SocketIOService socketService;
   final Repository repo;
+  final Web3Service web3;
 
   GameVM(Reader read)
       : socketService = read(socketProvider),
         repo = read(repositoryProvider),
+        web3 = read(web3Provider),
         super(const GamePlayState.loading()) {
     socketService.gameMovesResponse.listen((event) {
       final currentState = state;
@@ -158,6 +161,7 @@ class GameVM extends StateNotifier<GamePlayState> {
         room: currentRoom,
         player: currentPlayer,
       );
+
     }
   }
 
@@ -249,7 +253,7 @@ class GameVM extends StateNotifier<GamePlayState> {
               currentRoom.copyWith(winnerPublicKey: currentPlayer.publicKey);
           state = GamePlayState.finished(gameState, currentRoom);
         } else if (game.turn == getPawnColor(currentPlayer.pawn!)) {
-          currentRoom = currentRoom.copyWith(winnerPublicKey: 'Loser');
+          currentRoom = currentRoom.copyWith(winnerPublicKey: null);
 
           state = GamePlayState.finished(gameState, currentRoom);
         }
@@ -263,6 +267,14 @@ class GameVM extends StateNotifier<GamePlayState> {
       }
       print('emitState:  $playState');
     }
+  }
+
+  Future<void> claimStake() async {
+    final roomId = await web3.getRoomID(roomCode: currentRoom.code);
+    final res = await web3.claimWinner(
+        roomId: roomId, playerPublicKey: currentPlayer.publicKey);
+
+    print('claimStake: $res');
   }
 
   Move moveFromAlgebraic(String alg, BoardSize size) {

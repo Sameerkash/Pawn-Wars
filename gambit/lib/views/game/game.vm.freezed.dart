@@ -41,8 +41,8 @@ class _$GamePlayStateTearOff {
     );
   }
 
-  _Finished finished(GameState? gameState, Room? room) {
-    return _Finished(
+  Finished finished(GameState? gameState, Room? room) {
+    return Finished(
       gameState,
       room,
     );
@@ -90,7 +90,7 @@ mixin _$GamePlayState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Initial value) initial,
     required TResult Function(_Play value) play,
-    required TResult Function(_Finished value) finished,
+    required TResult Function(Finished value) finished,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -98,7 +98,7 @@ mixin _$GamePlayState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Initial value)? initial,
     TResult Function(_Play value)? play,
-    TResult Function(_Finished value)? finished,
+    TResult Function(Finished value)? finished,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -106,7 +106,7 @@ mixin _$GamePlayState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Initial value)? initial,
     TResult Function(_Play value)? play,
-    TResult Function(_Finished value)? finished,
+    TResult Function(Finished value)? finished,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -219,7 +219,7 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Initial value) initial,
     required TResult Function(_Play value) play,
-    required TResult Function(_Finished value) finished,
+    required TResult Function(Finished value) finished,
   }) {
     return loading(this);
   }
@@ -230,7 +230,7 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_Initial value)? initial,
     TResult Function(_Play value)? play,
-    TResult Function(_Finished value)? finished,
+    TResult Function(Finished value)? finished,
   }) {
     return loading?.call(this);
   }
@@ -241,7 +241,7 @@ class _$_Loading with DiagnosticableTreeMixin implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_Initial value)? initial,
     TResult Function(_Play value)? play,
-    TResult Function(_Finished value)? finished,
+    TResult Function(Finished value)? finished,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -393,7 +393,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Initial value) initial,
     required TResult Function(_Play value) play,
-    required TResult Function(_Finished value) finished,
+    required TResult Function(Finished value) finished,
   }) {
     return initial(this);
   }
@@ -404,7 +404,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     TResult Function(_Loading value)? loading,
     TResult Function(_Initial value)? initial,
     TResult Function(_Play value)? play,
-    TResult Function(_Finished value)? finished,
+    TResult Function(Finished value)? finished,
   }) {
     return initial?.call(this);
   }
@@ -415,7 +415,7 @@ class _$_Initial with DiagnosticableTreeMixin implements _Initial {
     TResult Function(_Loading value)? loading,
     TResult Function(_Initial value)? initial,
     TResult Function(_Play value)? play,
-    TResult Function(_Finished value)? finished,
+    TResult Function(Finished value)? finished,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -605,7 +605,7 @@ class _$_Play with DiagnosticableTreeMixin implements _Play {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Initial value) initial,
     required TResult Function(_Play value) play,
-    required TResult Function(_Finished value) finished,
+    required TResult Function(Finished value) finished,
   }) {
     return play(this);
   }
@@ -616,7 +616,7 @@ class _$_Play with DiagnosticableTreeMixin implements _Play {
     TResult Function(_Loading value)? loading,
     TResult Function(_Initial value)? initial,
     TResult Function(_Play value)? play,
-    TResult Function(_Finished value)? finished,
+    TResult Function(Finished value)? finished,
   }) {
     return play?.call(this);
   }
@@ -627,7 +627,7 @@ class _$_Play with DiagnosticableTreeMixin implements _Play {
     TResult Function(_Loading value)? loading,
     TResult Function(_Initial value)? initial,
     TResult Function(_Play value)? play,
-    TResult Function(_Finished value)? finished,
+    TResult Function(Finished value)? finished,
     required TResult orElse(),
   }) {
     if (play != null) {
@@ -653,29 +653,29 @@ abstract class _Play implements GamePlayState {
 }
 
 /// @nodoc
-abstract class _$FinishedCopyWith<$Res> {
-  factory _$FinishedCopyWith(_Finished value, $Res Function(_Finished) then) =
-      __$FinishedCopyWithImpl<$Res>;
+abstract class $FinishedCopyWith<$Res> {
+  factory $FinishedCopyWith(Finished value, $Res Function(Finished) then) =
+      _$FinishedCopyWithImpl<$Res>;
   $Res call({GameState? gameState, Room? room});
 
   $RoomCopyWith<$Res>? get room;
 }
 
 /// @nodoc
-class __$FinishedCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
-    implements _$FinishedCopyWith<$Res> {
-  __$FinishedCopyWithImpl(_Finished _value, $Res Function(_Finished) _then)
-      : super(_value, (v) => _then(v as _Finished));
+class _$FinishedCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
+    implements $FinishedCopyWith<$Res> {
+  _$FinishedCopyWithImpl(Finished _value, $Res Function(Finished) _then)
+      : super(_value, (v) => _then(v as Finished));
 
   @override
-  _Finished get _value => super._value as _Finished;
+  Finished get _value => super._value as Finished;
 
   @override
   $Res call({
     Object? gameState = freezed,
     Object? room = freezed,
   }) {
-    return _then(_Finished(
+    return _then(Finished(
       gameState == freezed
           ? _value.gameState
           : gameState // ignore: cast_nullable_to_non_nullable
@@ -701,8 +701,8 @@ class __$FinishedCopyWithImpl<$Res> extends _$GamePlayStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Finished with DiagnosticableTreeMixin implements _Finished {
-  const _$_Finished(this.gameState, this.room);
+class _$Finished with DiagnosticableTreeMixin implements Finished {
+  const _$Finished(this.gameState, this.room);
 
   @override
   final GameState? gameState;
@@ -727,7 +727,7 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Finished &&
+            other is Finished &&
             (identical(other.gameState, gameState) ||
                 other.gameState == gameState) &&
             (identical(other.room, room) || other.room == room));
@@ -738,8 +738,8 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
 
   @JsonKey(ignore: true)
   @override
-  _$FinishedCopyWith<_Finished> get copyWith =>
-      __$FinishedCopyWithImpl<_Finished>(this, _$identity);
+  $FinishedCopyWith<Finished> get copyWith =>
+      _$FinishedCopyWithImpl<Finished>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -790,7 +790,7 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Initial value) initial,
     required TResult Function(_Play value) play,
-    required TResult Function(_Finished value) finished,
+    required TResult Function(Finished value) finished,
   }) {
     return finished(this);
   }
@@ -801,7 +801,7 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
     TResult Function(_Loading value)? loading,
     TResult Function(_Initial value)? initial,
     TResult Function(_Play value)? play,
-    TResult Function(_Finished value)? finished,
+    TResult Function(Finished value)? finished,
   }) {
     return finished?.call(this);
   }
@@ -812,7 +812,7 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
     TResult Function(_Loading value)? loading,
     TResult Function(_Initial value)? initial,
     TResult Function(_Play value)? play,
-    TResult Function(_Finished value)? finished,
+    TResult Function(Finished value)? finished,
     required TResult orElse(),
   }) {
     if (finished != null) {
@@ -822,12 +822,12 @@ class _$_Finished with DiagnosticableTreeMixin implements _Finished {
   }
 }
 
-abstract class _Finished implements GamePlayState {
-  const factory _Finished(GameState? gameState, Room? room) = _$_Finished;
+abstract class Finished implements GamePlayState {
+  const factory Finished(GameState? gameState, Room? room) = _$Finished;
 
   GameState? get gameState;
   Room? get room;
   @JsonKey(ignore: true)
-  _$FinishedCopyWith<_Finished> get copyWith =>
+  $FinishedCopyWith<Finished> get copyWith =>
       throw _privateConstructorUsedError;
 }
