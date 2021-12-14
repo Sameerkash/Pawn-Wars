@@ -6,3 +6,12 @@ enum PlayerPawn {
   @JsonValue('BLACK')
   black,
 }
+
+enum NftSkin {
+  @JsonValue('BLUE')
+  blue,
+  @JsonValue('PINK')
+  pink,
+}
+
+enum NftTypeEnum { skin, background, art }

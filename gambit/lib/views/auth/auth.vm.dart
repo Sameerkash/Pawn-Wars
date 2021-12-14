@@ -61,7 +61,12 @@ class AuthVM extends StateNotifier<AuthState> {
     await repo.setCredentials(credentials);
     await repo.setUserAccountLocal(player);
     getAccount();
-    print('$pubKey , $nickName , $privateKey');
+    print('$pubKey, $nickName, $privateKey');
+  }
+
+  Future<void> deleteAccount() async {
+    await repo.deleteAccount();
+    getAccount();
   }
 }
 

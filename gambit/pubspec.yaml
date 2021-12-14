@@ -52,6 +52,7 @@ dependencies:
   path_provider: ^2.0.8
   google_fonts: ^2.1.0
   http: ^0.13.4
+  image_picker: ^0.8.4+4
 
 
 dev_dependencies:

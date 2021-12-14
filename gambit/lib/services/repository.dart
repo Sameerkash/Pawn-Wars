@@ -54,6 +54,8 @@ class Repository {
 
   Future<void> deleteAccount() async {
     await _store.record(userAccount).delete(await getDb());
+    await _store.record(userCredentials).delete(await getDb());
+
   }
 }
 

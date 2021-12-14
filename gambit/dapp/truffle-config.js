@@ -18,11 +18,11 @@
  *
  */
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
-// const infuraKey = "fj4jll3k.....";
-// //
-// const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+
+//
+const fs = require('fs');
+const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 module.exports = {
   /**
@@ -48,8 +48,8 @@ module.exports = {
      network_id: "*",       // Any network (default: none)
     },
     // matic: {
-    //   provider: () => new HDWalletProvider(process.env.MNEMONIC, 
-    //   `https://rpc-mumbai.matic.today`),
+    //   provider: () => new HDWalletProvider(mnemonic,
+    //   `https://matic-mumbai.chainstacklabs.com`),
     //   network_id: 80001,
     //   confirmations: 2,
     //   timeoutBlocks: 200,

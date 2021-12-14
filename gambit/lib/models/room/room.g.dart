@@ -21,7 +21,7 @@ _$_Room _$$_RoomFromJson(Map<String, dynamic> json) => _$_Room(
 
 Map<String, dynamic> _$$_RoomToJson(_$_Room instance) => <String, dynamic>{
       'code': instance.code,
-      'players': instance.players,
+      'players': instance.players.map((e) => e.toJson()).toList(),
       'isStarted': instance.isStarted,
       'winnerPublicKey': instance.winnerPublicKey,
       'totalStake': instance.totalStake,

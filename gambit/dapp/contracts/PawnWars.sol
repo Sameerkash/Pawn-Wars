@@ -6,7 +6,7 @@ import "./Market.sol";
 contract PawnWars is PawnWarsMarket {
     // Storing the commission as 5000 Wei
 
-    uint256 private commission = 10;
+    uint256 private commission = 10 wei;
 
     /// Game fund obtained form commision
     uint256 public fund = 0;

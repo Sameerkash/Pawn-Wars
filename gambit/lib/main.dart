@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gambit/views/account/account.view.dart';
 import 'package:gambit/views/auth/auth.info.view.dart';
 import 'package:gambit/views/auth/auth.view.dart';
 import 'package:gambit/views/game/game.view.dart';
@@ -93,10 +94,25 @@ class MyApp extends StatelessWidget {
             ],
           ),
           GoRoute(
-            path: 'market',
+              path: 'market',
+              pageBuilder: (context, state) => MaterialPage<void>(
+                    key: state.pageKey,
+                    child: MarketPlaceView(),
+                  ),
+              routes: [
+                GoRoute(
+                  path: 'mint',
+                  pageBuilder: (context, state) => MaterialPage<void>(
+                    key: state.pageKey,
+                    child: const MintNFT(),
+                  ),
+                ),
+              ]),
+          GoRoute(
+            path: 'account',
             pageBuilder: (context, state) => MaterialPage<void>(
               key: state.pageKey,
-              child:  MarketPlaceView(),
+              child: const AccountView(),
             ),
           ),
         ],

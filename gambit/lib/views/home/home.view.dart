@@ -81,8 +81,11 @@ class _HomeViewState extends State<HomeView> {
                   child:
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                     DisplayText(
-                        text: '\$MATIC ${balance.getInEther}',
-                        color: Colors.black),
+                      text:
+                          '\$MATIC ${balance.getInEther}.${balance.getInWei.toString().substring(1, 3)}',
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
                     const SizedBox(width: 16),
                     const CircleAvatar(),
                   ]),
@@ -107,6 +110,8 @@ class _HomeViewState extends State<HomeView> {
                       });
                       if (page == 2) {
                         context.go('/home/market');
+                      } else if (page == 3) {
+                        context.go('/home/account');
                       } else {
                         context.go('/home/room');
                       }

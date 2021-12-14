@@ -4,6 +4,10 @@ A chess Dapp built on Polygon, Stake tokens and win $GAMBIT , BUY NFT powerups a
 
 ### Become the $GAMBIT master in Pawn Wars!!
 
+
+![Built at BUIDL IT](./images/BUIDL IT.png)
+
+
 ## Problem it Solves
 
 - There are no incentives while playing a real-time game which makes it a show-stopper. 
