@@ -53,6 +53,8 @@ dependencies:
   google_fonts: ^2.1.0
   http: ^0.13.4
   image_picker: ^0.8.4+4
+  cached_network_image: ^3.2.0
+  flutter_spinkit: ^5.1.0
 
 
 dev_dependencies:

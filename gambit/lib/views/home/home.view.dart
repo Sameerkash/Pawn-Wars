@@ -105,9 +105,9 @@ class _HomeViewState extends State<HomeView> {
                       });
                     },
                     onSelectedItem: (page) {
-                      setState(() {
-                        index = page;
-                      });
+                      // setState(() {
+                      index = page;
+                      // });
                       if (page == 2) {
                         context.go('/home/market');
                       } else if (page == 3) {

@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gambit/models/marketplace/marketplace.dart';
 import 'package:gambit/views/account/account.view.dart';
 import 'package:gambit/views/auth/auth.info.view.dart';
 import 'package:gambit/views/auth/auth.view.dart';
 import 'package:gambit/views/game/game.view.dart';
 import 'package:gambit/views/home/home.view.dart';
 import 'package:gambit/views/markeplace/markeplace.view.dart';
+import 'package:gambit/views/markeplace/mint.view.dart';
+import 'package:gambit/views/markeplace/sell.view.dart';
 import 'package:gambit/views/room/create.room.view.dart';
 import 'package:gambit/views/room/join.room.dart';
 import 'package:gambit/views/room/room.view.dart';
@@ -94,20 +97,37 @@ class MyApp extends StatelessWidget {
             ],
           ),
           GoRoute(
-              path: 'market',
-              pageBuilder: (context, state) => MaterialPage<void>(
-                    key: state.pageKey,
-                    child: MarketPlaceView(),
-                  ),
-              routes: [
-                GoRoute(
-                  path: 'mint',
-                  pageBuilder: (context, state) => MaterialPage<void>(
-                    key: state.pageKey,
-                    child: const MintNFT(),
+            path: 'market',
+            pageBuilder: (context, state) => MaterialPage<void>(
+              key: state.pageKey,
+              child: MarketPlaceView(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'nft-view',
+                pageBuilder: (context, state) => MaterialPage<void>(
+                  key: state.pageKey,
+                  child: NftDetailView(
+                    item: state.extra! as MarkeplaceItem,
                   ),
                 ),
-              ]),
+              ),
+              GoRoute(
+                path: 'mint',
+                pageBuilder: (context, state) => MaterialPage<void>(
+                  key: state.pageKey,
+                  child: const MintNFT(),
+                ),
+              ),
+              GoRoute(
+                path: 'sell',
+                pageBuilder: (context, state) => MaterialPage<void>(
+                  key: state.pageKey,
+                  child: const MyNfts(),
+                ),
+              ),
+            ],
+          ),
           GoRoute(
             path: 'account',
             pageBuilder: (context, state) => MaterialPage<void>(

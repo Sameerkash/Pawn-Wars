@@ -21,26 +21,49 @@ class MarketPlaceStateVM extends StateNotifier<MarketplaceState> {
   Web3Service web3;
 
   double? itemPrice;
+  BigInt? tokenId;
 
   MarketPlaceStateVM(Reader read)
       : web3 = read(web3Provider),
         super(const MarketplaceState.loading()) {
+    getMarketItems();
+
     web3.nft.transferEvents().listen((event) {
-      print(event.tokenId);
-      print(itemPrice);
-
       if (itemPrice != null) {
-        createMarketItem(tokenId: event.tokenId, price: itemPrice!);
+        tokenId = event.tokenId;
       }
-
-      getMarketItems();
     });
   }
 
-  Future<void> getMarketItems() async {
-    final items = await web3.getMarketItems();
+  BigInt? getTokenId() {
+    return tokenId;
+  }
 
-    state = MarketplaceState.data(items: []);
+  Future<void> getMarketItems() async {
+    List<MarkeplaceItem> marketItems = [];
+
+    final nftContractItems = await web3.getMarketItems();
+
+    for (var element in nftContractItems) {
+      final metaUri = await web3.getTokenUri(element.tokenId);
+      final metaData = await web3.getTokenMetadata(tokenURI: metaUri);
+
+      final item = MarkeplaceItem(
+        itemId: element.itemId,
+        tokenId: element.tokenId,
+        sold: element.sold,
+        seller: element.seller,
+        nftData: metaData!,
+        price: element.price,
+        owner: element.owner,
+      );
+      marketItems.add(item);
+    }
+
+    state = MarketplaceState.data(
+      items: marketItems,
+    );
+    print('marketItems: $marketItems ');
   }
 
   Future<void> createNft({
@@ -51,11 +74,10 @@ class MarketPlaceStateVM extends StateNotifier<MarketplaceState> {
     NftSkin? skinColor,
     String? backgroundColor,
   }) async {
-    /// Create NFtCollectible
     late NftCollectible nftCollectible;
 
     final nftImage = await web3.addImageToNftStorage(file: file);
-    print(nftImage);
+    print('addDataToNftStorage $nftImage');
 
     if (skinColor != null) {
       nftCollectible = NftCollectible(
@@ -88,13 +110,20 @@ class MarketPlaceStateVM extends StateNotifier<MarketplaceState> {
     final nftData =
         await web3.addDataToNftStorage(nftCollectible: nftCollectible);
     final nftToken = await web3.createToken(tokenURI: nftData!);
-
+    print('addDataToNftStorage $nftData, createToken $nftToken');
   }
 
   Future<void> createMarketItem(
       {required BigInt tokenId, required double price}) async {
     final marketItem = await web3.createMarketItem(
         tokenId: tokenId, price: BigInt.from(price));
+    print('createMarketItem $marketItem');
+  }
+
+  Future<void> buyNft({required BigInt itemId, required BigInt price}) async {
+    final nftTx = await web3.buyNft(itemId: itemId, price: price);
+    print('buyNft $nftTx');
+    getMarketItems();
   }
 }
 

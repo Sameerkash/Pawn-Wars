@@ -1,34 +1,15 @@
-import 'dart:io';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gambit/models/enums/enums.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gambit/models/marketplace/marketplace.dart';
 import 'package:gambit/views/markeplace/markeplace.vm.dart';
 import 'package:gambit/widgets/button.dart';
 import 'package:gambit/widgets/text.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 
 class MarketPlaceView extends HookConsumerWidget {
-  MarketPlaceView({Key? key}) : super(key: key);
-
-  final List<String> images = [
-    'assets/pink_board.png',
-    'assets/blue.png',
-    'assets/game_bg.jpeg',
-    'assets/chess_art.jpeg',
-    'assets/chess_art_2.jpeg',
-  ];
-
-  final List<String> title = [
-    'Pink Skin',
-    'Blue Skin',
-    'Game Background',
-    'Artsy',
-    'Impertial',
-  ];
+  const MarketPlaceView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,57 +23,199 @@ class MarketPlaceView extends HookConsumerWidget {
           fontSize: 18,
         ),
         backgroundColor: Colors.purple,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              context.go('/home/market/mint');
-            },
-          ),
-        ],
       ),
       body: Stack(
         children: [
-          GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2),
-            itemBuilder: (contxt, index) {
-              return Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      marketplace.maybeMap(
-                        orElse: () => const SizedBox(),
-                      ),
-                      Expanded(
-                        child: Image.asset(
-                          images[index],
-                          fit: BoxFit.cover,
+          marketplace.map(
+              error: (error) => Container(),
+              loading: (_) => const SpinKitChasingDots(
+                    color: Colors.purple,
+                    size: 70.0,
+                  ),
+              data: (data) {
+                if (data.items.isEmpty) {
+                  return const Center(
+                    child: DisplayText(text: 'Oops! no items found'),
+                  );
+                }
+                return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  itemBuilder: (contxt, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        context.go(
+                          '/home/market/nft-view',
+                          extra: data.items[index],
+                        );
+                      },
+                      child: Hero(
+                        tag: data.items[index].itemId,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.fitHeight,
+                                    placeholder: (_, __) => SpinKitFadingCircle(
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                      return DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          color: index.isEven
+                                              ? Colors.purple[300]
+                                              : Colors.white,
+                                        ),
+                                      );
+                                    }),
+                                    imageUrl:
+                                        data.items[index].nftData.imageUrl,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                DisplayText(
+                                  text: data.items[index].nftData.title,
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      DisplayText(
-                        text: title[index],
-                        color: Colors.black,
-                      )
-                    ],
+                    );
+                  },
+                  itemCount: data.items.length,
+                );
+              }),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 3,
+                    child: ElevatedDisplayButton(
+                      text: 'MINT',
+                      onPressed: () {
+                        context.go('/home/market/mint');
+                      },
+                    ),
                   ),
-                ),
-              );
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 3,
+                    child: ElevatedDisplayButton(
+                      text: 'SELL',
+                      onPressed: () {
+                        context.go('/home/market/sell');
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class NftDetailView extends HookConsumerWidget {
+  final MarkeplaceItem item;
+  const NftDetailView({
+    Key? key,
+    required this.item,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                SliverAppBar(
+                  backgroundColor: Colors.purple[400],
+                  leading: const SizedBox.shrink(),
+                  expandedHeight: 500,
+                  floating: true,
+                  pinned: true,
+                  flexibleSpace: FlexibleSpaceBar(
+                    centerTitle: true,
+                    title: Container(
+                      width: double.infinity,
+                      color: Colors.purple[400],
+                      height: 30,
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DisplayText(
+                          text: item.nftData.title,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    background: Hero(
+                      tag: item.itemId,
+                      child: CachedNetworkImage(
+                        imageUrl: item.nftData.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                )
+              ];
             },
-            itemCount: 5,
+            body: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DisplayText(
+                    text: '\$MATIC ${item.price}',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  const SizedBox(height: 20),
+                  DisplayText(
+                    text: item.nftData.description,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ],
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: ElevatedDisplayButton(
-                text: 'Buy',
-                onPressed: () {},
+                color: Colors.white,
+                text: 'BUY',
+                textColor: Colors.black,
+                onPressed: () {
+                  showBuyNowBottomSheet(context, item, () {
+                    ref
+                        .read(marketPlaceProvider.notifier)
+                        .buyNft(itemId: item.itemId, price: item.price);
+
+                    Navigator.pop(context);
+                  });
+                },
               ),
             ),
           )
@@ -102,186 +225,52 @@ class MarketPlaceView extends HookConsumerWidget {
   }
 }
 
-class MintNFT extends StatefulHookWidget {
-  const MintNFT({Key? key}) : super(key: key);
-
-  @override
-  State<MintNFT> createState() => _MintNFTState();
-}
-
-class _MintNFTState extends State<MintNFT> {
-  final ImagePicker _picker = ImagePicker();
-  @override
-  Widget build(BuildContext context) {
-    var title = useTextEditingController();
-    var description = useTextEditingController();
-    var price = useTextEditingController();
-    var file = useState<File?>(null);
-    var backgroundColor = useTextEditingController();
-    var nftSkin = useState<NftSkin?>(null);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const DisplayText(
-          text: 'Mint NFT',
-        ),
-        backgroundColor: Colors.purple,
+showBuyNowBottomSheet(
+    BuildContext context, MarkeplaceItem item, VoidCallback onPressed) {
+  showModalBottomSheet(
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(20),
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 50),
-                if (file.value != null)
-                  Image.file(
-                    file.value!,
-                    fit: BoxFit.contain,
-                    height: 200,
-                    width: 200,
-                  ),
-                GestureDetector(
-                  onTap: () async {
-                    final XFile? image =
-                        await _picker.pickImage(source: ImageSource.gallery);
-                    if (image != null) {
-                      file.value = File(image.path);
-                    }
-                  },
-                  child: Card(
-                    color: Colors.purple[100],
-                    child: const Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: Icon(
-                        Icons.photo_album_rounded,
-                        size: 50,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 50),
-                DataField(
-                  placeHolder: 'Title',
-                  controller: title,
-                ),
-                DataField(
-                  placeHolder: 'Description',
-                  controller: description,
-                ),
-                DataField(
-                  placeHolder: 'price',
-                  controller: price,
-                ),
-                DataField(
-                  placeHolder: 'BG Color',
-                  controller: backgroundColor,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    color: Colors.black,
-                    child: ListTile(
-                      title: DropdownButton<NftSkin>(
-                        value: nftSkin.value,
-                        style: const TextStyle(color: Colors.white),
-                        dropdownColor: Colors.purple,
-                        items: <NftSkin>[NftSkin.pink, NftSkin.blue]
-                            .map((NftSkin value) {
-                          return DropdownMenuItem<NftSkin>(
-                            value: value,
-                            child: DisplayText(
-                              text: value.toString().split('.').last,
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (val) {
-                          nftSkin.value = val!;
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 70),
-              ],
-            ),
-          ),
-          HookConsumer(
-            builder: (ctx, ref, child) => Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ElevatedDisplayButton(
-                  text: 'MINT',
-                  onPressed: () {
-                    if ((title.text.isNotEmpty &&
-                                description.text.isNotEmpty &&
-                                file.value != null &&
-                                price.text.isNotEmpty) &&
-                            backgroundColor.text.isNotEmpty ||
-                        nftSkin.value != null) {
-                      ref.read(marketPlaceProvider.notifier).createNft(
-                            file: file.value!,
-                            title: title.text,
-                            description: description.text,
-                            skinColor: nftSkin.value,
-                            backgroundColor: backgroundColor.text,
-                            price: double.parse(price.text),
-                          );
-                    }
-                  },
-                ),
+    ),
+    backgroundColor: Colors.black,
+    builder: (_) {
+      return Card(
+        color: Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const DisplayText(
+                text: 'ARE YOU SURE ?',
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
               ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class DataField extends StatelessWidget {
-  final String placeHolder;
-  final TextEditingController controller;
-
-  const DataField({
-    Key? key,
-    required this.placeHolder,
-    required this.controller,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Container(
-        height: 50,
-        padding: const EdgeInsets.symmetric(horizontal: 14),
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: TextField(
-          controller: controller,
-          style: GoogleFonts.orbitron(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Colors.white,
-          ),
-          decoration: InputDecoration(
-            hintText: placeHolder,
-            hintStyle: const TextStyle(
-              color: Colors.white,
-            ),
-            fillColor: Colors.black,
-            border: InputBorder.none,
+              const SizedBox(height: 50),
+              DisplayText(
+                text: '\$MATIC ${item.price}',
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+              const SizedBox(height: 20),
+              DisplayText(
+                text: item.nftData.title,
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+              ),
+              const SizedBox(height: 20),
+              ElevatedDisplayButton(
+                color: Colors.white,
+                text: 'CONFIRM BUY',
+                textColor: Colors.black,
+                onPressed: onPressed,
+              ),
+            ],
           ),
         ),
-      ),
-    );
-  }
+      );
+    },
+  );
 }

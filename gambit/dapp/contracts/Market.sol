@@ -117,20 +117,20 @@ contract PawnWarsMarket is ReentrancyGuard {
   }
 
   /* Returns onlyl items that a user has purchased */
-  function fetchMyNFTs() public view returns (MarketItem[] memory) {
+  function fetchMyNFTs(address user) public view returns (MarketItem[] memory) {
     uint totalItemCount = _itemIds.current();
     uint itemCount = 0;
     uint currentIndex = 0;
 
     for (uint i = 0; i < totalItemCount; i++) {
-      if (idToMarketItem[i + 1].owner == msg.sender) {
+      if (idToMarketItem[i + 1].owner == user) {
         itemCount += 1;
       }
     }
 
     MarketItem[] memory items = new MarketItem[](itemCount);
     for (uint i = 0; i < totalItemCount; i++) {
-      if (idToMarketItem[i + 1].owner == msg.sender) {
+      if (idToMarketItem[i + 1].owner == user) {
         uint currentId = i + 1;
         MarketItem storage currentItem = idToMarketItem[currentId];
         items[currentIndex] = currentItem;
@@ -141,20 +141,20 @@ contract PawnWarsMarket is ReentrancyGuard {
   }
 
   /* Returns only items a user has created */
-  function fetchItemsCreated() public view returns (MarketItem[] memory) {
+  function fetchItemsCreated(address user) public view returns (MarketItem[] memory) {
     uint totalItemCount = _itemIds.current();
     uint itemCount = 0;
     uint currentIndex = 0;
 
     for (uint i = 0; i < totalItemCount; i++) {
-      if (idToMarketItem[i + 1].seller == msg.sender) {
+      if (idToMarketItem[i + 1].seller == user) {
         itemCount += 1;
       }
     }
 
     MarketItem[] memory items = new MarketItem[](itemCount);
     for (uint i = 0; i < totalItemCount; i++) {
-      if (idToMarketItem[i + 1].seller == msg.sender) {
+      if (idToMarketItem[i + 1].seller == user) {
         uint currentId = i + 1;
         MarketItem storage currentItem = idToMarketItem[currentId];
         items[currentIndex] = currentItem;

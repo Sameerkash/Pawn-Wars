@@ -5,7 +5,6 @@ import "./Market.sol";
 
 contract PawnWars is PawnWarsMarket {
     // Storing the commission as 5000 Wei
-
     uint256 private commission = 10 wei;
 
     /// Game fund obtained form commision
@@ -68,11 +67,9 @@ contract PawnWars is PawnWarsMarket {
         uint256 betamount = msg.value;
         Game[RoomID].push(sender);
         BetAmt[sender] = betamount;
-        // emit SuccessDeposit(sender, betamount, RoomID);
     }
 
     // Function to send the bet amount to the winner
-
     function sendBetAmt(address payable winner, uint256 bettedAmt) private {
         winner.transfer(bettedAmt);
     }
@@ -87,12 +84,6 @@ contract PawnWars is PawnWarsMarket {
         return total;
     }
 
-    // event GameWon(
-    //     address winner,
-    //     uint amount,
-    //     uint index
-
-    // );
     // Function to take the winner index as input
     // It calculates the Winner address and send total bet to the person
 
@@ -109,7 +100,6 @@ contract PawnWars is PawnWarsMarket {
         uint256 totalBet = amount;
         fund += commission;
         sendBetAmt(winner_address, totalBet);
-        // emit GameWon(winner_address, totalBet, index);
     }
 
     // Function for Get Bet Amount By Address
@@ -118,12 +108,7 @@ contract PawnWars is PawnWarsMarket {
         return BetAmt[player];
     }
 
-    // event GameDraw(
-    //     bool status
-    // );
-
     // Function to send money to both players if it is draw game
-
     function Draw(uint256 ID) external {
         string storage RoomID = RoomIDMap[ID];
         address payable player0_address = payable(Game[RoomID][0]);
@@ -132,6 +117,5 @@ contract PawnWars is PawnWarsMarket {
         uint256 bet1 = getBet(Game[RoomID][1]) - commission;
         sendBetAmt(player0_address, bet0);
         sendBetAmt(player1_address, bet1);
-        // emit GameDraw(true);
     }
 }
