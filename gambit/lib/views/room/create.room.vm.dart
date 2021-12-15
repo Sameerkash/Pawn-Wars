@@ -72,17 +72,13 @@ class CreateRoomVM extends StateNotifier<CreateRoomState> {
     }
   }
 
-  void generateRoom() async {
+  Future<String?> generateRoom() async {
     final currentState = state;
 
     if (currentState is _Initial) {
       final code = const Uuid().v1();
       final room =
           Room(code: code, players: [], pawnClaimed: currentState.pawn);
-      state = CreateRoomState.created(
-        room: room,
-        pawn: currentState.pawn,
-      );
 
       final web3Res = await web3.createRoom(roomCode: code);
       roomId = await web3.getRoomID(roomCode: code);
@@ -90,10 +86,16 @@ class CreateRoomVM extends StateNotifier<CreateRoomState> {
       print(web3Res);
 
       socketService.socket.emit(SocketType.createRoom, room.toJson());
+
+      state = CreateRoomState.created(
+        room: room,
+        pawn: currentState.pawn,
+      );
+      return web3Res;
     }
   }
 
-  void joinRoom(double stake) async {
+  Future<String?> joinRoom(double stake) async {
     final currentState = state;
     final player = await repo.getUserFromStorage();
 
@@ -109,6 +111,7 @@ class CreateRoomVM extends StateNotifier<CreateRoomState> {
         room.code,
         p.toJson(),
       ]);
+      return web3Res;
     }
   }
 
@@ -124,6 +127,6 @@ class CreateRoomVM extends StateNotifier<CreateRoomState> {
 }
 
 final roomProvider =
-    StateNotifierProvider<CreateRoomVM, CreateRoomState>((ref) {
+    StateNotifierProvider.autoDispose<CreateRoomVM, CreateRoomState>((ref) {
   return CreateRoomVM(ref.read);
 });

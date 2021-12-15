@@ -16,9 +16,9 @@ class DisplayCode extends StatelessWidget {
         DisplayText(
           text: code,
           color: Colors.white,
-          fontSize: 12,
+          fontSize: 10,
         ),
-        const Spacer(),
+        const SizedBox(width: 4),
         IconButton(
           icon: const Icon(
             Icons.copy,

@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SocketIOService {
   final IO.Socket socket = IO.io(
-    'https://0590-2405-201-d007-7008-d1df-877-33ec-1168.ngrok.io',
+    'https://74da-2405-201-d007-7008-591f-7fe3-fb39-3ba6.ngrok.io',
     OptionBuilder()
         .setTransports(['websocket'])
         .disableAutoConnect() // for Flutter or Dart VM

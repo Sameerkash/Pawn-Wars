@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gambit/models/enums/enums.dart';
 import 'package:gambit/models/playerOptions.dart';
 import 'package:gambit/views/room/create.room.vm.dart';
@@ -7,9 +8,11 @@ import 'package:gambit/views/room/widgets/display.code.dart';
 import 'package:gambit/views/room/widgets/player_display_tile.dart';
 import 'package:gambit/views/room/widgets/stake_bottom_sheet.dart';
 import 'package:gambit/widgets/button.dart';
+import 'package:gambit/widgets/snack.dart';
 import 'package:gambit/widgets/text.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class CreateRoomView extends HookConsumerWidget {
   const CreateRoomView({Key? key}) : super(key: key);
@@ -26,135 +29,155 @@ class CreateRoomView extends HookConsumerWidget {
 
     return Scaffold(
       backgroundColor: Colors.purple[200]!.withOpacity(0.8),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: room.maybeMap(
-                  joined: (data) => Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15.0, horizontal: 16.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const DisplayText(
-                              text: 'Let your friends know!',
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            const SizedBox(height: 60),
-                            DisplayCode(code: data.room.code),
-                            const SizedBox(height: 20),
-                            ...data.players.map(
-                              (p) => PlayerDisplayTile(
-                                player: p,
+      body: LoaderOverlay(
+        overlayWidget: const SpinKitChasingDots(
+          color: Colors.purple,
+          size: 50.0,
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  child: room.maybeMap(
+                    joined: (data) => Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15.0, horizontal: 16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const DisplayText(
+                                text: 'Let your friends know!',
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
                               ),
-                            ),
-                            const SizedBox(height: 10),
-                            if (data.players.length != 2)
-                              const Align(
-                                alignment: Alignment.center,
-                                child: DisplayText(
-                                  text: 'Waiting for a player to join...',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
+                              const SizedBox(height: 60),
+                              DisplayCode(code: data.room.code),
+                              const SizedBox(height: 20),
+                              ...data.players.map(
+                                (p) => PlayerDisplayTile(
+                                  player: p,
                                 ),
                               ),
-                          ],
+                              const SizedBox(height: 10),
+                              if (data.players.length != 2)
+                                const Align(
+                                  alignment: Alignment.center,
+                                  child: DisplayText(
+                                    text: 'Waiting for a player to join...',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    orElse: () => Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const RoomHeader(),
+                        room.maybeMap(
+                          orElse: () => const SizedBox(),
+                          inital: (data) => RoomPawnOptions(
+                            onCardClick: (pawn) {
+                              ref
+                                  .read(roomProvider.notifier)
+                                  .setPawnColor(pawn);
+                            },
+                            selectedPawn: data.pawn,
+                          ),
+                          created: (data) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              RoomPawnOptions(
+                                onCardClick: (pawn) {},
+                                selectedPawn: data.pawn,
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: DisplayText(
+                                  text: 'Invite a friend to join!',
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 10,
+                                ),
+                                child: DisplayCode(
+                                  code: data.room.code,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      )
-                    ],
-                  ),
-                  orElse: () => Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const RoomHeader(),
-                      room.maybeMap(
-                        orElse: () => const SizedBox(),
-                        inital: (data) => RoomPawnOptions(
-                          onCardClick: (pawn) {
-                            ref.read(roomProvider.notifier).setPawnColor(pawn);
-                          },
-                          selectedPawn: data.pawn,
-                        ),
-                        created: (data) => Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            RoomPawnOptions(
-                              onCardClick: (pawn) {},
-                              selectedPawn: data.pawn,
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: DisplayText(
-                                text: 'Invite a friend to join!',
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Container(
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 10,
-                              ),
-                              child: DisplayCode(
-                                code: data.room.code,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: room.maybeMap(
-                  orElse: () => const SizedBox(),
-                  inital: (data) => ElevatedDisplayButton(
-                    text: 'CREATE ROOM',
-                    disabled: data.pawn == null,
-                    onPressed: () {
-                      ref.read(roomProvider.notifier).generateRoom();
-                    },
-                  ),
-                  created: (data) => ElevatedDisplayButton(
-                    text: 'STAKE',
-                    disabled: data.pawn == null,
-                    onPressed: () async {
-                      await StakeBottomSheet.show(context, stake);
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: room.maybeMap(
+                    orElse: () => const SizedBox(),
+                    inital: (data) => ElevatedDisplayButton(
+                      text: 'CREATE ROOM',
+                      disabled: data.pawn == null,
+                      onPressed: () async {
+                        context.loaderOverlay.show();
+                        final tx = await ref
+                            .read(roomProvider.notifier)
+                            .generateRoom();
 
-                      ref.read(roomProvider.notifier).joinRoom(
-                            double.parse(stake.text),
-                          );
-                    },
-                  ),
-                  joined: (data) => ElevatedDisplayButton(
-                    text: 'START',
-                    onPressed: () {
-                      ref.read(roomProvider.notifier).initalizeGame();
-                    },
+                        showSnackBar(context, message: 'Tx: $tx');
+
+                        context.loaderOverlay.hide();
+                      },
+                    ),
+                    created: (data) => ElevatedDisplayButton(
+                      text: 'STAKE',
+                      disabled: data.pawn == null,
+                      onPressed: () async {
+                        await StakeBottomSheet.show(context, stake);
+                        context.loaderOverlay.show();
+
+                        final tx =
+                            await ref.read(roomProvider.notifier).joinRoom(
+                                  double.parse(stake.text),
+                                );
+                        showSnackBar(context, message: 'Tx: $tx');
+
+                        context.loaderOverlay.hide();
+                      },
+                    ),
+                    joined: (data) => ElevatedDisplayButton(
+                      text: 'START',
+                      onPressed: () {
+                        ref.read(roomProvider.notifier).initalizeGame();
+                      },
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

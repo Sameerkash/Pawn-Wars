@@ -13,14 +13,14 @@ import 'package:web3dart/web3dart.dart';
 class Web3Service {
   late Client httpClient;
   late Web3Client ethClient;
-  String rpcUrl = 'https://honest-chipmunk-64.loca.lt';
+  String rpcUrl = 'https://slippery-turkey-85.loca.lt';
+  // 'https://matic-mumbai.chainstacklabs.com';
   String nftStorageUrl = 'ipfs.dweb.link/';
 
-  // 'https://matic-mumbai.chainstacklabs.com';
   final pawnWarsContractAddress =
-      EthereumAddress.fromHex('0xDdD44b91eC830f9F96858223dd1318515CBECbc6');
+      EthereumAddress.fromHex('0x777cCd2822394DE0bdB827f539abC5aAf857B468');
   final nftContractAddress =
-      EthereumAddress.fromHex('0xb1c14F4cb3Bdc65cD3dE35f48553C5268A4b2d45');
+      EthereumAddress.fromHex('0x7ecBB0756a9c8EE07d94c06A15caD99455e7E86E');
 
   late PawnWars pawnWars;
   late NFT nft;
@@ -30,15 +30,14 @@ class Web3Service {
     httpClient = Client();
     ethClient = Web3Client(rpcUrl, httpClient);
     pawnWars = PawnWars(
-      address: pawnWarsContractAddress,
-      client: ethClient,
-      chainId: 5777,
+      address: pawnWarsContractAddress, client: ethClient, chainId: 5777,
+      // 80001,
     );
 
     nft = NFT(
-      address: nftContractAddress,
-      client: ethClient,
-      chainId: 5777,
+      address: nftContractAddress, client: ethClient, chainId: 5777,
+
+      //  80001,
     );
   }
 
@@ -86,7 +85,7 @@ class Web3Service {
   }) async {
     final playerAddress = EthereumAddress.fromHex(playerPublicKey);
 
-    final player = await pawnWars.Winner(
+    final player = await pawnWars.winner(
       roomId,
       playerAddress,
       credentials: credentials,
@@ -195,6 +194,7 @@ class Web3Service {
   Future<List<ContractMarketItem>> getMarketItems() async {
     final List<ContractMarketItem> items = [];
     final result = await pawnWars.fetchMarketItems();
+    print(result);
 
     for (var item in result) {
       items.add(ContractMarketItem(

@@ -10,8 +10,8 @@ part 'join.room.vm.freezed.dart';
 
 @freezed
 class JoinRoomState with _$JoinRoomState {
-  const factory JoinRoomState.inital({@Default(0.0) double stake, String? code}) =
-      _Initial;
+  const factory JoinRoomState.inital(
+      {@Default(0.0) double stake, String? code}) = _Initial;
   const factory JoinRoomState.joined(
     final Room room,
   ) = _Joined;
@@ -69,7 +69,7 @@ class JoinRoomVM extends StateNotifier<JoinRoomState> {
     }
   }
 
-  void joinRoom() async {
+  Future<String?> joinRoom() async {
     final currentState = state;
 
     final player = await repo.getUserFromStorage();
@@ -81,7 +81,6 @@ class JoinRoomVM extends StateNotifier<JoinRoomState> {
 
       final web3Res = await web3.createPlayer(roomId: roomId!, stake: p.stake);
 
-      print(web3Res);
       socketService.socket.emit(
         SocketType.joinRoom,
         [
@@ -89,8 +88,9 @@ class JoinRoomVM extends StateNotifier<JoinRoomState> {
           p.toJson(),
         ],
       );
-
+      print(web3Res);
       print(player);
+      return web3Res;
     }
   }
 
@@ -103,6 +103,6 @@ class JoinRoomVM extends StateNotifier<JoinRoomState> {
 }
 
 final joinRoomProvider =
-    StateNotifierProvider<JoinRoomVM, JoinRoomState>((ref) {
+    StateNotifierProvider.autoDispose<JoinRoomVM, JoinRoomState>((ref) {
   return JoinRoomVM(ref.read);
 });

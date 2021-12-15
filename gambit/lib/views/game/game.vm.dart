@@ -5,12 +5,14 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:gambit/models/enums/enums.dart';
+import 'package:gambit/models/nft/nft.collectible.dart';
 import 'package:gambit/models/player/player.dart';
 import 'package:gambit/models/room/room.dart';
 import 'package:gambit/services/repository.dart';
 import 'package:gambit/services/socket.io.dart';
 import 'package:gambit/services/web3.dart';
 import 'package:gambit/utils/constants.dart';
+import 'package:gambit/utils/functions.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:squares/squares.dart';
 
@@ -78,10 +80,16 @@ enum PlayState {
 @freezed
 class GamePlayState with _$GamePlayState {
   const factory GamePlayState.loading() = _Loading;
-  const factory GamePlayState.initial(
-      {GameState? gameState, final Room? room}) = _Initial;
+  const factory GamePlayState.initial({
+    GameState? gameState,
+    required BoardTheme theme,
+    required String bgColor,
+    final Room? room,
+  }) = _Initial;
   const factory GamePlayState.play({
     GameState? gameState,
+    required BoardTheme theme,
+    required String bgColor,
     final Room? room,
     required final bishop.Variant variant,
     required final Player player,
@@ -119,6 +127,16 @@ class GameVM extends StateNotifier<GamePlayState> {
 
   Future<void> init(Room room) async {
     final account = await repo.getUserFromStorage();
+    final theme = await repo.getThemePreferences();
+    BoardTheme? boardTheme;
+    String? bgColor;
+
+    if (theme != null && theme is Skin) {
+      boardTheme = getBoardFromNFTtype(theme.skinColor);
+    } else if (theme != null && theme is Backgorund) {
+      bgColor = theme.colorHex;
+    }
+
     game = bishop.Game(variant: bishop.Variant.crazyhouse());
     engine = bishop.Engine(game: game);
     currentPlayer =
@@ -127,6 +145,8 @@ class GameVM extends StateNotifier<GamePlayState> {
       gameState: GameState.initial(
         gameSymbols: game.boardSymbols(),
       ),
+      theme: boardTheme ?? BoardTheme.BROWN,
+      bgColor: bgColor ?? '#E400FF',
     );
 
     currentRoom = room;
@@ -151,6 +171,8 @@ class GameVM extends StateNotifier<GamePlayState> {
       int pawn = getPawnColor(currentPlayer.pawn!);
 
       state = GamePlayState.play(
+        theme: currentState.theme,
+        bgColor: currentState.bgColor,
         gameState: GameState(
           state: pawn == WHITE ? PlayState.ourTurn : PlayState.theirTurn,
           size: boardSize,
@@ -161,7 +183,6 @@ class GameVM extends StateNotifier<GamePlayState> {
         room: currentRoom,
         player: currentPlayer,
       );
-
     }
   }
 
@@ -259,6 +280,8 @@ class GameVM extends StateNotifier<GamePlayState> {
         }
       } else {
         state = GamePlayState.play(
+          theme: currentState.theme,
+          bgColor: currentState.bgColor,
           gameState: gameState,
           variant: game.variant,
           room: currentRoom,
@@ -269,12 +292,14 @@ class GameVM extends StateNotifier<GamePlayState> {
     }
   }
 
-  Future<void> claimStake() async {
+  Future<String?> claimStake() async {
     final roomId = await web3.getRoomID(roomCode: currentRoom.code);
     final res = await web3.claimWinner(
         roomId: roomId, playerPublicKey: currentPlayer.publicKey);
 
     print('claimStake: $res');
+    return res;
+
   }
 
   Move moveFromAlgebraic(String alg, BoardSize size) {

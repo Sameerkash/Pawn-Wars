@@ -25,6 +25,12 @@ class _HomeViewState extends State<HomeView> {
       text: 'Markeplace',
     ),
     HorizontalCardItem(
+      text: 'Customize',
+    ),
+    HorizontalCardItem(
+      text: 'DAO',
+    ),
+    HorizontalCardItem(
       text: 'Account',
     ),
   ];
@@ -36,7 +42,14 @@ class _HomeViewState extends State<HomeView> {
       image: 'assets/king_queen_slant.png',
       text: 'Gambit',
       title: 'Play against friends',
-      subTitle: 'Win \$GAMBIT',
+      subTitle: 'Win \$MATIC',
+      caption: 'In an ultimate Chess match',
+    ),
+    const BgImageText(
+      image: 'assets/king_queen_slant.png',
+      text: 'Gambit',
+      title: 'Play against friends',
+      subTitle: 'Win \$MATIC',
       caption: 'In an ultimate Chess match',
     ),
     const BgImageText(
@@ -47,6 +60,20 @@ class _HomeViewState extends State<HomeView> {
       caption: 'awesome game items',
     ),
     const BgImageText(
+      image: 'assets/bishop.png',
+      text: 'Gambit',
+      title: 'Customize!',
+      subTitle: 'Most Unqiue experience',
+      caption: 'Head to markeplace',
+    ),
+    const BgImageText(
+      image: 'assets/pawn.png',
+      text: 'Gambit',
+      title: 'DAO',
+      subTitle: 'The best chess community experince',
+      caption: 'Learn more about Gambit',
+    ),
+    const BgImageText(
       image: 'assets/rook.png',
       text: 'Gambit',
       title: 'All your data!',
@@ -55,11 +82,22 @@ class _HomeViewState extends State<HomeView> {
     ),
   ];
 
+  List<String> routes = [
+    '/home/game',
+    '/home/room',
+    '/home/market',
+    '/home/customize',
+    '/home/dao',
+    '/home/account',
+  ];
+
   List<Color> bgColors = [
     Colors.purple[100]!,
     Colors.purple[200]!,
     Colors.purple[300]!,
     Colors.purple[400]!,
+    Colors.purple[500]!,
+    Colors.purple[600]!,
   ];
 
   @override
@@ -91,9 +129,7 @@ class _HomeViewState extends State<HomeView> {
                   ]),
                 ),
               ),
-              if (index == 2) bg[1],
-              if (index == 3) bg[2],
-              if (index != 2 && index != 3) bg[0],
+              bg[index],
               Padding(
                 padding: const EdgeInsets.only(bottom: 100.0),
                 child: Align(
@@ -105,16 +141,8 @@ class _HomeViewState extends State<HomeView> {
                       });
                     },
                     onSelectedItem: (page) {
-                      // setState(() {
                       index = page;
-                      // });
-                      if (page == 2) {
-                        context.go('/home/market');
-                      } else if (page == 3) {
-                        context.go('/home/account');
-                      } else {
-                        context.go('/home/room');
-                      }
+                      context.go(routes[index]);
                     },
                     items: items,
                   ),
@@ -147,42 +175,46 @@ class BgImageText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Flexible(
-            flex: 2,
-            child: Image.asset(
-              image,
-            ),
-          ),
-          const SizedBox(width: 10),
-          Flexible(
-            flex: 2,
+            flex: 3,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 4),
                 DisplayText(
                   text: title,
-                  fontSize: 20,
+                  fontSize: 30,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                 ),
+                const SizedBox(height: 4),
                 DisplayText(
                   text: subTitle,
-                  fontSize: 18,
+                  fontSize: 24,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                 ),
+                const SizedBox(height: 4),
                 DisplayText(
                   text: caption,
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
                 ),
+                Flexible(
+                  flex: 1,
+                  child: Image.asset(
+                    image,
+                    height: 500,
+                  ),
+                ),
+                const SizedBox(width: 10),
               ],
             ),
           ),
@@ -215,6 +247,7 @@ class HorizontalCardItem extends CardItem {
           child: DisplayText(
             text: text,
             color: Colors.black,
+            fontWeight: FontWeight.w900,
             fontSize: 30,
           ),
         ),

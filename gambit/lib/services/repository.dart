@@ -1,3 +1,4 @@
+import 'package:gambit/models/nft/nft.collectible.dart';
 import 'package:gambit/models/player/player.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,6 +19,7 @@ class Repository {
 
   static const userAccount = 'USER_ACCOUNT';
   static const userCredentials = 'CREDENTIALS';
+  static const themePreferences = 'THEME_PREFERENCES';
 
   Future<sembast.Database> getDb() async {
     if (_db == null) {
@@ -55,7 +57,23 @@ class Repository {
   Future<void> deleteAccount() async {
     await _store.record(userAccount).delete(await getDb());
     await _store.record(userCredentials).delete(await getDb());
+  }
 
+  Future<void> saveThemePreferences(NftType nftType) async {
+    final result = await _store
+        .record(themePreferences)
+        .put(await getDb(), nftType.toJson());
+    print('saveThemePreferences : $result');
+  }
+
+  Future<NftType?> getThemePreferences() async {
+    final result = await _store.record(themePreferences).get(await getDb());
+    if (result != null) {
+      print('getThemePreferences : $result');
+      return NftType.fromJson(result);
+    } else {
+      return null;
+    }
   }
 }
 

@@ -66,7 +66,7 @@ class MarketPlaceStateVM extends StateNotifier<MarketplaceState> {
     print('marketItems: $marketItems ');
   }
 
-  Future<void> createNft({
+  Future<String?> createNft({
     required File file,
     required String title,
     required String description,
@@ -111,24 +111,30 @@ class MarketPlaceStateVM extends StateNotifier<MarketplaceState> {
         await web3.addDataToNftStorage(nftCollectible: nftCollectible);
     final nftToken = await web3.createToken(tokenURI: nftData!);
     print('addDataToNftStorage $nftData, createToken $nftToken');
+    return nftToken;
   }
 
-  Future<void> createMarketItem(
+  Future<String?> createMarketItem(
       {required BigInt tokenId, required double price}) async {
     final marketItem = await web3.createMarketItem(
         tokenId: tokenId, price: BigInt.from(price));
+
     print('createMarketItem $marketItem');
+    getMarketItems();
+    return marketItem;
   }
 
-  Future<void> buyNft({required BigInt itemId, required BigInt price}) async {
+  Future<String?> buyNft(
+      {required BigInt itemId, required BigInt price}) async {
     final nftTx = await web3.buyNft(itemId: itemId, price: price);
     print('buyNft $nftTx');
     getMarketItems();
+    return nftTx;
   }
 }
 
 final marketPlaceProvider =
-    StateNotifierProvider.autoDispose<MarketPlaceStateVM, MarketplaceState>(
+    StateNotifierProvider<MarketPlaceStateVM, MarketplaceState>(
         (ref) {
   return MarketPlaceStateVM((ref.read));
 });

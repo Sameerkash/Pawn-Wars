@@ -4,6 +4,8 @@ import 'package:gambit/models/marketplace/marketplace.dart';
 import 'package:gambit/views/account/account.view.dart';
 import 'package:gambit/views/auth/auth.info.view.dart';
 import 'package:gambit/views/auth/auth.view.dart';
+import 'package:gambit/views/customize/customize.view.dart';
+import 'package:gambit/views/dao/dao.dart';
 import 'package:gambit/views/game/game.view.dart';
 import 'package:gambit/views/home/home.view.dart';
 import 'package:gambit/views/markeplace/markeplace.view.dart';
@@ -129,10 +131,24 @@ class MyApp extends StatelessWidget {
             ],
           ),
           GoRoute(
+            path: 'customize',
+            pageBuilder: (context, state) => MaterialPage<void>(
+              key: state.pageKey,
+              child: const CustomizeView(),
+            ),
+          ),
+          GoRoute(
             path: 'account',
             pageBuilder: (context, state) => MaterialPage<void>(
               key: state.pageKey,
               child: const AccountView(),
+            ),
+          ),
+          GoRoute(
+            path: 'dao',
+            pageBuilder: (context, state) => MaterialPage<void>(
+              key: state.pageKey,
+              child: const DAO(),
             ),
           ),
         ],

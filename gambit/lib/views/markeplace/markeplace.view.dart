@@ -4,9 +4,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gambit/models/marketplace/marketplace.dart';
 import 'package:gambit/views/markeplace/markeplace.vm.dart';
 import 'package:gambit/widgets/button.dart';
+import 'package:gambit/widgets/snack.dart';
 import 'package:gambit/widgets/text.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class MarketPlaceView extends HookConsumerWidget {
   const MarketPlaceView({Key? key}) : super(key: key);
@@ -18,7 +20,7 @@ class MarketPlaceView extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const DisplayText(
-          text: 'Gambit Marketplace',
+          text: 'PawnWars Marketplace',
           fontWeight: FontWeight.bold,
           fontSize: 18,
         ),
@@ -28,9 +30,12 @@ class MarketPlaceView extends HookConsumerWidget {
         children: [
           marketplace.map(
               error: (error) => Container(),
-              loading: (_) => const SpinKitChasingDots(
-                    color: Colors.purple,
-                    size: 70.0,
+              loading: (_) => const Padding(
+                    padding: EdgeInsets.only(bottom: 40.0),
+                    child: SpinKitChasingDots(
+                      color: Colors.purple,
+                      size: 70.0,
+                    ),
                   ),
               data: (data) {
                 if (data.items.isEmpty) {
@@ -140,86 +145,98 @@ class NftDetailView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  backgroundColor: Colors.purple[400],
-                  leading: const SizedBox.shrink(),
-                  expandedHeight: 500,
-                  floating: true,
-                  pinned: true,
-                  flexibleSpace: FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Container(
-                      width: double.infinity,
-                      color: Colors.purple[400],
-                      height: 30,
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: DisplayText(
-                          text: item.nftData.title,
-                          fontWeight: FontWeight.bold,
+      body: LoaderOverlay(
+        overlayWidget: const SpinKitChasingDots(
+          color: Colors.purple,
+          size: 50.0,
+        ),
+        child: Stack(
+          children: [
+            NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    backgroundColor: Colors.purple[400],
+                    leading: const SizedBox.shrink(),
+                    expandedHeight: 500,
+                    floating: true,
+                    pinned: true,
+                    flexibleSpace: FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: Container(
+                        width: double.infinity,
+                        color: Colors.purple[400],
+                        height: 30,
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: DisplayText(
+                            text: item.nftData.title,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      background: Hero(
+                        tag: item.itemId,
+                        child: CachedNetworkImage(
+                          imageUrl: item.nftData.imageUrl,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
-                    background: Hero(
-                      tag: item.itemId,
-                      child: CachedNetworkImage(
-                        imageUrl: item.nftData.imageUrl,
-                        fit: BoxFit.cover,
-                      ),
+                  )
+                ];
+              },
+              body: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DisplayText(
+                      text: '\$MATIC ${item.price}',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
                     ),
-                  ),
-                )
-              ];
-            },
-            body: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  DisplayText(
-                    text: '\$MATIC ${item.price}',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  const SizedBox(height: 20),
-                  DisplayText(
-                    text: item.nftData.description,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    DisplayText(
+                      text: item.nftData.description,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: ElevatedDisplayButton(
-                color: Colors.white,
-                text: 'BUY',
-                textColor: Colors.black,
-                onPressed: () {
-                  showBuyNowBottomSheet(context, item, () {
-                    ref
-                        .read(marketPlaceProvider.notifier)
-                        .buyNft(itemId: item.itemId, price: item.price);
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedDisplayButton(
+                  color: Colors.white,
+                  text: 'BUY',
+                  textColor: Colors.black,
+                  onPressed: () {
+                    showBuyNowBottomSheet(context, item, () async {
+                      context.loaderOverlay.show();
 
-                    Navigator.pop(context);
-                  });
-                },
+                      final tx = await ref
+                          .read(marketPlaceProvider.notifier)
+                          .buyNft(itemId: item.itemId, price: item.price);
+
+                      showSnackBar(context, message: 'Tx: $tx');
+
+                      context.loaderOverlay.hide();
+
+                      Navigator.pop(context);
+                    });
+                  },
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
