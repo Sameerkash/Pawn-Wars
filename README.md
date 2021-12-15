@@ -7,6 +7,13 @@ A chess Dapp built on Polygon, Stake tokens and win $GAMBIT , BUY NFT powerups a
 
 ![Built at BUIDL IT](./images/BUIDL IT.png)
 
+## Features 
+- Practice Room - Practice sessions for the beginners.
+- Play with a friend - Stake MATIC and winner takes it all.
+- NFT MArketplace - In-game collectibles and art masterpieces to own.
+- DAO - Ultimate place for chess community.
+- Customization - Decorate your board skins and show-off!
+
 
 ## Problem it Solves
 
@@ -16,6 +23,9 @@ A chess Dapp built on Polygon, Stake tokens and win $GAMBIT , BUY NFT powerups a
 
 ## Challenges we faced
 
-- The lack of tooling and resources itself made it a huge challenge to build a Mobile Dapp.
-- Building a gaming dapp in 5 days was quite a lot of difficult task. 
+- Diving into blockchain was intimidating, Solidity has a high learning curve.
+- Building mobile first web3 app was hard because of lack of tooling           
+- We started out short on time which made it very hard and challenging to integrate many features and building a functional app.
+- Building a chess gaming app with betting feature using web3 was demanding because of the complex logic
+- Integrating multiple third-party services like StackOS, filecoin and MATIC was the trickiest part.
 
