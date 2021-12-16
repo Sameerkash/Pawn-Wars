@@ -13,14 +13,13 @@ import 'package:web3dart/web3dart.dart';
 class Web3Service {
   late Client httpClient;
   late Web3Client ethClient;
-  String rpcUrl = 'https://slippery-turkey-85.loca.lt';
-  // 'https://matic-mumbai.chainstacklabs.com';
+  String rpcUrl = 'https://matic-mumbai.chainstacklabs.com';
   String nftStorageUrl = 'ipfs.dweb.link/';
 
   final pawnWarsContractAddress =
-      EthereumAddress.fromHex('0x777cCd2822394DE0bdB827f539abC5aAf857B468');
+      EthereumAddress.fromHex('0xEed96ded921B2815506Afe4F0357049005f500F8');
   final nftContractAddress =
-      EthereumAddress.fromHex('0x7ecBB0756a9c8EE07d94c06A15caD99455e7E86E');
+      EthereumAddress.fromHex('0xB3f4f18f923E233C4bDFC015E142424Ef95527d1');
 
   late PawnWars pawnWars;
   late NFT nft;
@@ -30,14 +29,15 @@ class Web3Service {
     httpClient = Client();
     ethClient = Web3Client(rpcUrl, httpClient);
     pawnWars = PawnWars(
-      address: pawnWarsContractAddress, client: ethClient, chainId: 5777,
-      // 80001,
+      address: pawnWarsContractAddress,
+      client: ethClient,
+      chainId: 80001,
     );
 
     nft = NFT(
-      address: nftContractAddress, client: ethClient, chainId: 5777,
-
-      //  80001,
+      address: nftContractAddress,
+      client: ethClient,
+      chainId: 80001,
     );
   }
 

@@ -2198,12 +2198,12 @@
     "80001": {
       "events": {},
       "links": {},
-      "address": "0x5028C01C142b3ef6140bFaB5D3b88eE1022C53c9",
-      "transactionHash": "0x48d8bf77a76ec227d76ea200bf84157139eb0dc7d12e83327850361ee4a81277"
+      "address": "0x24bEe86cD03acF6581414592b072BE3f7260889e",
+      "transactionHash": "0xb76968cfb67169e8f6d68f96ab3e158daccbc5dead61b55176b067795e1d8e34"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-12-15T17:16:18.286Z",
+  "updatedAt": "2021-12-16T04:28:53.052Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

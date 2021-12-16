@@ -34,7 +34,7 @@ class DAO extends StatelessWidget {
             ),
             Image.asset(
               'assets/rook.png',
-              height: 30,
+              height: 300,
             ),
             const SizedBox(width: 10),
           ],
