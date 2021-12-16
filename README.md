@@ -20,8 +20,8 @@ This was truly an ultimate learning experince to build a fully integrated chess 
 	 width="300" height="600" /> <img src="./images/7.png" alt="1"
 	 width="300" height="600" /> <img src="./images/8.png" alt="1"
 	 width="300" height="600" /><img src="./images/9.png" alt="1"
-	 width="300" height="600" /> <img src="./images/10.png" alt="1"
-	 width="300" height="600" /> <img src="./images/12.png" alt="1"
+	 width="300" height="600" /> <img src="./images/10.jpg" alt="1"
+	 width="300" height="600" /> <img src="./images/12.jpg" alt="1"
 	 width="300" height="600" />
 
 </pre>
