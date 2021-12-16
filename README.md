@@ -4,7 +4,7 @@ A chess Dapp built on Polygon, Stake tokens and win $MATIC, BUY NFT powerups and
 
 ### Become the $GAMBIT master in Pawn Wars!!
 
-![Built at BUIDL IT](./images/banner.png)
+![Built at BUIDL IT](./images/banner-1.png)
 
 Pawn Wars is a chess Dapp where users can practice, play one on one with friends in a wager match where winner takes all $MATIC, The app also has a built in NFT markeplace where players can mint NFT art, buy chess board skins and background color NFTs, which can be used to customize the playing board to get the most unique experince.
 
