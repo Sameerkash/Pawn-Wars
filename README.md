@@ -55,7 +55,7 @@ This was truly an ultimate learning experince to build a fully integrated chess 
 - Support for connecting to a wallet like Trust wallet.
 - Improving user experience on the game, and winning stake.
 
-Contributors
+### Contributors
 
 - Sameer @sameerkash
 - Pavitra @PavitraAritas
